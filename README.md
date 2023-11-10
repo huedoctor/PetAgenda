@@ -10,3 +10,13 @@
         *backend(Carol e Eddie)
 
 não upar nada direto na main e na master
+upar os atualizações nos prototipo
+fazer marge para a master
+fazer clone para a main
+
+###**organização das pastas frontend**
+assets ---components
+        |
+        --images
+view   ---
+utils  ---
