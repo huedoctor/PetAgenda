@@ -1,20 +1,23 @@
 # PetAgenda
 
-##**regra de negocio**
+## **Regra de Negócio**
 
-###O sistema tera 4 branches
-*1 de Produção(main)
-*1 de Teste(master)
-*2 de prototipação
-*frondend(Victor e Lucas)
-*backend(Carol e Eddie)
+### O sistema terá 4 branches:
+- 1 de Produção (main)
+- 1 de Teste (master)
+- 2 de Prototipação
+  - frontend (Victor e Lucas)
+  - backend (Carol e Eddie)
 
-não upar nada direto na main e na master
-upar os atualizações nos prototipo
-fazer marge para a master
-fazer clone para a main
+**Instruções:**
+- Evite fazer uploads diretamente na main e na master.
+- Faça uploads de atualizações nos ramos de prototipação.
+- Realize merge para a master após as alterações serem validadas.
+- Faça o clone para a main antes de atualizações na produção.
 
-###**organização das pastas frontend**
-assets/components/images
-view
-utils  
+### **Organização das Pastas no Frontend:**
+- assets
+  - components
+  - images
+- view
+- utils
