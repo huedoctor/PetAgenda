@@ -39,5 +39,4 @@ public class Agenda {
     @Column(nullable = false)
     private boolean concluidoRegistro;
 
-    
 }
