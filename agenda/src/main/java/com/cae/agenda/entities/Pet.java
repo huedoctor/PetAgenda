@@ -37,6 +37,6 @@ public class Pet {
     private Usuario usuario;
     @JoinColumn(name = "idEspecie")
     @ManyToOne
-    private Pet pet;
+    private Especie especie;
     
 }
