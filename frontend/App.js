@@ -21,7 +21,7 @@ function HomeScreen({ navigation }) {
     <View style={styles.mainContainer}>
       <Text style={styles.title}>
         Bem-vindo(a) à{'\n'}
-        {'   '}AgendaPet!
+        {'   '}PetAgenda!
       </Text>
       <Image style={styles.image} source={require('./assets/homeLogo.jpg')} />
       <View style={styles.buttonsContainer}>
