@@ -29,112 +29,93 @@ export default function TelaLogin() {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={{ uri: 'https://i.imgur.com/fRHWOOB.png' }}
-        style={styles.image}
-      />
-      <Text style={styles.title}>AgendaPet</Text>
-      <View style={styles.loginBox}>
-        <Text style={styles.loginTitle}>Login</Text>
+      <View style={styles.loginContainer}>
         <TextInput
-          style={[styles.input, styles.emailInput]}
-          placeholder="Email"
+          style={styles.input}
+          placeholder="E-mail"
           onChangeText={(text) => setEmail(text)}
           value={email}
         />
         <TextInput
-          style={styles.input}
+          style={[styles.input, { marginTop: 30 }]}
           placeholder="Senha"
           secureTextEntry
           onChangeText={(text) => setPassword(text)}
           value={password}
         />
-        <TouchableOpacity onPress={() => navigation.navigate('Contato')}>
-          <Text style={styles.link}>Esqueceu sua senha?</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.loginButton]}
-          onPress={handleLogin}>
-          <Text style={styles.buttonText}>Entrar</Text>
+      </View>
+      <TouchableOpacity onPress={() => navigation.navigate('Contato')}>
+        <Text style={styles.passwordButton}>Esqueceu sua senha?</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.loginButton}
+        onPress={handleLogin}>
+        <Text style={styles.buttonText}>Entrar</Text>
+      </TouchableOpacity>
+      <View style={styles.registerButton}>
+        <Text style={styles.registerButtonText}>
+          Ainda não possui uma conta?
+        </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Criar Conta')}>
+          <Text style={[styles.registerButtonText, styles.registerButtonText2]}>
+            Criar conta
+          </Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        style={[styles.button, styles.createAccountButton]}
-        onPress={() => navigation.navigate('Cadastro')}>
-        <Text style={styles.buttonText}>Criar Conta</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Contato')}>
-        <Text style={styles.link}>Contate-nos!</Text>
-      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 16,
+    height: '100%',
+    backgroundColor: '#B8E8FC',
+    alignItems: 'center',
   },
-  loginTitle: {
-    alignSelf: 'center',
-    marginBottom: 35,
-    fontSize: 25,
-    fontWeight: 'bold',
-  },
-  loginBox: {
-    backgroundColor: '#F7F5FF',
-    borderColor: 'gray',
-    borderWidth: 4,
-    borderRadius: 10,
-    padding: 16,
-    marginBottom: 16,
-    width: 285,
-    alignSelf: 'center',
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    marginBottom: 35,
-    textAlign: 'center',
+  loginContainer: {
+    marginTop: 40,
   },
   input: {
-    height: 40,
-    marginBottom: 16,
-    paddingLeft: 8,
-    backgroundColor: '#DCDBFF',
-    borderRadius: 20,
+    width: 300,
+    height: 50,
+    borderRadius: 40,
+    paddingLeft: 15,
+    backgroundColor: '#B1AFFF',
   },
-  emailInput: {
-    marginBottom: 20,
-  },
-  link: {
-    color: 'black',
+  passwordButton: {
     textAlign: 'center',
-    marginBottom: 16,
-  },
-  button: {
-    padding: 10,
-    width: 150,
-    borderRadius: 10,
-    alignItems: 'center',
-    backgroundColor: '#CAB8F5',
+    position: 'absolute',
+    marginTop: 25,
   },
   loginButton: {
-    alignSelf: 'center',
-  },
-  createAccountButton: {
-    alignSelf: 'center',
-    marginBottom: 10,
+    width: 300,
+    height: 60,
+    marginTop: 85,
+    backgroundColor: '#B1AFFF',
+    borderRadius: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonText: {
-    color: 'white',
-    fontSize: 16,
+    fontSize: 20,
   },
   image: {
     width: 160,
     height: 120,
     alignSelf: 'center',
     marginBottom: 30,
+  },
+  registerButton: {
+    marginTop: 625,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    position: 'absolute',
+  },
+  registerButtonText: {
+    fontSize: 17,
+  },
+  registerButtonText2: {
+    marginLeft: 5,
+    fontWeight: 'bold',
   },
 });

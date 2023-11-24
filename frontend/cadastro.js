@@ -37,31 +37,33 @@ export default function TelaCadastro() {
     }
   };
 
+  const checkBoxText = <Text>Declaro que li e concordo com os <Text style={{ fontWeight: "bold", color: "black" }}>Termos de Uso</Text> e <Text style={{ fontWeight: "bold", color: "black" }}>Políticas de Privacidade</Text>.</Text>
+
   return (
     <View style={styles.container}>
       <View style={styles.registerBox}>
         <TextInput
-          style={[styles.input, { paddingLeft: 15 }]}
+          style={styles.input}
           placeholder="Nome"
           onChangeText={(text) => setName(text)}
           value={name}
         />
         <TextInput
-          style={[styles.input, { paddingLeft: 15 }]}
-          placeholder="Email"
+          style={styles.input}
+          placeholder="E-mail"
           onChangeText={(text) => setEmail(text)}
           value={email}
         />
         <TextInput
-          style={[styles.input, { paddingLeft: 15 }]}
+          style={styles.input}
           placeholder="Senha"
           secureTextEntry
           onChangeText={(text) => setPassword(text)}
           value={password}
         />
-        {passwordError && <Text style={ styles.passwordError }>As senhas precisam ser iguais</Text>}
+        {passwordError && <Text style={styles.passwordError}>As senhas precisam ser iguais</Text>}
         <TextInput
-          style={[styles.input, { paddingLeft: 15 }]}
+          style={styles.input}
           placeholder="Confirme sua senha"
           secureTextEntry
           onChangeText={(text) => setConfirmPassword(text)}
@@ -84,7 +86,7 @@ export default function TelaCadastro() {
             size={20}
             fillColor="#B1AFFF"
             unfillColor="#B8E8FC"
-            text="Declaro que li e concordo com os Termos de Uso e Políticas de Privacidade."
+            text={checkBoxText}
             textStyle={{
               textDecorationLine: 'none',
             }}
@@ -116,18 +118,20 @@ const styles = StyleSheet.create({
   },
   registerBox: {
     alignItems: 'center',
-    gap: 35,
+    gap: 30,
     marginTop: 40,
   },
   input: {
     width: 300,
     height: 50,
     borderRadius: 40,
+    paddingLeft: 15,
     backgroundColor: '#B1AFFF',
   },
   registerButton: {
     width: 300,
     height: 60,
+    marginTop: 20,
     backgroundColor: '#B1AFFF',
     borderRadius: 40,
     alignItems: 'center',
@@ -153,6 +157,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   passwordError: {
-    color: 'red', position: 'absolute', marginTop: 235, paddingRight: 70,
-  },  
+    color: 'red', position: 'absolute', marginTop: 220, paddingRight: 70,
+  },
 });
