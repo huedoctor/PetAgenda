@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
 import 'react-native-gesture-handler';
-import {
-  View,
-  TextInput,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import {View,TextInput,Text,StyleSheet,TouchableOpacity,Image,} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -23,9 +16,26 @@ export default function TelaCadastro() {
 
   const navigation = useNavigation();
 
+  const sendData = async () => {
+    const res = await post("usuario/cadastro", {
+        "emailUsuario": email,
+        "senhaUsuario": password,
+        "nomeUsuario": name
+        }
+        );
+    if(res.ok){
+      const json = await res.json();
+      console.log(`ID : ${json.idUsuario},
+       Nome: ${json.nomeUsuario},
+       Email: ${json.emailUsuario},
+        Senha: ${json.senhaUsuario}`);
+    }else{
+      setError("Usuário ou senha incorretos")
+    }}
+
   //Esse método é o método que executa quando a pessoa clica em Criar Conta, precisa fazer ele mandar isso pro back e cadastrar o usuário
   const handleRegister = () => {
-    console.log(`Nome: ${name}, Email: ${email}, Senha: ${password}`);
+    sendData();
   };
 
   const checkPasswords = () => {

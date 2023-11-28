@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
 import 'react-native-gesture-handler';
-import {
-  View,
-  TextInput,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import {View,TextInput,Text,StyleSheet,TouchableOpacity,Image,} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -17,12 +10,25 @@ import TelaContato from './contato.js';
 export default function TelaLogin() {
   const navigation = useNavigation();
 
+  const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const sendData = async () => {
+    const res = await post("usuario/login",{"emailUsuario": email,"senhaUsuario": password});
+    if(res.ok){
+      const json = await res.json();
+      console.log(`Nome: ${json.nomeUsuario}, ID: ${json.idUsuario}`);
+      console.log(`${json}`);
+    }else {
+      setError("Usuário ou senha incorretos")
+    }
+
+  }
+
   //Método que é executado quando a pessoa clica em entrar, precisa alterar ele para mandar para o back as infos e logar o usuário.
   const handleLogin = () => {
-    console.log(`Email: ${email}, Senha: ${password}`);
+    sendData();
   };
 
   //Precisa adicionar os tratamentos do login
