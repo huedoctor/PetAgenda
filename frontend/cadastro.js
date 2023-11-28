@@ -4,6 +4,7 @@ import {View,TextInput,Text,StyleSheet,TouchableOpacity,Image,} from 'react-nati
 import { useNavigation } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { post } from './util/request';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
 export default function TelaCadastro() {

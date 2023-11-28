@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import TelaCadastro from './cadastro.js';
 import TelaContato from './contato.js';
+import { post } from './util/request.js';
 
 export default function TelaLogin() {
   const navigation = useNavigation();
