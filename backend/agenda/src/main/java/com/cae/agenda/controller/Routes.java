@@ -1,19 +1,16 @@
 package com.cae.agenda.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
+import com.cae.agenda.entities.Pet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.cae.agenda.entities.Agenda;
 import com.cae.agenda.entities.Atividades;
@@ -29,7 +26,7 @@ import com.cae.agenda.repositories.RepositorioUsuario;
 import com.cae.agenda.repositories.RepositorioVacina;
 
 @RestController
-public class routes {
+public class Routes {
     @Autowired
     private RepositorioAgenda repositorioAgenda;
     @Autowired
@@ -51,7 +48,7 @@ public class routes {
 
     @RequestMapping("/ola")
     public String olaSpring() {
-        return "Olá Sistema de merda";
+        return "Olá Sistema.";
     }
 
     @GetMapping("/agenda")
@@ -146,4 +143,30 @@ public class routes {
         return repositorioUsuario.findAll();
     }
 
+    @ResponseBody
+    @GetMapping("/pet")
+    public List<Pet> listarPet() { return new PetController(repositorioPet).listarPet(); }
+
+    @PostMapping
+    public ResponseEntity<Map<String,Object>> salvarPet(@RequestBody Map<String, String> cadastro) throws ParseException {
+        String nomePet = cadastro.get("nomePet");
+        String racaPet = cadastro.get("racaPet");
+        double pesoPet = Double.parseDouble(cadastro.get("pesoPet"));
+        boolean castradoPet = Boolean.parseBoolean(cadastro.get("castradoPet"));
+        String sexoPet = cadastro.get("sexoPet");
+        int especie = Integer.parseInt(cadastro.get("especiePet"));
+
+        String dataNascPet = cadastro.get("dataNascPet");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = formatter.parse(dataNascPet);
+        java.sql.Date sqlData = new java.sql.Date(data.getTime());
+
+        Pet novoPet = new PetController(repositorioPet).salvarPet(nomePet, racaPet, pesoPet, castradoPet, sexoPet, sqlData, especie);
+
+        if (novoPet != null) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
