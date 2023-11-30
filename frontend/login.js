@@ -13,19 +13,31 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import TelaCadastro from './cadastro.js';
 import TelaContato from './contato.js';
+import TelaAvisoPet from './avisoSemPet.js';
 
 export default function TelaLogin() {
-  const navigation = useNavigation();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const navigation = useNavigation();
+
   //Método que é executado quando a pessoa clica em entrar, precisa alterar ele para mandar para o back as infos e logar o usuário.
   const handleLogin = () => {
+    /*
+    A gente precisa de um tratamento de login aqui.
+
+    A gente precisa de um IF aqui para verificar se o usuário possui um pet ou não para, caso ele não tiver, ele ser direcionado para a tela de aviso que ele não tem nenhum pet.
+    if (userHasPet == true {
+      navigation.navigate('TelaPets');
+    } else { */ 
+    navigation.navigate('Aviso Nenhum Pet');
+    /*
+    }
+    */
     console.log(`Email: ${email}, Senha: ${password}`);
   };
 
-  //Precisa adicionar os tratamentos do login
 
   return (
     <View style={styles.container}>

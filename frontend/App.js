@@ -13,6 +13,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import TelaCadastro from './cadastro.js';
 import TelaContato from './contato.js';
 import TelaLogin from './login.js';
+import TelaAvisoPet from './avisoSemPet.js';
+import TelaCadastroPet from './cadastroPet.js';
 
 const Stack = createStackNavigator();
 
@@ -36,9 +38,11 @@ function HomeScreen({ navigation }) {
             onPress={() => navigation.navigate('Login')}>
             <Text style={styles.buttonsText}>Entrar</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Contato')}>
-            <Text style={styles.helpButton}>Precisa de ajuda?</Text>
-          </TouchableOpacity>
+          <View style={styles.helpButton}>
+            <TouchableOpacity onPress={() => navigation.navigate('Contato')}>
+              <Text style={styles.helpButtonText}>Precisa de ajuda?</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </View>
@@ -51,7 +55,7 @@ export default function App() {
       <Stack.Navigator initialRouteName="Início"
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#B8E8FC', 
+            backgroundColor: '#B8E8FC',
           },
         }}
       >
@@ -62,9 +66,33 @@ export default function App() {
             headerShown: false,
           }}
         />
-        <Stack.Screen name="Criar Conta" component={TelaCadastro} />
-        <Stack.Screen name="Login" component={TelaLogin} />
-        <Stack.Screen name="Contato" component={TelaContato} />
+        <Stack.Screen
+          name="Criar Conta"
+          component={TelaCadastro}
+        />
+        <Stack.Screen
+          name="Login"
+          component={TelaLogin}
+        />
+        <Stack.Screen
+          name="Contato"
+          component={TelaContato}
+        />
+        <Stack.Screen
+          name="Aviso Nenhum Pet"
+          component={TelaAvisoPet}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Cadastro Primeiro Pet"
+          component={TelaCadastroPet}
+          options={{
+            headerLeft: () => null,
+            headerTitle: "   Novo Pet",
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -96,10 +124,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: '13%',
   },
-  buttonsText: {
-    alignSelf: 'center',
-    fontSize: 24,
-  },
   criarContaButton: {
     backgroundColor: '#B8E8FC',
     width: 275,
@@ -117,7 +141,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 40,
   },
+  buttonsText: {
+    alignSelf: 'center',
+    fontSize: 24,
+  },
   helpButton: {
+    alignSelf: 'center',
+    flexDirection: 'row',
+    position: 'absolute',
+    top: '100%',
+  },
+  helpButtonText: {
     fontSize: 18,
   },
 });
