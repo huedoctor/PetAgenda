@@ -9,11 +9,6 @@ import {
     Image,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import BouncyCheckboxGroup, {
-    ICheckboxButton,
-  } from "react-native-bouncy-checkbox-group";
 
 export default function TelaAvisoPet() {
 

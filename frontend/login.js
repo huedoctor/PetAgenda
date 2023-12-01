@@ -28,11 +28,11 @@ export default function TelaLogin() {
     A gente precisa de um tratamento de login aqui.
 
     A gente precisa de um IF aqui para verificar se o usuário possui um pet ou não para, caso ele não tiver, ele ser direcionado para a tela de aviso que ele não tem nenhum pet.
-    if (userHasPet == true {
-      navigation.navigate('TelaPets');
-    } else { */ 
-    navigation.navigate('Aviso Nenhum Pet');
+    if (userHasPet == true { */
+    navigation.navigate('Tela Pets');
     /*
+  } else {
+    navigation.navigate('Aviso Nenhum Pet');  
     }
     */
     console.log(`Email: ${email}, Senha: ${password}`);

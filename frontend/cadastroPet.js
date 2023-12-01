@@ -11,7 +11,6 @@ import {
     ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import BouncyCheckbox from "react-native-bouncy-checkbox";
 import BouncyCheckboxGroup from "react-native-bouncy-checkbox-group";
 import PetSelect from './components/PetSelect'
 
@@ -30,7 +29,7 @@ export default function TelaCadastroPet() {
     //Nome -> String
     //Peso -> Number
     const handleRegisterPet = () => {
-        console.log(`EspeciePet: ${especiePet}\nNomePet: ${nomePet}\nPesoPet: ${pesoPet}\nNascimentoPet: ${dataNascimentoPet}\nCastrado?: ${isCastrado}\n Sexo: ${sexoPet}`);
+        console.log(`EspeciePet: ${especiePet}\nNomePet: ${nomePet}\nPesoPet: ${pesoPet}\nNascimentoPet: ${dataNascimentoPet}\nCastrado?: ${isCastrado}\nSexo: ${sexoPet}`);
     };
 
     const opcoesIsCasatrado = [
