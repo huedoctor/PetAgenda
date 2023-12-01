@@ -2,19 +2,14 @@ package com.cae.agenda.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import com.cae.agenda.entities.Pet;
+import com.cae.agenda.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.cae.agenda.entities.Agenda;
-import com.cae.agenda.entities.Atividades;
-import com.cae.agenda.entities.Usuario;
 import com.cae.agenda.repositories.RepositorioAgenda;
 import com.cae.agenda.repositories.RepositorioAtividades;
 import com.cae.agenda.repositories.RepositorioCuidados;
@@ -139,29 +134,28 @@ public class Routes {
     }
 
     @GetMapping("/usuario")
-    public List<Usuario> listarUsuario() {
-        return repositorioUsuario.findAll();
-    }
+    public List<Usuario> listarUsuario() { return repositorioUsuario.findAll(); }
 
     @ResponseBody
-    @GetMapping("/pet")
+    @GetMapping("/pet/listarPet")
     public List<Pet> listarPet() { return new PetController(repositorioPet).listarPet(); }
 
-    @PostMapping
-    public ResponseEntity<Map<String,Object>> salvarPet(@RequestBody Map<String, String> cadastro) throws ParseException {
+    @PostMapping("/pet/criarPet")
+    public ResponseEntity<Map<String,Object>> criarPet(@RequestBody Map<String, String> cadastro) throws ParseException {
         String nomePet = cadastro.get("nomePet");
         String racaPet = cadastro.get("racaPet");
         double pesoPet = Double.parseDouble(cadastro.get("pesoPet"));
         boolean castradoPet = Boolean.parseBoolean(cadastro.get("castradoPet"));
         String sexoPet = cadastro.get("sexoPet");
-        int especie = Integer.parseInt(cadastro.get("especiePet"));
+        int especieid = Integer.parseInt(cadastro.get("especiePet"));
+        Especie especie = repositorioEspecie.findByIdEspecie(especieid);
 
         String dataNascPet = cadastro.get("dataNascPet");
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date data = formatter.parse(dataNascPet);
         java.sql.Date sqlData = new java.sql.Date(data.getTime());
 
-        Pet novoPet = new PetController(repositorioPet).salvarPet(nomePet, racaPet, pesoPet, castradoPet, sexoPet, sqlData, especie);
+        Pet novoPet = new PetController(repositorioPet).criarPet(nomePet, racaPet, pesoPet, castradoPet, sexoPet, sqlData, especie);
 
         if (novoPet != null) {
             return new ResponseEntity<>(HttpStatus.OK);
@@ -169,4 +163,30 @@ public class Routes {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @DeleteMapping("/pet/deletarPet/{idPet}")
+    public ResponseEntity<Map<String,Object>> deletarPet(@PathVariable int idPet) {   //recebendo id selecionado pelo cliente
+        Boolean novo = new PetController(repositorioPet).deletarPet(idPet);           //passando para o controller
+
+        if (novo != null) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/pet/alterarPet/{idPet}")
+    public ResponseEntity<Pet> editarPet(@PathVariable int id, @RequestBody Pet pet) {
+        PetController petController = new PetController();
+        Pet petAtualizado = petController.editarPet(id, pet);
+
+    }
+
+//     @PutMapping("/{id}")
+//    public ResponseEntity<RemedioDTO> editarRemedio(@PathVariable int id, @RequestBody Remedio remedio) {
+//        RemedioDTO remedioEditadoDTO = remedioService.editarRemedio(id, remedio);
+//        return new ResponseEntity<>(remedioEditadoDTO, HttpStatus.OK);
+//    }
+
+
 }
