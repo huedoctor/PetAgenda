@@ -34,9 +34,11 @@ public class Pet {
     private Boolean castradoPet;
     @JoinColumn(name="idUsuario")
     @ManyToOne(cascade = CascadeType.ALL)
+    @Column(nullable = false)
     private Usuario usuario;
     @JoinColumn(name = "idEspecie")
     @ManyToOne
+    @Column(nullable = false)
     private Especie especie;
     
 }
