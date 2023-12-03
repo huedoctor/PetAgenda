@@ -1,65 +1,48 @@
-//método para retornar uma lista de pets
-
 package com.cae.agenda.controller;
 
-import com.cae.agenda.entities.Especie;
-import com.cae.agenda.entities.Pet;
-import com.cae.agenda.repositories.RepositorioPet;
-import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Service;
-
+import java.text.ParseException;
 import java.util.List;
-import java.sql.Date;
-@Service
-@NoArgsConstructor
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cae.agenda.entities.Pet;
+import com.cae.agenda.services.PetService;
+
+@RestController
 public class PetController {
-    private RepositorioPet repositorioPet;
 
-    public PetController(RepositorioPet repositorioPet) {
-        this.repositorioPet = repositorioPet;
+    @Autowired
+    private PetService petService;
+
+    @ResponseBody
+    @GetMapping("/pet/listarPet")
+    public List<Pet> listarPet() {
+        return petService.listarPet();
     }
 
-    public PetController() {
-
+    @PostMapping("/pet/criarPet")
+    public ResponseEntity<Map<String, Object>> criarPet(@RequestBody Map<String, String> cadastro) throws ParseException {
+        return petService.criarPet(cadastro);
     }
 
-    public List<Pet> listarPet() { return repositorioPet.findAll(); }
-
-    public Pet criarPet(String nomePet, String racaPet, double pesoPet, boolean castradoPet, String sexoPet, Date dataNascPet, Especie especiePet) {
-        Pet novoPet = new Pet();
-        novoPet.setNomePet(nomePet);
-        novoPet.setCastradoPet(castradoPet);
-        novoPet.setPesoPet(pesoPet);
-        novoPet.setRacaPet(racaPet);
-        novoPet.setSexoPet(sexoPet);
-        novoPet.setDataNascPet(dataNascPet);
-        novoPet.setEspecie(especiePet);
-        return novoPet;
+    @DeleteMapping("/pet/deletarPet/{idPet}")
+    public ResponseEntity<Map<String, Object>> deletarPet(@PathVariable int idPet) {
+        return petService.deletarPet(idPet);
     }
 
-    public Boolean deletarPet(int idPet) {
-        if (repositorioPet.existsById(idPet)) {
-            repositorioPet.deleteById(idPet);
-            return true;
-        }
-        return false;
+    @PutMapping("/pet/alterarPet/{idPet}")
+    public ResponseEntity<Pet> editarPet(@PathVariable int idPet, @RequestBody Pet pet) throws NotFoundException {
+        return petService.editarPet(idPet, pet);
     }
-
-    public Pet editarPet(int idPet, Pet pet) {
-        
-
-    }
-
-
-//    public RemedioDTO editarRemedio(int id, Remedio remedio) {
-//        if (!repositorioRemedio.existsById(id)) {
-//            throw new NotFoundException("Remedio não encontrado");
-//        }
-//
-//        remedio.setIdRemedio(id);
-//        Remedio remedioEditado = repositorioRemedio.save(remedio);
-//        return converterParaDTO(remedioEditado);
-//    }
-
-
 }
