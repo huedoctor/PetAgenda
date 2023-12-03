@@ -34,13 +34,12 @@ public class CuidadosController {
     }
 
     @PutMapping("/Cuidados/update/{idcuidados}")
-public ResponseEntity<Cuidados> editarCuidados(@PathVariable int idcuidados, @RequestBody Cuidados cuidados) {
-    return cuidadosService.editarCuidados(idcuidados, cuidados);
-}
+    public ResponseEntity<Cuidados> editarCuidados(@PathVariable int idcuidados, @RequestBody Cuidados cuidados) {
+        return cuidadosService.editarCuidados(idcuidados, cuidados);
+    }
 
     @DeleteMapping("/Cuidados/delete/{idcuidados}")
-    public ResponseEntity<Void> deletarCuidados(@PathVariable int idcuidados) {
-        cuidadosService.deleteCuidados(idcuidados);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Cuidados> deletarCuidados(@PathVariable int idcuidados) {
+        return cuidadosService.deletarCuidados(idcuidados);
     }
 }

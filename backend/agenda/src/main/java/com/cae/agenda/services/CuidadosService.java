@@ -33,22 +33,36 @@ public class CuidadosService {
     public ResponseEntity<Cuidados> editarCuidados(int idcuidados, Cuidados cuidados) {
         try {
             if (!repositorioCuidados.existsById(idcuidados)) {
-                // Se o cuidado com o ID fornecido não existir, retorne um ResponseEntity com NOT_FOUND
+                // Se o cuidado com o ID fornecido não existir, retorne um ResponseEntity com
+                // NOT_FOUND
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-    
+
             cuidados.setIdCuidados(idcuidados);
             Cuidados cuidadosEditado = repositorioCuidados.save(cuidados);
             return ResponseEntity.ok(cuidadosEditado);
         } catch (Exception e) {
-            // Em caso de erro durante a edição, retorne um ResponseEntity com INTERNAL_SERVER_ERROR
+            // Em caso de erro durante a edição, retorne um ResponseEntity com
+            // INTERNAL_SERVER_ERROR
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public void deleteCuidados(int idcuidados) {
-        repositorioCuidados.deleteById(idcuidados);
+    public ResponseEntity<Cuidados> deletarCuidados(int idcuidados) {
+        try {
+            if (repositorioCuidados.existsById(idcuidados)) {
+                repositorioCuidados.deleteById(idcuidados);
+                return ResponseEntity.ok().build();
+            } else {
+                // Se o cuidado com o ID fornecido não existir, retorne um ResponseEntity com
+                // NOT_FOUND
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            // Em caso de erro durante a exclusão, retorne um ResponseEntity com
+            // INTERNAL_SERVER_ERROR
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    
 }
