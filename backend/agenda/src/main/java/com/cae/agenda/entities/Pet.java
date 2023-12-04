@@ -38,7 +38,6 @@ public class Pet {
     private Usuario usuario;
     @JoinColumn(name = "idEspecie", nullable = false)
     @ManyToOne
-    @Column(nullable = false)
     private Especie especie;
     
 }
