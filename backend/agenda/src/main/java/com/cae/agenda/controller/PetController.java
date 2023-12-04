@@ -36,13 +36,13 @@ public class PetController {
         return petService.criarPet(cadastro);
     }
 
-    @PutMapping("/pet/alterarPet/{idPet}")
-    public ResponseEntity<Pet> editarPet(@PathVariable int idPet, @RequestBody Pet pet) throws NotFoundException {
-        return petService.editarPet(idPet, pet);
-    }
-
     @DeleteMapping("/pet/deletarPet/{idPet}")
     public ResponseEntity<Map<String, Object>> deletarPet(@PathVariable int idPet) {
         return petService.deletarPet(idPet);
+    }
+
+    @PutMapping("/pet/editarPet/{idPet}")
+    public ResponseEntity<Pet> editarPet(@PathVariable int idPet, @RequestBody Pet pet) throws NotFoundException {
+        return petService.editarPet(idPet, pet);
     }
 }
