@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.cae.agenda.entities.Pet;
 
 public interface RepositorioPet extends JpaRepository<Pet,Integer>{
-    
+    boolean existsById(int idPet);
 }

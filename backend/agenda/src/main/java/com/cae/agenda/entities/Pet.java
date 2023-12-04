@@ -35,7 +35,7 @@ public class Pet {
     @JoinColumn(name="idUsuario")
     @ManyToOne(cascade = CascadeType.ALL)
     private Usuario usuario;
-    @JoinColumn(name = "idEspecie")
+    @JoinColumn(name = "idEspecie", nullable = false)
     @ManyToOne
     private Especie especie;
     
