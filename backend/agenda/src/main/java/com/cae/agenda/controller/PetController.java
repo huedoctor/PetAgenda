@@ -26,22 +26,22 @@ public class PetController {
     private PetService petService;
 
     @ResponseBody
-    @GetMapping("/pet/listarPet")
+    @GetMapping("/pet")
     public List<Pet> listarPet() {
         return petService.listarPet();
     }
 
-    @PostMapping("/pet/criarPet")
+    @PostMapping("/pet")
     public ResponseEntity<Map<String, Object>> criarPet(@RequestBody Map<String, String> cadastro) throws ParseException {
         return petService.criarPet(cadastro);
     }
 
-    @DeleteMapping("/pet/deletarPet/{idPet}")
+    @DeleteMapping("/pet/{idPet}")
     public ResponseEntity<Map<String, Object>> deletarPet(@PathVariable int idPet) {
         return petService.deletarPet(idPet);
     }
 
-    @PutMapping("/pet/editarPet/{idPet}")
+    @PutMapping("/pet/{idPet}")
     public ResponseEntity<Pet> editarPet(@PathVariable int idPet, @RequestBody Pet pet) throws NotFoundException {
         return petService.editarPet(idPet, pet);
     }
