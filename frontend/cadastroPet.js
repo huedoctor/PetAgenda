@@ -18,6 +18,7 @@ export default function TelaCadastroPet() {
 
     const [especiePet, setEspeciePet] = useState(null);
     const [nomePet, setNomePet] = useState(null);
+    const [racaPet, setRacaPet] = useState(null);
     const [pesoPet, setPesoPet] = useState(null);
     const [dataNascimentoPet, setDataNascimentoPet] = useState(null);
     const [isCastrado, setIsCastrado] = useState(null);
@@ -29,7 +30,7 @@ export default function TelaCadastroPet() {
     //Nome -> String
     //Peso -> Number
     const handleRegisterPet = () => {
-        console.log(`EspeciePet: ${especiePet}\nNomePet: ${nomePet}\nPesoPet: ${pesoPet}\nNascimentoPet: ${dataNascimentoPet}\nCastrado?: ${isCastrado}\nSexo: ${sexoPet}`);
+        console.log(`EspeciePet: ${especiePet}\nNomePet: ${nomePet}\nRaçaPet: ${racaPet}\nPesoPet: ${pesoPet}\nNascimentoPet: ${dataNascimentoPet}\nCastrado?: ${isCastrado}\nSexo: ${sexoPet}`);
     };
 
     const opcoesIsCasatrado = [
@@ -88,6 +89,13 @@ export default function TelaCadastroPet() {
                     placeholder="Nome"
                     onChangeText={(text) => setNomePet(text)}
                     value={nomePet}
+                >
+                </TextInput>
+                <TextInput
+                    style={[styles.input]}
+                    placeholder="Raça"
+                    onChangeText={(text) => setRacaPet(text)}
+                    value={racaPet}
                 >
                 </TextInput>
                 <TextInput
@@ -153,6 +161,7 @@ const styles = StyleSheet.create({
     especieQuestion: {
         alignSelf: 'center',
         fontSize: 20,
+        marginTop: 10,
         marginBottom: 50,
         fontWeight: 'bold',
     },

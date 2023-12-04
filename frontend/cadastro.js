@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import { Dimensions } from 'react-native';
+
 
 export default function TelaCadastro() {
   const [name, setName] = useState('');
@@ -142,10 +144,10 @@ const styles = StyleSheet.create({
     width: 320,
   },
   loginButton: {
-    marginTop: 625,
     alignSelf: 'center',
     flexDirection: 'row',
     position: 'absolute',
+    marginTop: Dimensions.get('window').height * 0.82,
   },
   loginButtonText: {
     fontSize: 17,

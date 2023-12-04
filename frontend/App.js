@@ -7,10 +7,12 @@ import TelaLogin from './login.js';
 import TelaAvisoPet from './avisoSemPet.js';
 import TelaCadastroPet from './cadastroPet.js';
 import TelaPets from './hub.js';
+import TelaPet from './telaPet.js';
 
 const Stack = createStackNavigator();
 
-export default function App() {
+export default function App({ routes }) {
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Início"
@@ -34,6 +36,9 @@ export default function App() {
         <Stack.Screen
           name="Login"
           component={TelaLogin}
+          options={{
+            headerTitle: "Entrar",
+          }}
         />
         <Stack.Screen
           name="Contato"
@@ -51,8 +56,12 @@ export default function App() {
           component={TelaCadastroPet}
           options={{
             headerLeft: () => null,
-            headerTitle: "   Novo Pet",
+            headerTitle: "   Cadastre seu primeiro pet",
           }}
+        />
+        <Stack.Screen
+          name="Cadastrar Pet"
+          component={TelaCadastroPet}
         />
         <Stack.Screen
           name="Tela Pets"
@@ -61,6 +70,10 @@ export default function App() {
             headerLeft: () => null,
             headerTitle: "Meus Pets",
           }}
+        />
+        <Stack.Screen
+          name="Tela Pet"
+          component={TelaPet}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -9,11 +9,7 @@ import {
   Image,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import TelaCadastro from './cadastro.js';
-import TelaContato from './contato.js';
-import TelaAvisoPet from './avisoSemPet.js';
+import { Dimensions } from 'react-native';
 
 export default function TelaLogin() {
 
@@ -118,7 +114,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   registerButton: {
-    marginTop: 625,
+    marginTop: Dimensions.get('window').height * 0.82,
     alignSelf: 'center',
     flexDirection: 'row',
     position: 'absolute',

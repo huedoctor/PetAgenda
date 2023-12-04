@@ -27,7 +27,7 @@ export default function TelaContato() {
           {'\n'}
           Email para contato:
           {'\n'}
-          <Text style = {{fontWeight: "bold"}}>agendapet@gmail.com</Text>
+          <Text style={{ fontWeight: "bold" }}>agendapet@gmail.com</Text>
         </Text>
       </View>
     </View>

@@ -24,8 +24,8 @@ export default function TelaAvisoPet() {
                     Mas isso é fácil resolver! Por favor, considere clicar no botão abaixo para começar cadastrando um pet.
                 </Text>
             </View>
-            <TouchableOpacity 
-            style={styles.botaoCriarPet} onPress={() => navigation.navigate('Cadastro Primeiro Pet')} >
+            <TouchableOpacity
+                style={styles.botaoCriarPet} onPress={() => navigation.navigate('Cadastro Primeiro Pet')} >
                 <Text style={styles.botaoCriarPetText}>Cadastrar Pet</Text>
             </TouchableOpacity>
         </View>
