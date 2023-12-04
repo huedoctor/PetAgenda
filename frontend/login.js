@@ -1,39 +1,30 @@
 import React, { useState } from 'react';
 import 'react-native-gesture-handler';
-import {
-  View,
-  TextInput,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import { View, TextInput, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Dimensions } from 'react-native';
+import { post } from './util/request.js';
 
 export default function TelaLogin() {
 
+  const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const navigation = useNavigation();
 
   //Método que é executado quando a pessoa clica em entrar, precisa alterar ele para mandar para o back as infos e logar o usuário.
-  const handleLogin = () => {
-    /*
-    A gente precisa de um tratamento de login aqui.
-
-    A gente precisa de um IF aqui para verificar se o usuário possui um pet ou não para, caso ele não tiver, ele ser direcionado para a tela de aviso que ele não tem nenhum pet.
-    if (userHasPet == true { */
-    navigation.navigate('Tela Pets');
-    /*
-  } else {
-    navigation.navigate('Aviso Nenhum Pet');  
+  const handleLogin = async () => {
+    const res = await post("usuario/login",{"emailUsuario": email,"senhaUsuario": password});
+    if (res.ok) {
+      const json = await res.json();
+      console.log(`Nome: ${json.nomeUsuario}, ID: ${json.idUsuario}`);
+      console.log(`${json}`);
+      navigation.navigate('Tela Pets');
+    } else {
+      setError("Usuário ou senha incorretos")
     }
-    */
-    console.log(`Email: ${email}, Senha: ${password}`);
   };
-
 
   return (
     <View style={styles.container}>
