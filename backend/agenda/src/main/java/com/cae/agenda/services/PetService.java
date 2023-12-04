@@ -82,7 +82,6 @@ public class PetService {
         if (!repositorioPet.existsById(idPet)) {
             throw new NotFoundException();
         }
-
         pet.setIdPet(idPet);
         Pet petEditado = repositorioPet.save(pet);
         return new ResponseEntity<>(petEditado, HttpStatus.OK);

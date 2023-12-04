@@ -41,7 +41,7 @@ public class PetController {
         return petService.deletarPet(idPet);
     }
 
-    @PutMapping("/pet/alterarPet/{idPet}")
+    @PutMapping("/pet/editarPet/{idPet}")
     public ResponseEntity<Pet> editarPet(@PathVariable int idPet, @RequestBody Pet pet) throws NotFoundException {
         return petService.editarPet(idPet, pet);
     }
