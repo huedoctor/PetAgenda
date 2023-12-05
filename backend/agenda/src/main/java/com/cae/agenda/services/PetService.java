@@ -30,60 +30,38 @@ public class PetService {
         return repositorioPet.findAll();
     }
 
-    public ResponseEntity<Map<String, Object>> criarPet(Map<String, String> cadastro) throws ParseException {
-    try {
-        // Extrair dados do cadastro
-        String nomePet = cadastro.get("nomePet");
-        String racaPet = cadastro.get("racaPet");
-        double pesoPet = Double.parseDouble(cadastro.get("pesoPet"));
-        boolean castradoPet = Boolean.parseBoolean(cadastro.get("castradoPet"));
-        String sexoPet = cadastro.get("sexoPet");
-        int especieid = Integer.parseInt(cadastro.get("especiePet"));
-        Especie especiePet = repositorioEspecie.findByIdEspecie(especieid);
-
-        String dataNascPetStr = cadastro.get("dataNascPet");
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date dataNascPet = new Date(formatter.parse(dataNascPetStr).getTime());
-
-        // Criar uma instância de Pet
-        Pet novoPet = new Pet();
-        novoPet.setNomePet(nomePet);
-        novoPet.setCastradoPet(castradoPet);
-        novoPet.setPesoPet(pesoPet);
-        novoPet.setRacaPet(racaPet);
-        novoPet.setSexoPet(sexoPet);
-        novoPet.setDataNascPet(dataNascPet);
-        novoPet.setEspecie(especiePet);
-
-        // Salvar o Pet no repositório
-        Pet petSalvo = repositorioPet.save(novoPet);
-
-        // Verificar se o salvamento foi bem-sucedido e retornar a resposta adequada
-        if (petSalvo != null) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    } catch (Exception e) {
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<Pet> criarPet(Pet pet) {
+        // Salva o novo pet
+        Pet novoPet = repositorioPet.save(pet);
+        // Retorna o novo pet com HttpStatus.CREATED
+        return new ResponseEntity<>(novoPet, HttpStatus.CREATED);
     }
-}
 
-    public ResponseEntity<Map<String, Object>> deletarPet(int idPet) {
+    public ResponseEntity<Void> deletarPet(int idPet) {
         if (repositorioPet.existsById(idPet)) {
             repositorioPet.deleteById(idPet);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    public ResponseEntity<Pet> editarPet(int idPet, Pet pet) throws NotFoundException {
-        if (!repositorioPet.existsById(idPet)) {
-            throw new NotFoundException();
+    public ResponseEntity<Pet> editarPet(int idPet, Pet pet) {
+        try {
+            if (!repositorioPet.existsById(idPet)) {
+                // Retorna NOT FOUND se o pet não existe
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            // Atualiza o ID e salva as alterações
+            pet.setIdPet(idPet);
+            Pet petEditado = repositorioPet.save(pet);
+
+            // Retorna o pet editado com HttpStatus.OK
+            return new ResponseEntity<>(petEditado, HttpStatus.OK);
+        } catch (Exception e) {
+            // Trata outras exceções
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        pet.setIdPet(idPet);
-        Pet petEditado = repositorioPet.save(pet);
-        return new ResponseEntity<>(petEditado, HttpStatus.OK);
     }
 }

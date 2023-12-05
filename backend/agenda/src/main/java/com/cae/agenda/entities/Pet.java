@@ -2,6 +2,7 @@ package com.cae.agenda.entities;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,6 +28,7 @@ public class Pet {
     private String nomePet;
     @Column(nullable = false)
     private String racaPet;
+    @JsonFormat(pattern="dd/MM/yyyy")
     private Date dataNascPet;
     private Double pesoPet;
     @Column(nullable = false)

@@ -27,7 +27,4 @@ public class Remedio {
     @JoinColumn(name = "idAgenda")
     @ManyToOne(cascade = CascadeType.ALL)
     private Agenda agenda;
-    @JoinColumn(name = "idCuidados")
-    @ManyToOne
-    private Cuidados cuidados;
 }

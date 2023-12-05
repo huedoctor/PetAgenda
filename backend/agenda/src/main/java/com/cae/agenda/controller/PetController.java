@@ -32,12 +32,12 @@ public class PetController {
     }
 
     @PostMapping("/pet")
-    public ResponseEntity<Map<String, Object>> criarPet(@RequestBody Map<String, String> cadastro) throws ParseException {
-        return petService.criarPet(cadastro);
+    public ResponseEntity<Pet> criarPet(@RequestBody Pet pet) throws ParseException {
+        return petService.criarPet(pet);
     }
 
     @DeleteMapping("/pet/{idPet}")
-    public ResponseEntity<Map<String, Object>> deletarPet(@PathVariable int idPet) {
+    public ResponseEntity<Void> deletarPet(@PathVariable int idPet) {
         return petService.deletarPet(idPet);
     }
 
