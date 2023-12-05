@@ -24,6 +24,14 @@ export default function TelaCadastroPet() {
     const [isCastrado, setIsCastrado] = useState(null);
     const [sexoPet, setSexoPet] = useState(null);
 
+    const inputDateMask = (value) => {
+        return value
+            .replace(/\D/g, '')
+            .replace(/(\d{2})(\d)/, '$1/$2')
+            .replace(/(\d{2})(\d)/, '$1/$2')
+            .replace(/(\d{4})(\d)/, '$1');
+    }
+
     const navigation = useNavigation();
 
     //Comando para executar o cadastro do pet, ta retornando todas as informações.
@@ -110,7 +118,10 @@ export default function TelaCadastroPet() {
                     style={styles.input}
                     keyboardType='numeric'
                     placeholder="Nascimento (DD/MM/AAAA)"
-                    onChangeText={(text) => setDataNascimentoPet(text)}
+                    maxLength={10}
+                    onChangeText={(text) => {
+                        setDataNascimentoPet(inputDateMask(text))
+                    }}
                     value={dataNascimentoPet}
                 >
                 </TextInput>
