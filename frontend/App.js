@@ -1,5 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Text } from 'react-native';
 import HomeScreen from './telaInicial.js';
 import TelaCadastro from './cadastro.js';
 import TelaContato from './contato.js';
@@ -17,9 +19,7 @@ export default function App({ routes }) {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Início"
         screenOptions={{
-          headerStyle: {
-            backgroundColor: '#B8E8FC',
-          },
+          headerTintColor: '#4A1E91',
         }}
       >
         <Stack.Screen
@@ -66,10 +66,21 @@ export default function App({ routes }) {
         <Stack.Screen
           name="Tela Pets"
           component={TelaPets}
-          options={{
+          options={({ navigation }) => ({
             headerLeft: () => null,
             headerTitle: "Meus Pets",
-          }}
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Cadastrar Pet")}
+                style={{ paddingRight: 10 }}
+              >
+                <Text
+                  style={{ fontSize: 19, color: '#4A1E91' }}
+                >
+                  Cadastrar Pet</Text>
+              </TouchableOpacity>
+            ),
+          })}
         />
         <Stack.Screen
           name="Tela Pet"

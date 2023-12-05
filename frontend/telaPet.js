@@ -6,15 +6,57 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
+    Pressable,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 export default function TelaPet({ route }) {
 
+    const [novoPeso, setNovoPeso] = useState(null);
+    const [novoNome, setNovoNome] = useState(null);
+    const [isCastrado, setIsCastrado] = useState(false);
+
     const navigation = useNavigation();
-    const [dropdownVisible, setDropdownVisible] = useState(false);
 
     const { id, nome, especie, raca, dataNasc, peso, sexo, castradoPet } = route.params;
+
+    const handleRegisterPet = () => {
+        console.log(`Novo nome do pet: ${novoNome}\nNovo peso do pet: ${novoPeso}\nFoi castrado? ${isCastrado}`);
+    };
+
+    const handleDeletePet = () => {
+        console.log(`Deletar pet com id de ${id}`)
+    }
+
+    const handleVerificaCastrado = () => {
+        if (castradoPet == true) {
+            return (
+                <Text>Sim</Text>
+            );
+        } else {
+            return (
+                <View>
+                    <Text>Não</Text>
+                    <BouncyCheckbox
+                        style={{ marginTop: 5 }}
+                        size={15}
+                        fillColor="purple"
+                        text="Foi castrado"
+                        iconStyle={{ borderColor: "red" }}
+                        onPress={() => { setIsCastrado(true) }}
+                        textStyle={{
+                            textDecorationLine: 'none',
+                            fontSize: 14,
+                        }}
+                        textContainerStyle={{
+                            marginLeft: 5,
+                        }}
+                    />
+                </View>
+            );
+        }
+    }
 
     useEffect(() => {
         navigation.setOptions({ title: nome })
@@ -22,15 +64,72 @@ export default function TelaPet({ route }) {
 
     return (
         <View style={styles.container}>
-            <View style={styles.buttonContainer}>
-                <Text>
-                    Tratamentos
-                </Text>
+            <View style={styles.petProfileContainer}>
+                <View style={styles.petProfileContainerContent}>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Image
+                            source={especie == 'gato' ? require('./assets/petCatIcon.jpg') : especie == 'cachorro' ? require('./assets/petDogIcon.jpg') : null}
+                            style={styles.petProfileImage}
+                        />
+                        <View style={{ flexDirection: 'column' }}>
+                            <Text>Nome:</Text>
+                            <TextInput
+                                placeholder={nome}
+                                onChangeText={(text) => setNovoNome(text)}
+                                value={novoNome}
+                            />
+                            <Text style={styles.petProfileContainerText}>Espécie:</Text>
+                            <Text>{especie}</Text>
+                            <Text style={styles.petProfileContainerText}>Raça:</Text>
+                            <Text>{raca}</Text>
+                            <Text style={styles.petProfileContainerText}>Data de nascimento:</Text>
+                            <Text>{dataNasc}</Text>
+                            <Text style={styles.petProfileContainerText}>Peso:</Text>
+                            <TextInput
+                                placeholder={peso.toString() + 'kg'}
+                                keyboardType='decimal-pad'
+                                onChangeText={(text) => setNovoPeso(text)}
+                                value={novoPeso}
+                            />
+                            <Text style={styles.petProfileContainerText}>Sexo:</Text>
+                            <Text>{sexo}</Text>
+                            <Text style={styles.petProfileContainerText}>É castrado?</Text>
+                            {handleVerificaCastrado()}
+                        </View>
+                    </View>
+                </View>
+                <View style={styles.petProfileContainerButtons}>
+                    <TouchableOpacity style={styles.petProfileButtons} onPress={handleRegisterPet}>
+                        <Text style={{color: '#ECC683'}}>Editar</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.petProfileButtons} onPress={handleDeletePet}>
+                        <Text style={{color: '#ECC683'}}>Apagar</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-            <View style={styles.buttonContainer}>
-                <Text>
-                    Atividades
-                </Text>
+            <View style={styles.buttonsContainer}>
+                <TouchableOpacity>
+                    <View style={styles.buttonContainer}>
+                        <Image
+                            source={require('./assets/injection.png')}
+                            style={styles.buttonContainerIcon}
+                        />
+                        <Text style={styles.buttonContainerText}>
+                            Tratamentos
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <View style={styles.buttonContainer}>
+                        <Image
+                            source={require('./assets/schedule.png')}
+                            style={styles.buttonContainerIcon}
+                        />
+                        <Text style={styles.buttonContainerText}>
+                            Atividades
+                        </Text>
+                    </View>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -39,11 +138,66 @@ export default function TelaPet({ route }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        backgroundColor: '#B8E8FC',
+        backgroundColor: '#FFFF',
+    },
+    petProfileContainer: {
+        width: 300,
+        height: 'auto',
+        backgroundColor: '#ECC683',
+        alignSelf: 'center',
+        flexDirection: 'column',
+        borderRadius: 20,
+        marginTop: 20,
+        marginBottom: 20,
+    },
+    buttonsContainer: {
+        alignSelf: 'center',
+        flexDirection: 'column',
+        gap: 20,
     },
     buttonContainer: {
-        alignSelf: 'center',
-        backgroundColor: '#B1AFFF',
-    }
+        flexDirection: 'row',
+        backgroundColor: '#ECC683',
+        width: 300,
+        height: 100,
+        justifyContent: 'start',
+        alignItems: 'center',
+        borderRadius: 20,
+        gap: 20,
+    },
+    buttonContainerIcon: {
+        width: 50,
+        height: 50,
+        marginLeft: 20,
+    },
+    buttonContainerText: {
+        fontSize: 20,
+    },
+    petProfileImage: {
+        height: 125,
+        width: 125,
+    },
+    petProfileContainerContent: {
+        marginTop: 10,
+        marginLeft: 10,
+        marginBottom: 10,
+    },
+    petProfileContainerText: {
+        marginTop: 8,
+    },
+    petProfileContainerButtons: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: 60,
+        marginBottom: 20,
+        marginTop: 10,
+    },
+    petProfileButtons: {
+        backgroundColor: '#4A1E91',
+        width: 75,
+        height: 30,
+        borderRadius: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });

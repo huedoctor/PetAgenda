@@ -6,8 +6,6 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    Image,
-    Pressable,
     ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -23,23 +21,39 @@ export default function TelaCadastroPet() {
     const [dataNascimentoPet, setDataNascimentoPet] = useState(null);
     const [isCastrado, setIsCastrado] = useState(null);
     const [sexoPet, setSexoPet] = useState(null);
+    const [avisoData, setAvisoData] = useState(false);
 
     const navigation = useNavigation();
 
-    //Comando para executar o cadastro do pet, ta retornando todas as informações.
-    //Nome -> String
-    //Peso -> Number
     const handleRegisterPet = () => {
         console.log(`EspeciePet: ${especiePet}\nNomePet: ${nomePet}\nRaçaPet: ${racaPet}\nPesoPet: ${pesoPet}\nNascimentoPet: ${dataNascimentoPet}\nCastrado?: ${isCastrado}\nSexo: ${sexoPet}`);
     };
+
+    const validateDate = (date) => {
+        const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
+        if (!dateRegex.test(date)) {
+          setDataNascimentoPet(null);
+          setAvisoData(true);
+        } else {
+          const [day, month, year] = date.split('-').map(Number);
+          if (day < 1 || day > 31) {
+            setDataNascimentoPet(null);
+            setAvisoData(true);
+          } else if (month < 1 || month > 12) {
+            setDataNascimentoPet(null);
+            setAvisoData(true);
+          } else {
+            setAvisoData(false);
+          }
+        }
+      };      
 
     const opcoesIsCasatrado = [
         {
             id: "sim",
             text: "Sim",
             style: styles.checkBoxOptionRight,
-            fillColor: "#B1AFFF",
-            unfillColor: "#B8E8FC",
+            fillColor: "#4A1E91",
             textStyle: {
                 textDecorationLine: 'none',
             }
@@ -48,8 +62,7 @@ export default function TelaCadastroPet() {
             id: "nao",
             text: "Não",
             style: styles.checkBoxOptionLeft,
-            fillColor: "#B1AFFF",
-            unfillColor: "#B8E8FC",
+            fillColor: "#4A1E91",
             textStyle: {
                 textDecorationLine: 'none',
             }
@@ -61,8 +74,7 @@ export default function TelaCadastroPet() {
             id: "macho",
             text: "Macho",
             style: styles.checkBoxOptionRightSexo,
-            fillColor: "#B1AFFF",
-            unfillColor: "#B8E8FC",
+            fillColor: "#4A1E91",
             textStyle: {
                 textDecorationLine: 'none',
             }
@@ -71,8 +83,7 @@ export default function TelaCadastroPet() {
             id: "femea",
             text: "Fêmea",
             style: styles.checkBoxOptionLeftSexo,
-            fillColor: "#B1AFFF",
-            unfillColor: "#B8E8FC",
+            fillColor: "#4A1E91",
             textStyle: {
                 textDecorationLine: 'none',
             }
@@ -82,7 +93,7 @@ export default function TelaCadastroPet() {
     return (
         <ScrollView>
             <View style={styles.container}>
-                <Text style={styles.especieQuestion}>Qual a espécie do seu pet?</Text>
+                <Text style={styles.especieQuestion}>Qual é a espécie do seu pet?</Text>
                 <PetSelect onSelect={(selected) => setEspeciePet(selected)} />
                 <TextInput
                     style={[styles.input, { marginTop: 35 }]}
@@ -106,15 +117,23 @@ export default function TelaCadastroPet() {
                     value={pesoPet}
                 >
                 </TextInput>
+                {avisoData && 
+                <Text
+                style={styles.avisoData}
+                >Por favor, insira uma data válida no formato DD-MM-AAAA.</Text>
+                }
                 <TextInput
                     style={styles.input}
+                    placeholder='Data de nascimento'
                     keyboardType='numeric'
-                    placeholder="Nascimento (DD/MM/AAAA)"
-                    onChangeText={(text) => setDataNascimentoPet(text)}
+                    onChangeText={text => setDataNascimentoPet(text)}
+                    onEndEditing={() => validateDate(dataNascimentoPet)}
                     value={dataNascimentoPet}
-                >
-                </TextInput>
-                <Text style={styles.question}>Seu pet é castrado?</Text>
+                />
+                <Text
+                style={{opacity: 0.5, marginRight: 180}}
+                >DD-MM-AAAA</Text>
+                <Text style={[styles.question, {marginTop: 20}]}>Seu pet é castrado?</Text>
                 <View style={styles.isCastradoConteiner}>
                     <BouncyCheckboxGroup
                         data={opcoesIsCasatrado}
@@ -139,7 +158,6 @@ export default function TelaCadastroPet() {
                             }
                         }}
                     />
-
                 </View>
                 <TouchableOpacity
                     style={styles.registerPetButton}
@@ -154,15 +172,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#B8E8FC',
+        backgroundColor: 'white',
         alignItems: 'center',
         paddingBottom: 30,
     },
     especieQuestion: {
         alignSelf: 'center',
         fontSize: 20,
-        marginTop: 10,
-        marginBottom: 50,
+        marginTop: 5,
+        marginBottom: 30,
         fontWeight: 'bold',
     },
     optionCheckBox: {
@@ -174,7 +192,7 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 40,
         paddingLeft: 15,
-        backgroundColor: '#B1AFFF',
+        backgroundColor: '#CAC1D6',
         marginTop: 20,
     },
     dataNascimentoPetButton: {
@@ -215,12 +233,19 @@ const styles = StyleSheet.create({
         marginTop: 40,
         width: 300,
         height: 60,
-        backgroundColor: '#B1AFFF',
+        backgroundColor: '#4A1E91',
         borderRadius: 40,
         alignItems: 'center',
         justifyContent: 'center',
     },
     petRegisterButtonText: {
         fontSize: 20,
+        color: '#FFB400',
     },
+    avisoData: {
+        position:'absolute',
+        paddingTop: 75,
+        fontSize: 12,
+        color: 'red',
+    }
 });
