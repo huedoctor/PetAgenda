@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import 'react-native-gesture-handler';
-import { View, TextInput, Text, StyleSheet, TouchableOpacity, Image, } from 'react-native';
+import { View, TextInput, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { post } from './util/request';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { Dimensions } from 'react-native';
-
 
 export default function TelaCadastro() {
   const [name, setName] = useState('');
@@ -15,6 +14,7 @@ export default function TelaCadastro() {
   const [passwordError, setPasswordError] = useState(false);
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const [submitEnabled, setSubmitEnabled] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (name.length == 0) {
@@ -46,27 +46,22 @@ export default function TelaCadastro() {
 
   }, [name, email, password, confirmPassword, passwordError, toggleCheckBox]);
 
-  useEffect(()=> {
+  useEffect(() => {
     checkPasswords();
   }, [password, confirmPassword]);
 
   const navigation = useNavigation();
 
   const sendData = async () => {
+    setLoading(true);
     const res = await post("usuario/cadastro", {
       "emailUsuario": email,
       "senhaUsuario": password,
       "nomeUsuario": name
-    }
-    );
+    });
+    setLoading(false);
     if (res.ok) {
-      const json = await res.json();
-      console.log(`ID : ${json.idUsuario},
-       Nome: ${json.nomeUsuario},
-       Email: ${json.emailUsuario},
-        Senha: ${json.senhaUsuario}`);
-    } else {
-      setError("Usuário ou senha incorretos")
+      navigation.navigate("Login");
     }
   }
 
@@ -124,16 +119,20 @@ export default function TelaCadastro() {
           onChangeText={(text) => setConfirmPassword(text)}
           value={confirmPassword}
         />
-        <TouchableOpacity
-          style={[
-            styles.button,
-            styles.registerButton,
-            !submitEnabled ? { opacity: 0.5 } : { opacity: 1 },
-          ]}
-          disabled={!submitEnabled}
-          onPress={onSubmitClicked}>
-          <Text style={styles.buttonText}>Criar Conta</Text>
-        </TouchableOpacity>
+        <View style={styles.submitContainer}>        
+          {loading
+          ? <ActivityIndicator size="large" />
+          : <TouchableOpacity
+            style={[
+              styles.button,
+              styles.registerButton,
+              !submitEnabled ? { opacity: 0.5 } : { opacity: 1 },
+            ]}
+            disabled={!submitEnabled}
+            onPress={onSubmitClicked}>
+            <Text style={styles.buttonText}>Criar Conta</Text>
+          </TouchableOpacity>}
+          </View>
         <View style={styles.checkBox}>
           <BouncyCheckbox
             size={20}
@@ -184,7 +183,6 @@ const styles = StyleSheet.create({
   registerButton: {
     width: 300,
     height: 60,
-    marginTop: 20,
     backgroundColor: '#B1AFFF',
     borderRadius: 40,
     alignItems: 'center',
@@ -212,4 +210,10 @@ const styles = StyleSheet.create({
   passwordError: {
     color: 'red', position: 'absolute', marginTop: 220, paddingRight: 70,
   },
+  submitContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 60,
+    marginTop: 20,
+  }
 });
