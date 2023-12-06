@@ -24,17 +24,17 @@ public class AtividadesController {
         return atividadesService.listarAtividades();
     }
 
-    @PostMapping("/atividades/cadastro")
+    @PostMapping("/atividades")
     public void salvarAtividades(@RequestBody Atividades atividades) {
         atividadesService.salvarAtividades(atividades);
     }
 
-    @PutMapping("/atividades/update")
+    @PutMapping("/atividades")
     public void alterarAtividades(@RequestBody Atividades atividades) {
         atividadesService.alterarAtividades(atividades);
     }
 
-    @DeleteMapping("/atividades/delete")
+    @DeleteMapping("/atividades")
     public void excluirAtividades(@RequestBody Atividades atividades) {
         atividadesService.excluirAtividades(atividades);
     }

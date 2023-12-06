@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'react-native-gesture-handler';
-import {View,TextInput,Text,StyleSheet,TouchableOpacity,Image,} from 'react-native';
+import { View, TextInput, Text, StyleSheet, TouchableOpacity, Image, } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { post } from './util/request';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
@@ -14,25 +14,61 @@ export default function TelaCadastro() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordError, setPasswordError] = useState(false);
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
+  const [submitEnabled, setSubmitEnabled] = useState(false);
+
+  useEffect(() => {
+    if (name.length == 0) {
+      setSubmitEnabled(false);
+      return;
+    }
+    if (email.length == 0) {
+      setSubmitEnabled(false);
+      return;
+    }
+    if (password.length == 0) {
+      setSubmitEnabled(false);
+      return;
+    }
+    if (confirmPassword.length == 0) {
+      setSubmitEnabled(false);
+      return;
+    }
+    if (passwordError) {
+      setSubmitEnabled(false);
+      return;
+    }
+    if (!toggleCheckBox) {
+      setSubmitEnabled(false);
+      return;
+    }
+    setSubmitEnabled(true);
+
+
+  }, [name, email, password, confirmPassword, passwordError, toggleCheckBox]);
+
+  useEffect(()=> {
+    checkPasswords();
+  }, [password, confirmPassword]);
 
   const navigation = useNavigation();
 
   const sendData = async () => {
     const res = await post("usuario/cadastro", {
-        "emailUsuario": email,
-        "senhaUsuario": password,
-        "nomeUsuario": name
-        }
-        );
-    if(res.ok){
+      "emailUsuario": email,
+      "senhaUsuario": password,
+      "nomeUsuario": name
+    }
+    );
+    if (res.ok) {
       const json = await res.json();
       console.log(`ID : ${json.idUsuario},
        Nome: ${json.nomeUsuario},
        Email: ${json.emailUsuario},
         Senha: ${json.senhaUsuario}`);
-    }else{
+    } else {
       setError("Usuário ou senha incorretos")
-    }}
+    }
+  }
 
   //Esse método é o método que executa quando a pessoa clica em Criar Conta, precisa fazer ele mandar isso pro back e cadastrar o usuário
   const handleRegister = () => {
@@ -40,10 +76,18 @@ export default function TelaCadastro() {
   };
 
   const checkPasswords = () => {
-    if (password !== confirmPassword) {
+    if (confirmPassword.length > 0 && password !== confirmPassword) {
       setPasswordError(true);
     } else {
       setPasswordError(false);
+    }
+  };
+
+  const onSubmitClicked = () => {
+    checkPasswords();
+    console.log(passwordError);
+
+    if (!passwordError) {
       handleRegister();
     }
   };
@@ -84,12 +128,10 @@ export default function TelaCadastro() {
           style={[
             styles.button,
             styles.registerButton,
-            !toggleCheckBox ? { opacity: 0.5 } : { opacity: 1 },
+            !submitEnabled ? { opacity: 0.5 } : { opacity: 1 },
           ]}
-          disabled={!toggleCheckBox}
-          onPress={() => {
-            checkPasswords();
-          }}>
+          disabled={!submitEnabled}
+          onPress={onSubmitClicked}>
           <Text style={styles.buttonText}>Criar Conta</Text>
         </TouchableOpacity>
         <View style={styles.checkBox}>
