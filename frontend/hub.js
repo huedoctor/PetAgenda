@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
 import 'react-native-gesture-handler';
 import {
     View,
-    TextInput,
     Text,
     StyleSheet,
     TouchableOpacity,
@@ -29,6 +27,26 @@ let userPets = [
         sexo: "macho",
         castradoPet: true,
 
+    },
+    {
+        id: 1,
+        nome: "Belinha",
+        raca: "bbbbbbbbbbb",
+        especie: "gato",
+        dataNasc: "22/22/2222",
+        peso: 10.3,
+        sexo: "femea",
+        castradoPet: false,
+    },
+    {
+        id: 1,
+        nome: "Belinha",
+        raca: "bbbbbbbbbbb",
+        especie: "gato",
+        dataNasc: "22/22/2222",
+        peso: 10.3,
+        sexo: "femea",
+        castradoPet: false,
     },
     {
         id: 1,
@@ -77,14 +95,6 @@ export default function TelaPets() {
                     ))}
                 </View>
             </ScrollView>
-            <View style={styles.plusButtonContainer}>
-                <TouchableOpacity onPress={() => navigation.navigate('Cadastrar Pet')}>
-                    <Image
-                        style={styles.plusButtonImg}
-                        source={require('./assets/plusButton.png')}
-                    />
-                </TouchableOpacity>
-            </View>
         </View>
     );
 }
@@ -92,7 +102,7 @@ export default function TelaPets() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#B8E8FC',
+        backgroundColor: 'white',
     },
     containerRow: {
         flexDirection: 'row',
@@ -113,14 +123,7 @@ const styles = StyleSheet.create({
     petConteinerTxt: {
         fontSize: 20,
         fontWeight: 'bold',
-    },
-    plusButtonContainer: {
-        position: 'absolute',
-        marginLeft: '72%',
-        bottom: '13%',
-    },
-    plusButtonImg: {
-        width: 65,
-        height: 65,
-    },
+        marginTop: 10,
+        color: '#4A1E91',
+    }
 });

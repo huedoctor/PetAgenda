@@ -15,15 +15,16 @@ export default function TelaLogin() {
 
   //Método que é executado quando a pessoa clica em entrar, precisa alterar ele para mandar para o back as infos e logar o usuário.
   const handleLogin = async () => {
-    const res = await post("usuario/login",{"emailUsuario": email,"senhaUsuario": password});
-    if (res.ok) {
-      const json = await res.json();
-      console.log(`Nome: ${json.nomeUsuario}, ID: ${json.idUsuario}`);
-      console.log(`${json}`);
-      navigation.navigate('Tela Pets');
-    } else {
-      setError("Usuário ou senha incorretos")
-    }
+    //const res = await post("usuario/login",{"emailUsuario": email,"senhaUsuario": password});
+    // if (res.ok) {
+    //   const json = await res.json();
+    //   console.log(`Nome: ${json.nomeUsuario}, ID: ${json.idUsuario}`);
+    //   console.log(`${json}`);
+    //   navigation.navigate('Tela Pets');
+    // } else {
+    //   setError("Usuário ou senha incorretos")
+    // }
+    navigation.navigate("Tela Pets");
   };
 
   return (
