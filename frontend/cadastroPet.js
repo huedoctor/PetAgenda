@@ -38,12 +38,12 @@ export default function TelaCadastroPet() {
     };
 
     const validateDate = (date) => {
-        const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
+        const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
         if (!dateRegex.test(date)) {
           setDataNascimentoPet(null);
           setAvisoData(true);
         } else {
-          const [day, month, year] = date.split('-').map(Number);
+          const [day, month, year] = date.split('/').map(Number);
           if (day < 1 || day > 31) {
             setDataNascimentoPet(null);
             setAvisoData(true);
@@ -135,10 +135,9 @@ export default function TelaCadastroPet() {
                     placeholder='Data de nascimento'
                     keyboardType='numeric'
                     maxLength={10}
-                    //onChangeText={(text) => {
-                    //    setDataNascimentoPet(inputDateMask(text))
-                    //}}
-                    onChangeText={text => setDataNascimentoPet(text)}
+                    onChangeText={(text) => {
+                        setDataNascimentoPet(inputDateMask(text))
+                    }}
                     onEndEditing={() => validateDate(dataNascimentoPet)}
                     value={dataNascimentoPet}
                 />
