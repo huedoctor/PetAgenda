@@ -1,21 +1,17 @@
 package com.cae.agenda.services;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
+import com.cae.agenda.repositories.RepositorioEspecie;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.cae.agenda.entities.Especie;
 import com.cae.agenda.entities.Pet;
-import com.cae.agenda.repositories.RepositorioEspecie;
 import com.cae.agenda.repositories.RepositorioPet;
+import com.cae.agenda.repositories.RepositorioUsuario;
 
 @Service
 public class PetService {
@@ -24,14 +20,29 @@ public class PetService {
     private RepositorioPet repositorioPet;
 
     @Autowired
+    private RepositorioUsuario repositorioUsuario;
+
+    @Autowired
     private RepositorioEspecie repositorioEspecie;
 
-    public List<Pet> listarPet() {
-        return repositorioPet.findAll();
+    public List<Pet> listarPetsUsuario(int idUsuario) {
+        return repositorioPet.findByUsuarioIdUsuario(idUsuario);
+    }
+
+    public ResponseEntity<Pet> chamaPet(int idPet){
+        Optional<Pet> petOptional = repositorioPet.findById(idPet);
+
+        if (petOptional.isPresent()) {
+            Pet pet = petOptional.get();
+            return new ResponseEntity<>(pet, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     public ResponseEntity<Pet> criarPet(Pet pet) {
-        // Salva o novo pet
+        pet.setUsuario(repositorioUsuario.findByIdUsuario(pet.getUsuario().getIdUsuario()));
+        pet.setEspecie(repositorioEspecie.findByIdEspecie(pet.getEspecie().getIdEspecie()));
         Pet novoPet = repositorioPet.save(pet);
         // Retorna o novo pet com HttpStatus.CREATED
         return new ResponseEntity<>(novoPet, HttpStatus.CREATED);

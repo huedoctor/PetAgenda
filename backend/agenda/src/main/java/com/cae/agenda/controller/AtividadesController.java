@@ -3,39 +3,43 @@ package com.cae.agenda.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.cae.agenda.entities.Atividades;
 import com.cae.agenda.services.AtividadesService;
 
 @RestController
+@RequestMapping("/atividades")
 public class AtividadesController {
 
     @Autowired
     private AtividadesService atividadesService;
 
-    @GetMapping("/atividades")
-    public List<Atividades> listarAtividades() {
-        return atividadesService.listarAtividades();
+    @ResponseBody
+    @GetMapping("/s/{idAgenda}")
+    public List<Atividades> listarAtividadesAgenda(@PathVariable int idAgenda) {
+        return atividadesService.listarAtividadesAgenda(idAgenda);
     }
 
-    @PostMapping("/atividades")
+    @ResponseBody
+    @GetMapping("/{idAtividades}")
+    public ResponseEntity<Atividades> chamaAtividade(@PathVariable int idAtividades){
+        return atividadesService.chamaAtividade(idAtividades);
+    }
+
+    @PostMapping("/")
     public void salvarAtividades(@RequestBody Atividades atividades) {
         atividadesService.salvarAtividades(atividades);
     }
 
-    @PutMapping("/atividades")
+    @PutMapping("/")
     public void alterarAtividades(@RequestBody Atividades atividades) {
         atividadesService.alterarAtividades(atividades);
     }
 
-    @DeleteMapping("/atividades")
-    public void excluirAtividades(@RequestBody Atividades atividades) {
-        atividadesService.excluirAtividades(atividades);
+    @DeleteMapping("/atividades/{idAtividades}")
+    public ResponseEntity<Void> excluirAtividades(@PathVariable int idAtividades, @RequestBody Atividades atividades) {
+       return atividadesService.excluirAtividades(idAtividades);
     }
 }

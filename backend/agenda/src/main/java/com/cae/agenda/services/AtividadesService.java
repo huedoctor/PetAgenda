@@ -1,8 +1,12 @@
 package com.cae.agenda.services;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.cae.agenda.repositories.RepositorioAgenda;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.cae.agenda.entities.Atividades;
@@ -14,12 +18,17 @@ public class AtividadesService {
     @Autowired
     private RepositorioAtividades repositorioAtividades;
 
-    public List<Atividades> listarAtividades() {
-        return repositorioAtividades.findAll();
+    @Autowired
+    private RepositorioAgenda repositorioAgenda;
+
+    public List<Atividades> listarAtividadesAgenda(int idAgenda) {
+        return repositorioAtividades.findByAgenda_IdAgenda(idAgenda);
     }
 
-    public void salvarAtividades(Atividades atividades) {
-        repositorioAtividades.save(atividades);
+    public ResponseEntity<Atividades> salvarAtividades(Atividades atividades) {
+        atividades.setAgenda(repositorioAgenda.findByIdAgenda(atividades.getAgenda().getIdAgenda()));
+        Atividades novaAtividade = repositorioAtividades.save(atividades);
+        return new ResponseEntity<>(novaAtividade,HttpStatus.CREATED);
     }
 
     public void alterarAtividades(Atividades atividades) {
@@ -27,7 +36,23 @@ public class AtividadesService {
             repositorioAtividades.save(atividades);
     }
 
-    public void excluirAtividades(Atividades atividades) {
-        repositorioAtividades.delete(atividades);
+    public ResponseEntity<Void> excluirAtividades(int idAtividades) {
+        if (repositorioAtividades.existsById(idAtividades)){
+            repositorioAtividades.deleteById(idAtividades);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public ResponseEntity<Atividades> chamaAtividade(int idAtividades) {
+        Optional<Atividades> atividadesOptional = repositorioAtividades.findById(idAtividades);
+
+        if (atividadesOptional.isPresent()){
+            Atividades atividades = atividadesOptional.get();
+            return new ResponseEntity<>(atividades, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

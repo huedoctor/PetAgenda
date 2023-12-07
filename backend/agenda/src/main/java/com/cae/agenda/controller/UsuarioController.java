@@ -5,31 +5,29 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.cae.agenda.entities.Usuario;
 import com.cae.agenda.services.UsuarioService;
 
 @RestController
+@RequestMapping("/usuario")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
 
-    @PostMapping("/usuario/login")
+    @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> verificarCredenciais(@RequestBody Map<String, String> credenciais) {
         return usuarioService.verificarCredenciais(credenciais);
     }
 
-    @PostMapping("/usuario/cadastro")
+    @PostMapping("/cadastro")
     public ResponseEntity<Map<String, Object>> salvarUsuario(@RequestBody Map<String, String> credenciais) {
         return usuarioService.salvarUsuario(credenciais);
     }
 
-    @GetMapping("/usuario")
+    @GetMapping("/")
     public List<Usuario> listarUsuario() {
         return usuarioService.listarUsuario();
     }
