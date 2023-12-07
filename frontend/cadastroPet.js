@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     },
     petRegisterButtonText: {
         fontSize: 20,
-        color: '#FFB400',
+        color: '#FFFFFF',
     },
     avisoData: {
         position:'absolute',

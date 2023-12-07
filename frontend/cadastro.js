@@ -87,7 +87,7 @@ export default function TelaCadastro() {
     }
   };
 
-  const checkBoxText = <Text>Declaro que li e concordo com os <Text style={{ fontWeight: "bold", color: "black" }}>Termos de Uso</Text> e <Text style={{ fontWeight: "bold", color: "black" }}>Políticas de Privacidade</Text>.</Text>
+  const checkBoxText = <Text style={{color: '#4A1E91'}}>Declaro que li e concordo com os <Text style={{ fontWeight: "bold"}}>Termos de Uso</Text> e <Text style={{ fontWeight: "bold"}}>Políticas de Privacidade</Text>.</Text>
 
   return (
     <View style={styles.container}>
@@ -136,8 +136,7 @@ export default function TelaCadastro() {
         <View style={styles.checkBox}>
           <BouncyCheckbox
             size={20}
-            fillColor="#B1AFFF"
-            unfillColor="#B8E8FC"
+            fillColor="#4A1E91"
             text={checkBoxText}
             textStyle={{
               textDecorationLine: 'none',
@@ -165,25 +164,25 @@ export default function TelaCadastro() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#B8E8FC',
+    backgroundColor: 'white',
     height: '100%',
   },
   registerBox: {
     alignItems: 'center',
     gap: 30,
-    marginTop: 40,
+    marginTop: 30,
   },
   input: {
     width: 300,
     height: 50,
     borderRadius: 40,
     paddingLeft: 15,
-    backgroundColor: '#B1AFFF',
+    backgroundColor: '#CAC1D6',
   },
   registerButton: {
     width: 300,
     height: 60,
-    backgroundColor: '#B1AFFF',
+    backgroundColor: '#4A1E91',
     borderRadius: 40,
     alignItems: 'center',
     justifyContent: 'center',
@@ -206,6 +205,7 @@ const styles = StyleSheet.create({
   loginButtonText2: {
     marginLeft: 5,
     fontWeight: 'bold',
+    color: '#4A1E91',
   },
   passwordError: {
     color: 'red', position: 'absolute', marginTop: 220, paddingRight: 70,

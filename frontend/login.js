@@ -69,35 +69,37 @@ export default function TelaLogin() {
 const styles = StyleSheet.create({
   container: {
     height: '100%',
-    backgroundColor: '#B8E8FC',
+    backgroundColor: 'white',
     alignItems: 'center',
   },
   loginContainer: {
-    marginTop: 40,
+    marginTop: 30,
   },
   input: {
     width: 300,
     height: 50,
     borderRadius: 40,
     paddingLeft: 15,
-    backgroundColor: '#B1AFFF',
+    backgroundColor: '#CAC1D6',
   },
   passwordButton: {
     textAlign: 'center',
     position: 'absolute',
+    color: '#4A1E91',
     marginTop: 25,
   },
   loginButton: {
     width: 300,
     height: 60,
     marginTop: 85,
-    backgroundColor: '#B1AFFF',
+    backgroundColor: '#4A1E91',
     borderRadius: 40,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
     fontSize: 20,
+    color: '#FFFFFF',
   },
   image: {
     width: 160,
@@ -117,5 +119,6 @@ const styles = StyleSheet.create({
   registerButtonText2: {
     marginLeft: 5,
     fontWeight: 'bold',
+    color: '#4A1E91',
   },
 });

@@ -11,8 +11,8 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.mainContainer}>
       <Image
-      source={require('./assets/title.png')}
-      style={styles.welcomeImage}
+        source={require('./assets/title.png')}
+        style={styles.welcomeImage}
       />
       <Image style={styles.image} source={require('./assets/homeLogo.jpg')} />
       <View style={styles.buttonsContainer}>
@@ -102,5 +102,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#FFB400',
   },
-  
+
 });

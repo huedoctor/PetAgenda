@@ -21,7 +21,7 @@ export default function TelaPet({ route }) {
 
     const { id, nome, especie, raca, dataNasc, peso, sexo, castradoPet } = route.params;
 
-    const handleRegisterPet = () => {
+    const handleEditaPet = () => {
         console.log(`Novo nome do pet: ${novoNome}\nNovo peso do pet: ${novoPeso}\nFoi castrado? ${isCastrado}`);
     };
 
@@ -77,6 +77,7 @@ export default function TelaPet({ route }) {
                                 placeholder={nome}
                                 onChangeText={(text) => setNovoNome(text)}
                                 value={novoNome}
+                                style={styles.input}
                             />
                             <Text style={styles.petProfileContainerText}>Espécie:</Text>
                             <Text>{especie}</Text>
@@ -90,6 +91,7 @@ export default function TelaPet({ route }) {
                                 keyboardType='decimal-pad'
                                 onChangeText={(text) => setNovoPeso(text)}
                                 value={novoPeso}
+                                style={styles.input}
                             />
                             <Text style={styles.petProfileContainerText}>Sexo:</Text>
                             <Text>{sexo}</Text>
@@ -99,16 +101,16 @@ export default function TelaPet({ route }) {
                     </View>
                 </View>
                 <View style={styles.petProfileContainerButtons}>
-                    <TouchableOpacity style={styles.petProfileButtons} onPress={handleRegisterPet}>
-                        <Text style={{color: '#ECC683'}}>Editar</Text>
+                    <TouchableOpacity style={styles.petProfileButtons} onPress={handleEditaPet}>
+                        <Text style={{ color: '#ECC683' }}>Editar</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.petProfileButtons} onPress={handleDeletePet}>
-                        <Text style={{color: '#ECC683'}}>Apagar</Text>
+                        <Text style={{ color: '#ECC683' }}>Apagar</Text>
                     </TouchableOpacity>
                 </View>
             </View>
             <View style={styles.buttonsContainer}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("Tratamentos", {petId: id})}>
                     <View style={styles.buttonContainer}>
                         <Image
                             source={require('./assets/injection.png')}
@@ -119,7 +121,7 @@ export default function TelaPet({ route }) {
                         </Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity  onPress={() => navigation.navigate("Atividades", {petId: id})}>
                     <View style={styles.buttonContainer}>
                         <Image
                             source={require('./assets/schedule.png')}
@@ -138,7 +140,7 @@ export default function TelaPet({ route }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFF',
+        backgroundColor: 'white',
     },
     petProfileContainer: {
         width: 300,
@@ -154,6 +156,9 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         flexDirection: 'column',
         gap: 20,
+    },
+    input: {
+        width: 160,
     },
     buttonContainer: {
         flexDirection: 'row',

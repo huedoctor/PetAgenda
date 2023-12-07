@@ -10,10 +10,14 @@ import TelaAvisoPet from './avisoSemPet.js';
 import TelaCadastroPet from './cadastroPet.js';
 import TelaPets from './hub.js';
 import TelaPet from './telaPet.js';
+import TelaTratamentos from './tratamentos.js';
+import TelaCadastroTratamentos from './cadastroTratamento.js';
+import TelaAtividades from './atividades.js';
+import TelaCadastroAtividades from './cadastroAtividade.js';
 
 const Stack = createStackNavigator();
 
-export default function App({ routes }) {
+export default function App() {
 
   return (
     <NavigationContainer>
@@ -60,6 +64,10 @@ export default function App({ routes }) {
           }}
         />
         <Stack.Screen
+          name="Tratamentos"
+          component={TelaTratamentos}
+        />
+        <Stack.Screen
           name="Cadastrar Pet"
           component={TelaCadastroPet}
         />
@@ -72,7 +80,7 @@ export default function App({ routes }) {
             headerRight: () => (
               <TouchableOpacity
                 onPress={() => navigation.navigate("Cadastrar Pet")}
-                style={{ paddingRight: 10 }}
+                style={{ paddingRight: 15 }}
               >
                 <Text
                   style={{ fontSize: 19, color: '#4A1E91' }}
@@ -85,6 +93,18 @@ export default function App({ routes }) {
         <Stack.Screen
           name="Tela Pet"
           component={TelaPet}
+        />
+        <Stack.Screen
+          name="Cadastrar Tratamento"
+          component={TelaCadastroTratamentos}
+        />
+        <Stack.Screen
+          name= "Atividades"
+          component={TelaAtividades}
+        />
+        <Stack.Screen
+          name= "Cadastrar Atividade"
+          component={TelaCadastroAtividades}
         />
       </Stack.Navigator>
     </NavigationContainer>
