@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import 'react-native-gesture-handler';
-import { View, TextInput, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TextInput, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Dimensions } from 'react-native';
 import { post } from './util/request.js';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import NavigationKeys from './util/navigationKeys.js';
+import userData from './util/userData.js';
 
 export default function TelaLogin() {
 
@@ -17,20 +16,17 @@ export default function TelaLogin() {
 
   //Método que é executado quando a pessoa clica em entrar, precisa alterar ele para mandar para o back as infos e logar o usuário.
   const handleLogin = async () => {
-    // const res = await post("usuario/login",{"emailUsuario": email,"senhaUsuario": password});
-    //  if (res.ok) {
-    //    const json = await res.json();
-    //    AsyncStorage.setItem("Nome",{json.nomeUsuario})
-    //    console.log(`Nome: ${json.nomeUsuario}, ID: ${json.idUsuario}`);
-    //    console.log(`${json}`);
-    //    navigation.reset({
-    //     index: 0,
-    //     routes: [{ NavigationKeys.TelaPets }],
-    //   });
-    //  } else {
-    //    setError("Usuário ou senha incorretos")
-    //  }
-    navigation.navigate(NavigationKeys.TelaPets)
+    const res = await post("usuario/login",{"emailUsuario": email,"senhaUsuario": password});
+     if (res.ok) {
+       const json = await res.json();
+      userData.setUser(json.nomeUsuario,json.idUsuario)
+       navigation.reset({
+        index: 0,
+        routes: [ NavigationKeys.TelaPets ],
+      });
+     } else {
+       setError("Usuário ou senha incorretos")
+     }
   };
 
   return (
