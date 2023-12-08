@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import NavigationKeys from './util/navigationKeys.js';
+import userData from './util/userData.js';
 
 
 // A lista de pets deve trazer um JSON aqui para que possamos começar a usar a partir dessa tela.
