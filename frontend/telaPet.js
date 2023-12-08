@@ -106,7 +106,7 @@ export default function TelaPet({ route }) {
                         <Text style={{ color: '#ECC683' }}>Editar</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.petProfileButtons} onPress={handleDeletePet}>
-                        <Text style={{ color: '#ECC683' }}>Apagar</Text>
+                        <Text style={{ color: '#ECC683' }}>Excluir</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -118,7 +118,7 @@ export default function TelaPet({ route }) {
                             style={styles.buttonContainerIcon}
                         />
                         <Text style={styles.buttonContainerText}>
-                            Registros
+                            Agenda
                         </Text>
                     </View>
                 </TouchableOpacity>
