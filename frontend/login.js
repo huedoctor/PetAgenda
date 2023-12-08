@@ -4,8 +4,8 @@ import { View, TextInput, Text, StyleSheet, TouchableOpacity } from 'react-nativ
 import { useNavigation } from '@react-navigation/native';
 import { Dimensions } from 'react-native';
 import { post } from './util/request.js';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import navigationKeys from './util/navigationKeys.js';
+import NavigationKeys from './util/navigationKeys.js';
+import userData from './util/userData.js';
 
 export default function TelaLogin() {
 
@@ -20,9 +20,7 @@ export default function TelaLogin() {
     const res = await post("usuario/login",{"emailUsuario": email,"senhaUsuario": password});
      if (res.ok) {
        const json = await res.json();
-       AsyncStorage.setItem("Nome",{json.nomeUsuario})
-       console.log(`Nome: ${json.nomeUsuario}, ID: ${json.idUsuario}`);
-       console.log(`${json}`);
+      userData.setUser(json.nomeUsuario,json.idUsuario)
        navigation.reset({
         index: 0,
         routes: [{ navigationKeys.TelaPets }],
