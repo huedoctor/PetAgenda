@@ -1,13 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export default UserData = {
-    setUser: async (userId, userName) => {
+    setUser: async (userName, userId) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const userName = await AsyncStorage.setItem("userName", userName);
-                const userId = await AsyncStorage.setItem("userId", userId);
+                const userNameResult = await AsyncStorage.setItem("userName", userName);
+                const userIdResult = await AsyncStorage.setItem("userId", `${userId}`);
                 resolve({
-                    userName: userName,
-                    userId: userId,
+                    userName: userNameResult,
+                    userId: userIdResult,
                 });
             } catch (error) {
                 reject(error);
