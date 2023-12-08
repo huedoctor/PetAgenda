@@ -38,10 +38,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#B8E8FC',
+    backgroundColor: 'white',
   },
   contatoBox: {
-    backgroundColor: '#B1AFFF',
+    backgroundColor: '#ECC683',
     borderRadius: 40,
     padding: 16,
     marginBottom: 35,
@@ -53,5 +53,6 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     marginVertical: 15,
     marginHorizontal: 10,
+    color: '#4A1E91'
   },
 });

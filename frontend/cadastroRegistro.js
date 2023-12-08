@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-export default function TelaCadastroTratamentos({ route }) {
+export default function TelaCadastroRegistro({ route }) {
 
     const navigation = useNavigation();
 

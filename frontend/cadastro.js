@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { post } from './util/request';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { Dimensions } from 'react-native';
+import navigationKeys from './util/navigationKeys';
 
 export default function TelaCadastro() {
   const [name, setName] = useState('');
@@ -152,7 +153,7 @@ export default function TelaCadastro() {
         <Text style={styles.loginButtonText}>
           Já possui uma conta?
         </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity onPress={() => navigation.navigate(navigationKeys.Login)}>
           <Text style={[styles.loginButtonText, styles.loginButtonText2]}>
             Entrar
           </Text>

@@ -2,20 +2,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'react-native';
+import NavigationKeys from './util/navigationKeys.js';
 import HomeScreen from './telaInicial.js';
 import TelaCadastro from './cadastro.js';
 import TelaContato from './contato.js';
 import TelaLogin from './login.js';
-import TelaAvisoPet from './avisoSemPet.js';
 import TelaCadastroPet from './cadastroPet.js';
 import TelaPets from './hub.js';
 import TelaPet from './telaPet.js';
-import TelaTratamentos from './tratamentos.js';
-import TelaCadastroTratamentos from './cadastroTratamento.js';
-import TelaAtividades from './atividades.js';
-import TelaCadastroAtividades from './cadastroAtividade.js';
-import NavigationKeys from './util/navigationKeys.js';
-import navigationKeys from './util/navigationKeys.js';
+import TelaRegistros from './registros.js';
+import TelaCadastroRegistro from './cadastroRegistro.js';
 
 const Stack = createStackNavigator();
 
@@ -29,36 +25,29 @@ export default function App() {
         }}
       >
         <Stack.Screen
-          name= navigationKeys.
+          name={NavigationKeys.Inicio}
           component={HomeScreen}
           options={{
             headerShown: false,
           }}
         />
         <Stack.Screen
-          name="Criar Conta"
+          name={NavigationKeys.CriarConta}
           component={TelaCadastro}
         />
         <Stack.Screen
-          name="Login"
+          name={NavigationKeys.Login}
           component={TelaLogin}
           options={{
             headerTitle: "Entrar",
           }}
         />
         <Stack.Screen
-          name="Contato"
+          name={NavigationKeys.Contato}
           component={TelaContato}
         />
         <Stack.Screen
-          name="Aviso Nenhum Pet"
-          component={TelaAvisoPet}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Cadastro Primeiro Pet"
+          name={NavigationKeys.CadastroPrimeiroPet}
           component={TelaCadastroPet}
           options={{
             headerLeft: () => null,
@@ -66,22 +55,18 @@ export default function App() {
           }}
         />
         <Stack.Screen
-          name="Tratamentos"
-          component={TelaTratamentos}
-        />
-        <Stack.Screen
-          name="Cadastrar Pet"
+          name={NavigationKeys.CadastroPet}
           component={TelaCadastroPet}
         />
         <Stack.Screen
-          name="Tela Pets"
+          name={NavigationKeys.TelaPets}
           component={TelaPets}
           options={({ navigation }) => ({
             headerLeft: () => null,
             headerTitle: "Meus Pets",
             headerRight: () => (
               <TouchableOpacity
-                onPress={() => navigation.navigate("Cadastrar Pet")}
+                onPress={() => navigation.navigate(NavigationKeys.CadastroPet)}
                 style={{ paddingRight: 15 }}
               >
                 <Text
@@ -93,20 +78,16 @@ export default function App() {
           })}
         />
         <Stack.Screen
-          name="Tela Pet"
+          name={NavigationKeys.TelaPet}
           component={TelaPet}
         />
         <Stack.Screen
-          name="Cadastrar Tratamento"
-          component={TelaCadastroTratamentos}
+          name={NavigationKeys.Registro}
+          component={TelaRegistros}
         />
         <Stack.Screen
-          name= "Atividades"
-          component={TelaAtividades}
-        />
-        <Stack.Screen
-          name= "Cadastrar Atividade"
-          component={TelaCadastroAtividades}
+          name={NavigationKeys.CadastroRegistro}
+          component={TelaCadastroRegistro}
         />
       </Stack.Navigator>
     </NavigationContainer>

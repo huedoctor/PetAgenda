@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import navigationKeys from './util/navigationKeys';
 
 export default function TelaPet({ route }) {
 
@@ -110,25 +111,14 @@ export default function TelaPet({ route }) {
                 </View>
             </View>
             <View style={styles.buttonsContainer}>
-                <TouchableOpacity onPress={() => navigation.navigate("Tratamentos", {petId: id})}>
+                <TouchableOpacity onPress={() => navigation.navigate(navigationKeys.Registro, {petId: id})}>
                     <View style={styles.buttonContainer}>
                         <Image
-                            source={require('./assets/injection.png')}
+                            source={require('./assets/calendar.png')}
                             style={styles.buttonContainerIcon}
                         />
                         <Text style={styles.buttonContainerText}>
-                            Tratamentos
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity  onPress={() => navigation.navigate("Atividades", {petId: id})}>
-                    <View style={styles.buttonContainer}>
-                        <Image
-                            source={require('./assets/schedule.png')}
-                            style={styles.buttonContainerIcon}
-                        />
-                        <Text style={styles.buttonContainerText}>
-                            Atividades
+                            Registros
                         </Text>
                     </View>
                 </TouchableOpacity>

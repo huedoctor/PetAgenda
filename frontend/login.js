@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Dimensions } from 'react-native';
 import { post } from './util/request.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import navigationKeys from './util/navigationKeys.js';
+import NavigationKeys from './util/navigationKeys.js';
 
 export default function TelaLogin() {
 
@@ -17,19 +17,20 @@ export default function TelaLogin() {
 
   //Método que é executado quando a pessoa clica em entrar, precisa alterar ele para mandar para o back as infos e logar o usuário.
   const handleLogin = async () => {
-    const res = await post("usuario/login",{"emailUsuario": email,"senhaUsuario": password});
-     if (res.ok) {
-       const json = await res.json();
-       AsyncStorage.setItem("Nome",{json.nomeUsuario})
-       console.log(`Nome: ${json.nomeUsuario}, ID: ${json.idUsuario}`);
-       console.log(`${json}`);
-       navigation.reset({
-        index: 0,
-        routes: [{ navigationKeys.TelaPets }],
-      });
-     } else {
-       setError("Usuário ou senha incorretos")
-     }
+    // const res = await post("usuario/login",{"emailUsuario": email,"senhaUsuario": password});
+    //  if (res.ok) {
+    //    const json = await res.json();
+    //    AsyncStorage.setItem("Nome",{json.nomeUsuario})
+    //    console.log(`Nome: ${json.nomeUsuario}, ID: ${json.idUsuario}`);
+    //    console.log(`${json}`);
+    //    navigation.reset({
+    //     index: 0,
+    //     routes: [{ NavigationKeys.TelaPets }],
+    //   });
+    //  } else {
+    //    setError("Usuário ou senha incorretos")
+    //  }
+    navigation.navigate(NavigationKeys.TelaPets)
   };
 
   return (
@@ -49,7 +50,7 @@ export default function TelaLogin() {
           value={password}
         />
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('Contato')}>
+      <TouchableOpacity onPress={() => navigation.navigate(NavigationKeys.Contato)}>
         <Text style={styles.passwordButton}>Esqueceu sua senha?</Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -61,7 +62,7 @@ export default function TelaLogin() {
         <Text style={styles.registerButtonText}>
           Ainda não possui uma conta?
         </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Criar Conta')}>
+        <TouchableOpacity onPress={() => navigation.navigate(NavigationKeys.CriarConta)}>
           <Text style={[styles.registerButtonText, styles.registerButtonText2]}>
             Criar conta
           </Text>

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import NavigationKeys from './util/navigationKeys';
 
 export default function HomeScreen({ navigation }) {
   return (
@@ -19,18 +20,18 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.buttons}>
           <TouchableOpacity
             style={styles.criarContaButton}
-            onPress={() => navigation.navigate('Criar Conta')}>
+            onPress={() => navigation.navigate(NavigationKeys.CriarConta)}>
             <Text style={styles.buttonTextCadastro}>Criar Conta</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.loginButton}
-            onPress={() => navigation.navigate('Login')}>
+            onPress={() => navigation.navigate(NavigationKeys.Login)}>
             <Text style={styles.buttonTextEntrar}>Entrar</Text>
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.helpButton}>
-        <TouchableOpacity onPress={() => navigation.navigate('Contato')}>
+        <TouchableOpacity onPress={() => navigation.navigate(NavigationKeys.Contato)}>
           <Text style={styles.helpButtonText}>Precisa de ajuda?</Text>
         </TouchableOpacity>
       </View>
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     height: 110,
   },
   buttonsContainer: {
-    flex: 1,
+    height: '100%',
     backgroundColor: '#4A1E91',
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,

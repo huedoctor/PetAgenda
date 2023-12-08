@@ -1,14 +1,15 @@
-import 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import {
     View,
     Text,
     StyleSheet,
     TouchableOpacity,
     Image,
+    Dimensions,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { Dimensions } from 'react-native';
+import NavigationKeys from './util/navigationKeys.js';
+
 
 // A lista de pets deve trazer um JSON aqui para que possamos começar a usar a partir dessa tela.
 // Nessa tela a gente ta pegando o nome e a espécie para pode fazer os botões.
@@ -70,7 +71,7 @@ export default function TelaPets() {
             <ScrollView>
                 <View style={styles.containerRow}>
                     {userPets.map((pet, index) => (
-                        <TouchableOpacity key={index} onPress={() => navigation.navigate('Tela Pet', { 
+                        <TouchableOpacity key={index} onPress={() => navigation.navigate(NavigationKeys.TelaPet, { 
                             id: pet.id,
                             nome: pet.nome,
                             especie: pet.especie,

@@ -8,26 +8,27 @@ import {
     Image,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import navigationKeys from './util/navigationKeys';
 
-export default function TelaAtividades({ route }) {
+export default function TelaRegistros({ route }) {
 
     const navigation = useNavigation();
 
     const id = route.params;
     const petId = id.petId;
 
-    //Precisa do metodo pra puxar a lista de atividades pelo id do pet. O número do id do pet está guardado em "petId".
-    //Depois disso faz um map pra ir renderizando os botões das atividades na view container.
-    //Nessa tela só precisa puxar o id da atividade, o nome, frequência, horário e tipo (permanente ou temporário).
+    //Precisa do metodo pra puxar a lista de tratamentos pelo id do pet. O número do id do pet está guardado em "petId".
+    //Depois disso faz um map pra ir renderizando os botões dos trotamentos na view container.
+    //Nessa tela só precisa puxar o id do tratamento, o nome, frequência, horário e tipo (permanente ou temporário).
     
     useEffect(() => {
         navigation.setOptions({
           headerRight: () => (
             <TouchableOpacity
-              onPress={() => navigation.navigate("Cadastrar Atividade", { petId: petId })}
+              onPress={() => navigation.navigate(navigationKeys.CadastroRegistro, { petId: petId })}
               style={{ paddingRight: 15 }}
             >
-              <Text style={{ fontSize: 19, color: '#4A1E91' }}>Nova atividade</Text>
+              <Text style={{ fontSize: 19, color: '#4A1E91' }}>Novo Registro</Text>
             </TouchableOpacity>
           ),
         });
@@ -36,22 +37,22 @@ export default function TelaAtividades({ route }) {
     return (
         <View style={styles.container}>
             <TouchableOpacity>
-                <View style={styles.atividadeContainer}>
-                    <Text style={styles.nomeAtividade}>Nome da atividade</Text>
-                    <View style={styles.atividadeContainerRow}>
-                        <View style={styles.atividadeContainerStatus}>
-                            <Image style={styles.atividadeContainerIcons}
+                <View style={styles.registroContainer}>
+                    <Text style={styles.nomeRegistro}>Nome do registro</Text>
+                    <View style={styles.registroContainerRow}>
+                        <View style={styles.registroContainerStatus}>
+                            <Image style={styles.registroContainerIcons}
                                 source={require('./assets/calendar.png')}
                             />
                             <Text>Frequência</Text>
                         </View>
-                        <View style={styles.atividadeContainerStatus}>
-                            <Image style={styles.atividadeContainerIcons}
+                        <View style={styles.registroContainerStatus}>
+                            <Image style={styles.registroContainerIcons}
                                 source={require('./assets/clock.png')}
                             />
                             <Text>00{'h'}</Text>
                         </View>
-                        <View style={styles.tipoAtividadeConteiner}>
+                        <View style={styles.tipoRegistroConteiner}>
                             <Text style={{ color: '#ECC683' }}>
                                 Tipo Atvd
                             </Text>
@@ -71,24 +72,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'start',
     },
-    atividadeContainer: {
+    registroContainer: {
         backgroundColor: '#ECC683',
         width: 300,
         height: 100,
         borderRadius: 20,
         marginTop: 25,
     },
-    nomeAtividade: {
+    nomeRegistro: {
         marginLeft: 25,
         marginTop: 20,
         fontSize: 15,
     },
-    atividadeContainerRow: {
+    registroContainerRow: {
         flexDirection: 'row',
         marginTop: 20,
         justifyContent: 'space-evenly',
     },
-    tipoAtividadeConteiner: {
+    tipoRegistroConteiner: {
         backgroundColor: '#4A1E91',
         width: 90,
         height: 25,
@@ -96,12 +97,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 40,
     },
-    atividadeContainerStatus: {
+    registroContainerStatus: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: 3,
     },
-    atividadeContainerIcons: {
+    registroContainerIcons: {
         width: 20,
         height: 20,
     }
