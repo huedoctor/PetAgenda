@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.cae.agenda.entities.Atividades;
 import com.cae.agenda.services.AtividadesService;
+import org.springframework.web.context.annotation.RequestScope;
 
 @RestController
 @RequestMapping("/atividades")
@@ -17,8 +18,8 @@ public class AtividadesController {
     private AtividadesService atividadesService;
 
     @ResponseBody
-    @GetMapping("/s/{idAgenda}")
-    public List<Atividades> listarAtividadesAgenda(@PathVariable int idAgenda) {
+    @GetMapping("/")
+    public List<Atividades> listarAtividadesAgenda(@RequestParam("agenda") int idAgenda) {
         return atividadesService.listarAtividadesAgenda(idAgenda);
     }
 

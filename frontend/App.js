@@ -14,6 +14,8 @@ import TelaTratamentos from './tratamentos.js';
 import TelaCadastroTratamentos from './cadastroTratamento.js';
 import TelaAtividades from './atividades.js';
 import TelaCadastroAtividades from './cadastroAtividade.js';
+import NavigationKeys from './util/navigationKeys.js';
+import navigationKeys from './util/navigationKeys.js';
 
 const Stack = createStackNavigator();
 
@@ -27,7 +29,7 @@ export default function App() {
         }}
       >
         <Stack.Screen
-          name="Início"
+          name= navigationKeys.
           component={HomeScreen}
           options={{
             headerShown: false,

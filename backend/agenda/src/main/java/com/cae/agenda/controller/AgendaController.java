@@ -20,13 +20,13 @@ public class AgendaController {
 
 
     @ResponseBody
-    @GetMapping("/s/{idPet}")
-    public List<Agenda> listarAgendasPet(@PathVariable int idPet) {
+    @GetMapping("")
+    public List<Agenda> listarAgendasPet(@RequestParam("pet") int idPet) {
         return agendaService.listarAgendasPet(idPet);
     }
 
     @ResponseBody
-    @GetMapping("/s/{idAgenda}")
+    @GetMapping("/{idAgenda}")
     public ResponseEntity<Agenda> chamaAgenda(@PathVariable int idAgenda) {
         return agendaService.chamaAgenda(idAgenda);
     }

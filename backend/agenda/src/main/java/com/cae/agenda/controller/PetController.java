@@ -17,8 +17,8 @@ public class PetController {
     private PetService petService;
 
     @ResponseBody
-    @GetMapping("/s/{idUsuario}")//ver se precisa de /s
-    public List<Pet> listarPetsUsuario(@PathVariable int idUsuario) {
+    @GetMapping("")
+    public List<Pet> listarPetsUsuario(@RequestParam("usuario") int idUsuario) {
         return petService.listarPetsUsuario(idUsuario);
     }
 
