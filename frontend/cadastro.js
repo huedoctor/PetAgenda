@@ -5,7 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 import { post } from './util/request';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { Dimensions } from 'react-native';
-import navigationKeys from './util/navigationKeys';
+import NavigationKeys from './util/navigationKeys';
+import SnackBar from 'react-native-snackbar-component'
 
 export default function TelaCadastro() {
   const [name, setName] = useState('');
@@ -16,6 +17,7 @@ export default function TelaCadastro() {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const [submitEnabled, setSubmitEnabled] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showSnackBar, setShowSnackBar] = useState(false);
 
   useEffect(() => {
     if (name.length == 0) {
@@ -62,7 +64,12 @@ export default function TelaCadastro() {
     });
     setLoading(false);
     if (res.ok) {
-      navigation.navigate("Login");
+      navigation.navigate(NavigationKeys.Login, {isCadastrado: true});
+    } else {
+      setShowSnackBar(true);
+      setTimeout(() => {
+        setShowSnackBar(false);
+      }, 5000);
     }
   }
 
@@ -88,7 +95,7 @@ export default function TelaCadastro() {
     }
   };
 
-  const checkBoxText = <Text style={{color: '#4A1E91'}}>Declaro que li e concordo com os <Text style={{ fontWeight: "bold"}}>Termos de Uso</Text> e <Text style={{ fontWeight: "bold"}}>Políticas de Privacidade</Text>.</Text>
+  const checkBoxText = <Text style={{ color: '#4A1E91' }}>Declaro que li e concordo com os <Text style={{ fontWeight: "bold" }}>Termos de Uso</Text> e <Text style={{ fontWeight: "bold" }}>Políticas de Privacidade</Text>.</Text>
 
   return (
     <View style={styles.container}>
@@ -120,20 +127,20 @@ export default function TelaCadastro() {
           onChangeText={(text) => setConfirmPassword(text)}
           value={confirmPassword}
         />
-        <View style={styles.submitContainer}>        
+        <View style={styles.submitContainer}>
           {loading
-          ? <ActivityIndicator size="large" />
-          : <TouchableOpacity
-            style={[
-              styles.button,
-              styles.registerButton,
-              !submitEnabled ? { opacity: 0.5 } : { opacity: 1 },
-            ]}
-            disabled={!submitEnabled}
-            onPress={onSubmitClicked}>
-            <Text style={styles.buttonText}>Criar Conta</Text>
-          </TouchableOpacity>}
-          </View>
+            ? <ActivityIndicator size="large" />
+            : <TouchableOpacity
+              style={[
+                styles.button,
+                styles.registerButton,
+                !submitEnabled ? { opacity: 0.5 } : { opacity: 1 },
+              ]}
+              disabled={!submitEnabled}
+              onPress={onSubmitClicked}>
+              <Text style={styles.buttonText}>Criar Conta</Text>
+            </TouchableOpacity>}
+        </View>
         <View style={styles.checkBox}>
           <BouncyCheckbox
             size={20}
@@ -159,6 +166,7 @@ export default function TelaCadastro() {
           </Text>
         </TouchableOpacity>
       </View>
+      <SnackBar visible={showSnackBar} textMessage="Não foi possível cadastrar a conta"/>
     </View>
   );
 }
@@ -216,5 +224,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 60,
     marginTop: 20,
-  }
+  },
 });

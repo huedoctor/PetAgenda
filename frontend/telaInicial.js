@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  Dimensions,
 } from 'react-native';
 import NavigationKeys from './util/navigationKeys';
 
@@ -29,11 +30,11 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles.buttonTextEntrar}>Entrar</Text>
           </TouchableOpacity>
         </View>
-      </View>
-      <View style={styles.helpButton}>
-        <TouchableOpacity onPress={() => navigation.navigate(NavigationKeys.Contato)}>
-          <Text style={styles.helpButtonText}>Precisa de ajuda?</Text>
-        </TouchableOpacity>
+        <View style={styles.helpButton}>
+          <TouchableOpacity onPress={() => navigation.navigate(NavigationKeys.Contato)}>
+            <Text style={styles.helpButtonText}>Precisa de ajuda?</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -58,8 +59,8 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   image: {
-    height: 250,
-    width: 250,
+    height: Dimensions.get('window').height * 0.33,
+    width: Dimensions.get('window').height * 0.33,
     alignSelf: 'center',
     marginTop: 20,
   },
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
   loginButton: {
     width: 275,
     height: 60,
-    marginBottom: 40,
+    marginBottom: Dimensions.get('window').height * 0.045,
     borderWidth: 5,
     borderColor: '#FFB400',
     justifyContent: 'center',
@@ -96,12 +97,9 @@ const styles = StyleSheet.create({
   },
   helpButton: {
     alignSelf: 'center',
-    position: 'absolute',
-    bottom: '4%',
   },
   helpButtonText: {
     fontSize: 18,
     color: '#FFB400',
   },
-
 });
