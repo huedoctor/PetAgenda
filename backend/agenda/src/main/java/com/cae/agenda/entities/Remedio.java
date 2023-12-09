@@ -23,8 +23,10 @@ public class Remedio {
     @Column(nullable = false)
     private String nomeRemedio;
     @Column(nullable = false)
-    private Long descricaoRemedio;
+    private Long descricaoRemedio;  
     @JoinColumn(name = "idAgenda")
     @ManyToOne(cascade = CascadeType.ALL)
     private Agenda agenda;
+    @Column(nullable = false)
+    private boolean tipoCuidado;
 }

@@ -1,0 +1,234 @@
+diff --git a/backend/agenda/src/main/java/com/cae/agenda/entities/Especie.java b/backend/agenda/src/main/java/com/cae/agenda/entities/Especie.java
+index 57777e5..e4e7181 100644
+--- a/backend/agenda/src/main/java/com/cae/agenda/entities/Especie.java
++++ b/backend/agenda/src/main/java/com/cae/agenda/entities/Especie.java
+@@ -18,6 +18,6 @@ public class Especie {
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
+     @Column(name = "idEspecie")
+     private int idEspecie;
+-    @Column(nullable = true)
++    @Column(nullable = false)
+     private String nomeEspecie;
+ }
+diff --git a/frontend/App.js b/frontend/App.js
+index 57ea5ab..adc530c 100644
+--- a/frontend/App.js
++++ b/frontend/App.js
+@@ -1,6 +1,7 @@
+ import { NavigationContainer } from '@react-navigation/native';
+ import { createStackNavigator } from '@react-navigation/stack';
+ import { TouchableOpacity } from 'react-native-gesture-handler';
++import React, { useEffect, useState } from 'react';
+ import { Text } from 'react-native';
+ import NavigationKeys from './util/navigationKeys.js';
+ import HomeScreen from './telaInicial.js';
+@@ -12,14 +13,29 @@ import TelaPets from './hub.js';
+ import TelaPet from './telaPet.js';
+ import TelaRegistros from './registros.js';
+ import TelaCadastroRegistro from './cadastroRegistro.js';
++import userData from './util/userData.js';
+ 
+ const Stack = createStackNavigator();
+ 
+ export default function App() {
+ 
++  const [initialRouteName, setInitialRouteName] = useState(null);
++
++  useEffect(() => {
++    const verifyInitialRoute = async () => {
++      const loggedUser = await userData.getuser();
++      if (loggedUser) {
++        setInitialRouteName(NavigationKeys.TelaPets);
++      }
++      setInitialRouteName(NavigationKeys.Inicio);
++    }
++    verifyInitialRoute();
++  }, []);
++
+   return (
+-    <NavigationContainer>
+-      <Stack.Navigator initialRouteName="Início"
++    initialRouteName && <NavigationContainer>
++      <Stack.Navigator
++        initialRouteName={initialRouteName}
+         screenOptions={{
+           headerTintColor: '#4A1E91',
+         }}
+diff --git a/frontend/cadastro.js b/frontend/cadastro.js
+index 8273ae6..e43043d 100644
+--- a/frontend/cadastro.js
++++ b/frontend/cadastro.js
+@@ -11,6 +11,7 @@ import SnackBar from 'react-native-snackbar-component'
+ export default function TelaCadastro() {
+   const [name, setName] = useState('');
+   const [email, setEmail] = useState('');
++  const [emailError, setEmailError] = useState(false);
+   const [password, setPassword] = useState('');
+   const [confirmPassword, setConfirmPassword] = useState('');
+   const [passwordError, setPasswordError] = useState(false);
+@@ -28,6 +29,10 @@ export default function TelaCadastro() {
+       setSubmitEnabled(false);
+       return;
+     }
++    if (emailError) {
++      setSubmitEnabled(false);
++      return;
++    }
+     if (password.length == 0) {
+       setSubmitEnabled(false);
+       return;
+@@ -47,7 +52,11 @@ export default function TelaCadastro() {
+     setSubmitEnabled(true);
+ 
+ 
+-  }, [name, email, password, confirmPassword, passwordError, toggleCheckBox]);
++  }, [name, email, emailError, password, confirmPassword, passwordError, toggleCheckBox]);
++
++  useEffect(() => {
++    checkEmail();
++  }, [email]);
+ 
+   useEffect(() => {
+     checkPasswords();
+@@ -78,6 +87,16 @@ export default function TelaCadastro() {
+     sendData();
+   };
+ 
++  const checkEmail = () => {
++    const regexEmailBasica = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
++
++    if(email.length > 0 && !regexEmailBasica.test(email) ) {
++      setEmailError(true);
++    } else {
++      setEmailError(false);
++    }
++  };
++
+   const checkPasswords = () => {
+     if (confirmPassword.length > 0 && password !== confirmPassword) {
+       setPasswordError(true);
+@@ -106,12 +125,16 @@ export default function TelaCadastro() {
+           onChangeText={(text) => setName(text)}
+           value={name}
+         />
++        <View style={styles.spacing}/>
+         <TextInput
+           style={styles.input}
+           placeholder="E-mail"
+           onChangeText={(text) => setEmail(text)}
+           value={email}
+         />
++        {emailError
++          ? <Text style={styles.validationError}>Email inválido.</Text>
++          : <View style={styles.spacing}/>}
+         <TextInput
+           style={styles.input}
+           placeholder="Senha"
+@@ -119,7 +142,9 @@ export default function TelaCadastro() {
+           onChangeText={(text) => setPassword(text)}
+           value={password}
+         />
+-        {passwordError && <Text style={styles.passwordError}>As senhas precisam ser iguais</Text>}
++        {passwordError
++          ? <Text style={styles.validationError}>As senhas precisam ser iguais.</Text>
++          : <View style={styles.spacing}/>}
+         <TextInput
+           style={styles.input}
+           placeholder="Confirme sua senha"
+@@ -127,6 +152,7 @@ export default function TelaCadastro() {
+           onChangeText={(text) => setConfirmPassword(text)}
+           value={confirmPassword}
+         />
++        <View style={styles.spacing}/>
+         <View style={styles.submitContainer}>
+           {loading
+             ? <ActivityIndicator size="large" />
+@@ -177,9 +203,9 @@ const styles = StyleSheet.create({
+     height: '100%',
+   },
+   registerBox: {
+-    alignItems: 'center',
+-    gap: 30,
++    alignItems: 'stretch',
+     marginTop: 30,
++    paddingHorizontal: '10%',
+   },
+   input: {
+     width: 300,
+@@ -188,6 +214,9 @@ const styles = StyleSheet.create({
+     paddingLeft: 15,
+     backgroundColor: '#CAC1D6',
+   },
++  spacing: {
++    height: 30,
++  },
+   registerButton: {
+     width: 300,
+     height: 60,
+@@ -200,13 +229,11 @@ const styles = StyleSheet.create({
+     fontSize: 20,
+   },
+   checkBox: {
+-    width: 320,
++    paddingTop: 10,
+   },
+   loginButton: {
+     alignSelf: 'center',
+     flexDirection: 'row',
+-    position: 'absolute',
+-    marginTop: Dimensions.get('window').height * 0.82,
+   },
+   loginButtonText: {
+     fontSize: 17,
+@@ -216,8 +243,12 @@ const styles = StyleSheet.create({
+     fontWeight: 'bold',
+     color: '#4A1E91',
+   },
+-  passwordError: {
+-    color: 'red', position: 'absolute', marginTop: 220, paddingRight: 70,
++  validationError: {
++    color: 'red',
++    paddingRight: 70,
++    marginTop: 6,
++    marginBottom: 8,
++    height: 16,
+   },
+   submitContainer: {
+     alignItems: 'center',
+diff --git a/frontend/util/userData.js b/frontend/util/userData.js
+index 64ebe47..d1372e6 100644
+--- a/frontend/util/userData.js
++++ b/frontend/util/userData.js
+@@ -18,8 +18,12 @@ export default UserData = {
+     getuser: async () => {
+         return new Promise(async (resolve, reject) => {
+             try {
+-                const userName = await AsyncStorage.getItem("userName");
+                 const userId = await AsyncStorage.getItem("userId");
++                if (userId == null) {
++                    resolve(null);
++                }
++
++                const userName = await AsyncStorage.getItem("userName");
+                 resolve({
+                     userName: userName,
+                     userId: userId,
+@@ -28,5 +32,17 @@ export default UserData = {
+                 reject(error);
+             }
+         });
++    },
++
++    removeUser: async () => {
++        return new Promise(async (resolve, reject) => {
++            try {
++                await AsyncStorage.removeItem("userName");
++                await AsyncStorage.removeItem("userId");
++                resolve();
++            } catch (error) {
++                reject(error);
++            }
++        });
+     }
+ }
+\ No newline at end of file
