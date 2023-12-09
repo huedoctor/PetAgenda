@@ -19,12 +19,11 @@ export default function TelaLogin({ route }) {
 
   const isCadastrado = route.params;
 
-  //Método que é executado quando a pessoa clica em entrar, precisa alterar ele para mandar para o back as infos e logar o usuário.
+  //Método que é executado quando a pessoa clica em entrar.
   const handleLogin = async () => {
     const res = await post("usuario/login", { "emailUsuario": email, "senhaUsuario": password });
     if (res.ok) {
       const json = await res.json();
-      console.log(json);
       await userData.setUser(json.nomeUsuario, json.idUsuario)
 
       navigation.dispatch(
@@ -42,10 +41,8 @@ export default function TelaLogin({ route }) {
 
   useEffect(() => {
     if (isCadastrado) {
-      console.log('aaaaaaaaaaaaaaaaaaa')
       setShowSnackBar(true)
       setTimeout(() => {
-        console.log('bbbbbbbbbbbbbbb')
         setShowSnackBar(false);
       }, 5000);
     }

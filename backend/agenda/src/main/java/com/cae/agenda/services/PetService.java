@@ -40,12 +40,10 @@ public class PetService {
         }
     }
 
-    public ResponseEntity<Pet> criarPet(Pet pet) {
-        pet.setUsuario(repositorioUsuario.findByIdUsuario(pet.getUsuario().getIdUsuario()));
+    public Pet criarPet(Pet pet, int userId) {
+        pet.setUsuario(repositorioUsuario.findByIdUsuario(userId));
         pet.setEspecie(repositorioEspecie.findByIdEspecie(pet.getEspecie().getIdEspecie()));
-        Pet novoPet = repositorioPet.save(pet);
-        // Retorna o novo pet com HttpStatus.CREATED
-        return new ResponseEntity<>(novoPet, HttpStatus.CREATED);
+        return repositorioPet.save(pet);
     }
 
     public ResponseEntity<Void> deletarPet(int idPet) {
