@@ -14,7 +14,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
         registry.addMapping("/*")
                 .allowedOrigins("")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("Origin", "Content-Type", "Accept", "Authorization")
+                .allowedHeaders("Origin", "Content-Type", "Accept", "Authorization", "userName", "userId")
                 .allowCredentials(true)
                 .maxAge(3600); // Tempo de vida do CORS preflight request
     }

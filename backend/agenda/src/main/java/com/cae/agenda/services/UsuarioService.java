@@ -44,7 +44,15 @@ public class UsuarioService {
         usuario2.setSenhaUsuario(senhaUsuario);
         usuario2.setEmailUsuario(emailUsuario);
 
-        Usuario usuario = repositorioUsuario.save(usuario2);
+        Usuario usuario = repositorioUsuario.findByEmailUsuario(emailUsuario);
+
+        //Se ao tentar cadastrar, o email já estiver presente no banco, o objeto usuario não será null, o que significa que
+        //o email já está cadastrado e, consequentemente, não poderá haver um cadastro com o mesmo email.
+        if (usuario != null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        usuario = repositorioUsuario.save(usuario2);
 
         if (usuario != null) {
             return new ResponseEntity<>(HttpStatus.OK);

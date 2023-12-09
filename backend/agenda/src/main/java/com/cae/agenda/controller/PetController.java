@@ -3,6 +3,7 @@ package com.cae.agenda.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,19 +19,27 @@ public class PetController {
 
     @ResponseBody
     @GetMapping("")
-    public List<Pet> listarPetsUsuario(@RequestParam("usuario") int idUsuario) {
-        return petService.listarPetsUsuario(idUsuario);
+    public ResponseEntity<List<Pet>> listarPetsUsuario(@RequestHeader(value = "userId") String userId) {
+        if(userId == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        final List<Pet> petsList = petService.listarPetsUsuario(Integer.parseInt(userId));
+        return new ResponseEntity<>(petsList, HttpStatus.OK);
     }
 
     @ResponseBody
     @GetMapping("/{idPet}")
-    public ResponseEntity<Pet> chamaPet(@PathVariable int idPet){
+    public ResponseEntity<Pet> chamaPet(@PathVariable int idPet) {
         return petService.chamaPet(idPet);
     }
 
     @PostMapping("/")
-    public ResponseEntity<Pet> criarPet(@RequestBody Pet pet){
-        return petService.criarPet(pet);
+    public ResponseEntity<Pet> criarPet(
+            @RequestHeader(value = "userId") String userId,
+            @RequestBody Pet pet) {
+        Pet novoPet = petService.criarPet(pet, Integer.parseInt(userId));
+        return new ResponseEntity<>(novoPet, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{idPet}")
@@ -39,7 +48,7 @@ public class PetController {
     }
 
     @PutMapping("/{idPet}")
-    public ResponseEntity<Pet> editarPet(@PathVariable int idPet, @RequestBody Pet pet){
+    public ResponseEntity<Pet> editarPet(@PathVariable int idPet, @RequestBody Pet pet) {
         return petService.editarPet(idPet, pet);
     }
 }

@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'react-native-gesture-handler';
 import { View, TextInput, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import { post } from './util/request.js';
 import NavigationKeys from './util/navigationKeys.js';
 import userData from './util/userData.js';
+import SnackBar from 'react-native-snackbar-component'
 
-export default function TelaLogin() {
+
+export default function TelaLogin({ route }) {
 
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showSnackBar, setShowSnackBar] = useState(false);
 
   const navigation = useNavigation();
 
-  //Método que é executado quando a pessoa clica em entrar, precisa alterar ele para mandar para o back as infos e logar o usuário.
+  const isCadastrado = route.params;
+
+  //Método que é executado quando a pessoa clica em entrar.
   const handleLogin = async () => {
     const res = await post("usuario/login", { "emailUsuario": email, "senhaUsuario": password });
     if (res.ok) {
       const json = await res.json();
-      console.log(json);
       await userData.setUser(json.nomeUsuario, json.idUsuario)
 
       navigation.dispatch(
@@ -34,6 +38,15 @@ export default function TelaLogin() {
       setError("Usuário ou senha incorretos")
     }
   };
+
+  useEffect(() => {
+    if (isCadastrado) {
+      setShowSnackBar(true)
+      setTimeout(() => {
+        setShowSnackBar(false);
+      }, 5000);
+    }
+  },[]);
 
   return (
     <View style={styles.container}>
@@ -70,6 +83,7 @@ export default function TelaLogin() {
           </Text>
         </TouchableOpacity>
       </View>
+      <SnackBar visible={showSnackBar} textMessage="Usuário cadastrado com sucesso" />
     </View>
   );
 }
