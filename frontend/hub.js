@@ -53,7 +53,7 @@ export default function TelaPets() {
             <ScrollView>
                 <View style={styles.containerRow}>
                     {userPets.map((pet, index) => (
-                        <TouchableOpacity key={index} onPress={() => navigation.navigate(NavigationKeys.TelaPet, { id: pet.id, })}>
+                        <TouchableOpacity key={index} onPress={() => navigation.navigate(NavigationKeys.TelaPet, { id: pet.idPet, })}>
                             <View style={styles.petConteiner}>
                                 <Image
                                     style={styles.petConteinerImg}

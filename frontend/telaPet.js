@@ -20,7 +20,7 @@ export default function TelaPet({ route }) {
 
     const navigation = useNavigation();
 
-    const { id, nome, especie, raca, dataNasc, peso, sexo, castradoPet } = route.params;
+    const { id } = route.params;
 
     const handleEditaPet = () => {
         console.log(`Novo nome do pet: ${novoNome}\nNovo peso do pet: ${novoPeso}\nFoi castrado? ${isCastrado}`);
