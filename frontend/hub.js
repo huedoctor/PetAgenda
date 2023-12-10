@@ -19,21 +19,6 @@ import { LoadingIndicator } from './components/LoadingIndicator.jsx';
 // Nessa tela a gente ta pegando o nome e a espécie para pode fazer os botões.
 // Clicando nelas vai mandar pra tela do pet e vai enviar junto os dados do pet clicado pelo ID.
 
-// O FORMATO PRECISA SEGUIR O MESMO FORMATO DO JSON ABAIXO:
-
-// let userPets = [
-//     {
-//         id: 1,
-//         nome: "Dodo",
-//         especie: "cachorro",
-//         raca: "aaaaaaaa",
-//         dataNasc: "00/00/0000",
-//         peso: 12.3,
-//         sexo: "macho",
-//         castradoPet: true,
-//     },
-// ];
-
 export default function TelaPets() {
 
     const navigation = useNavigation();
@@ -59,32 +44,49 @@ export default function TelaPets() {
         setUserHasPets(userPets.length > 0)
     }, [userPets])
 
+    let content;
 
+    if (loading) {
+        content = <ActivityIndicator justifyContent="center" alignSelf="center" />
+    } else if (userHasPets) {
+        content =
+            <ScrollView>
+                <View style={styles.containerRow}>
+                    {userPets.map((pet, index) => (
+                        <TouchableOpacity key={index} onPress={() => navigation.navigate(NavigationKeys.TelaPet, { id: pet.id, })}>
+                            <View style={styles.petConteiner}>
+                                <Image
+                                    style={styles.petConteinerImg}
+                                    source={pet.especie === 'cachorro' ?
+                                        require('./assets/petDogIcon.jpg') :
+                                        require('./assets/petCatIcon.jpg')}
+                                />
+                                <Text style={styles.petConteinerTxt}>
+                                    {pet.nome}
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            </ScrollView>
+    } else {
+        content =
+            <View style={styles.emptyImageConteiner}>
+                <Image
+                    source={require('./assets/sadPet.png')}
+                    style={styles.emptyImage}
+                />
+                <View>
+
+                </View>
+                <Text style={styles.messageTitle}>Nenhum pet avistado...</Text>
+                <Text style={styles.messageText}>{"\n"}Clique no botão no canto superior direito da tela para poder começar a cadastrar seus pets.</Text>
+            </View>
+
+    }
     return (
         <View style={styles.container}>
-            {loading ?
-                <ActivityIndicator justifyContent="center" alignSelf="center"/>
-                :
-                <ScrollView>
-                    <View style={styles.containerRow}>
-                        {userPets.map((pet, index) => (
-                            <TouchableOpacity key={index} onPress={() => navigation.navigate(NavigationKeys.TelaPet, { id: pet.id, })}>
-                                <View style={styles.petConteiner}>
-                                    <Image
-                                        style={styles.petConteinerImg}
-                                        source={pet.especie === 'cachorro' ?
-                                            require('./assets/petDogIcon.jpg') :
-                                            require('./assets/petCatIcon.jpg')}
-                                    />
-                                    <Text style={styles.petConteinerTxt}>
-                                        {pet.nomePet}
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                </ScrollView>
-            }
+            {content}
         </View>
     );
 }
@@ -115,5 +117,29 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginTop: 10,
         color: '#4A1E91',
-    }
+    },
+    emptyImageConteiner: {
+        flex: 1,
+        justifyContent: 'center'
+    },
+    emptyImage: {
+        width: 150,
+        height: 150,
+        marginBottom: 10,
+        alignSelf: 'center',
+        opacity: 0.5,
+    },
+    messageTitle: {
+        alignSelf: 'center',
+        marginTop: 5,
+        fontSize: 20,
+        opacity: 0.5,
+    },
+    messageText: {
+        alignSelf: 'center',
+        width: 250,
+        textAlign: 'center',
+        fontSize: 15,
+        opacity: 0.5,
+    },
 });
