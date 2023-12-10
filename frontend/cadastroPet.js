@@ -13,7 +13,7 @@ import BouncyCheckboxGroup from "react-native-bouncy-checkbox-group";
 import { post } from './util/request';
 import PetSelect from './components/PetSelect';
 import NavigationKeys from './util/navigationKeys';
-import SnackBar from 'react-native-snackbar-component';
+import SnackBar from './util/snackBar';
 
 export default function TelaCadastroPet() {
 
@@ -78,7 +78,7 @@ export default function TelaCadastroPet() {
             setShowSnackBar(true);
             setTimeout(() => {
                 setShowSnackBar(false);
-            }, 5000);
+            }, SnackBar.LENGTH_LONG);
         }
     };
 

@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { post } from './util/request';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import NavigationKeys from './util/navigationKeys';
-import SnackBar from 'react-native-snackbar-component'
+import SnackBar from './util/snackBar';
 
 export default function TelaCadastro() {
   const [name, setName] = useState('');
@@ -77,7 +77,7 @@ export default function TelaCadastro() {
       setShowSnackBar(true);
       setTimeout(() => {
         setShowSnackBar(false);
-      }, 5000);
+      }, SnackBar.LENGTH_LONG);
     }
   }
 
@@ -105,8 +105,8 @@ export default function TelaCadastro() {
   };
 
   const onSubmitClicked = () => {
+    checkEmail();
     checkPasswords();
-    console.log(passwordError);
 
     if (!passwordError) {
       handleRegister();
