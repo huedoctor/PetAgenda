@@ -22,6 +22,8 @@ export default function TelaCadastroPet() {
     const [isCastrado, setIsCastrado] = useState(null);
     const [sexoPet, setSexoPet] = useState(null);
     const [avisoData, setAvisoData] = useState(false);
+    const [botaoHabilitado, setBotaoHabilitado] = useState(false);
+    const [isPetEscolhido, setIsPetEscolhido] = useState(false);
 
     const inputDateMask = (value) => {
         return value
@@ -31,6 +33,18 @@ export default function TelaCadastroPet() {
             .replace(/(\d{4})(\d)/, '$1');
     }
 
+    useEffect(() => {
+        if (especiePet && nomePet && racaPet && sexoPet) {
+            setBotaoHabilitado(true);
+        } else {
+            setBotaoHabilitado(false);
+        }
+    }, [especiePet, nomePet, racaPet, sexoPet])
+
+    useEffect(() => {
+        setIsPetEscolhido(especiePet != null)
+    }, [especiePet])
+
     const navigation = useNavigation();
 
     const handleRegisterPet = () => {
@@ -39,22 +53,22 @@ export default function TelaCadastroPet() {
 
     const validateDate = (date) => {
         const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
-        if (!dateRegex.test(date)) {
-          setDataNascimentoPet(null);
-          setAvisoData(true);
+        if (date.length > 0 && !dateRegex.test(date)) {
+            setDataNascimentoPet(null);
+            setAvisoData(true);
         } else {
-          const [day, month, year] = date.split('/').map(Number);
-          if (day < 1 || day > 31) {
-            setDataNascimentoPet(null);
-            setAvisoData(true);
-          } else if (month < 1 || month > 12) {
-            setDataNascimentoPet(null);
-            setAvisoData(true);
-          } else {
-            setAvisoData(false);
-          }
+            const [day, month, year] = date.split('/').map(Number);
+            if (date.length > 0 && day < 1 || day > 31) {
+                setDataNascimentoPet(null);
+                setAvisoData(true);
+            } else if (date.length > 0 && month < 1 || month > 12) {
+                setDataNascimentoPet(null);
+                setAvisoData(true);
+            } else {
+                setAvisoData(false);
+            }
         }
-      };      
+    };
 
     const opcoesIsCasatrado = [
         {
@@ -99,82 +113,85 @@ export default function TelaCadastroPet() {
     ];
 
     return (
-        <ScrollView>
+        <ScrollView style={{ backgroundColor: 'white' }}>
             <View style={styles.container}>
-                <Text style={styles.especieQuestion}>Qual é a espécie do seu pet?</Text>
+                <Text style={styles.especieQuestion}>Qual é o seu pet?</Text>
                 <PetSelect onSelect={(selected) => setEspeciePet(selected)} />
-                <TextInput
-                    style={[styles.input, { marginTop: 35 }]}
-                    placeholder="Nome"
-                    onChangeText={(text) => setNomePet(text)}
-                    value={nomePet}
-                >
-                </TextInput>
-                <TextInput
-                    style={[styles.input]}
-                    placeholder="Raça"
-                    onChangeText={(text) => setRacaPet(text)}
-                    value={racaPet}
-                >
-                </TextInput>
-                <TextInput
-                    style={styles.input}
-                    keyboardType='decimal-pad'
-                    placeholder="Peso (Kg)"
-                    onChangeText={(text) => setPesoPet(text)}
-                    value={pesoPet}
-                >
-                </TextInput>
-                {avisoData && 
-                <Text
-                style={styles.avisoData}
-                >Por favor, insira uma data válida no formato DD-MM-AAAA.</Text>
+                {isPetEscolhido &&
+                    <View style={{ alignItems: 'center' }}>
+                        <TextInput
+                            style={[styles.input, { marginTop: 35 }]}
+                            placeholder="Nome*"
+                            onChangeText={(text) => setNomePet(text)}
+                            value={nomePet}
+                        >
+                        </TextInput>
+                        <TextInput
+                            style={[styles.input]}
+                            placeholder="Raça*"
+                            onChangeText={(text) => setRacaPet(text)}
+                            value={racaPet}
+                        >
+                        </TextInput>
+                        <TextInput
+                            style={styles.input}
+                            keyboardType='decimal-pad'
+                            placeholder="Peso (Kg)"
+                            onChangeText={(text) => setPesoPet(text)}
+                            value={pesoPet}
+                        >
+                        </TextInput>
+                        {avisoData &&
+                            <Text style={styles.avisoData}>Insira uma data válida.</Text>
+                        }
+                        <TextInput
+                            style={[styles.input, avisoData ? { marginTop: 0 } : { marginTop: 20 }]}
+                            placeholder='Data de nascimento'
+                            keyboardType='numeric'
+                            maxLength={10}
+                            onChangeText={(text) => {
+                                setDataNascimentoPet(inputDateMask(text))
+                            }}
+                            onEndEditing={() => validateDate(dataNascimentoPet)}
+                            value={dataNascimentoPet}
+                        />
+                        <Text
+                            style={{ opacity: 0.5, marginRight: 180 }}
+                        >DD/MM/AAAA</Text>
+                        <Text style={[styles.question, { marginTop: 20 }]}>Seu pet é castrado?</Text>
+                        <View style={styles.isCastradoConteiner}>
+                            <BouncyCheckboxGroup
+                                data={opcoesIsCasatrado}
+                                onChange={(selectedItem) => {
+                                    if (selectedItem.id == "sim") {
+                                        setIsCastrado(true);
+                                    } else if (selectedItem.id == "nao") {
+                                        setIsCastrado(false);
+                                    }
+                                }}
+                            />
+                        </View>
+                        <Text style={styles.question}>Qual o sexo do seu pet?*</Text>
+                        <View style={styles.sexoPetConteiner}>
+                            <BouncyCheckboxGroup
+                                data={opcoesSexo}
+                                onChange={(selectedItem) => {
+                                    if (selectedItem.id == "macho") {
+                                        setSexoPet("macho");
+                                    } else if (selectedItem.id == "femea") {
+                                        setSexoPet("femea");
+                                    }
+                                }}
+                            />
+                        </View>
+                        <TouchableOpacity
+                            style={[styles.registerPetButton, !botaoHabilitado ? { opacity: 0.5 } : { opacity: 1 }]}
+                            disabled={!botaoHabilitado}
+                            onPress={handleRegisterPet}>
+                            <Text style={styles.petRegisterButtonText}>Cadastrar Pet</Text>
+                        </TouchableOpacity>
+                    </View>
                 }
-                <TextInput
-                    style={styles.input}
-                    placeholder='Data de nascimento'
-                    keyboardType='numeric'
-                    maxLength={10}
-                    onChangeText={(text) => {
-                        setDataNascimentoPet(inputDateMask(text))
-                    }}
-                    onEndEditing={() => validateDate(dataNascimentoPet)}
-                    value={dataNascimentoPet}
-                />
-                <Text
-                style={{opacity: 0.5, marginRight: 180}}
-                >DD-MM-AAAA</Text>
-                <Text style={[styles.question, {marginTop: 20}]}>Seu pet é castrado?</Text>
-                <View style={styles.isCastradoConteiner}>
-                    <BouncyCheckboxGroup
-                        data={opcoesIsCasatrado}
-                        onChange={(selectedItem) => {
-                            if (selectedItem.id == "sim") {
-                                setIsCastrado(true);
-                            } else if (selectedItem.id == "nao") {
-                                setIsCastrado(false);
-                            }
-                        }}
-                    />
-                </View>
-                <Text style={styles.question}>Qual o sexo do seu pet?</Text>
-                <View style={styles.sexoPetConteiner}>
-                    <BouncyCheckboxGroup
-                        data={opcoesSexo}
-                        onChange={(selectedItem) => {
-                            if (selectedItem.id == "macho") {
-                                setSexoPet("macho");
-                            } else if (selectedItem.id == "femea") {
-                                setSexoPet("femea");
-                            }
-                        }}
-                    />
-                </View>
-                <TouchableOpacity
-                    style={styles.registerPetButton}
-                    onPress={handleRegisterPet}>
-                    <Text style={styles.petRegisterButtonText}>Cadastrar Pet</Text>
-                </TouchableOpacity>
             </View >
         </ScrollView>
     );
@@ -184,7 +201,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         backgroundColor: 'white',
-        alignItems: 'center',
+        alignItems: 'stretch',
+        paddingHorizontal: '10%',
         paddingBottom: 30,
     },
     especieQuestion: {
@@ -254,9 +272,9 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     avisoData: {
-        position:'absolute',
-        paddingTop: 75,
         fontSize: 12,
         color: 'red',
+        marginTop: 5,
+        marginRight: 153,
     }
 });
