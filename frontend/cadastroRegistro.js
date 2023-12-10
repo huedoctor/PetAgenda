@@ -15,12 +15,10 @@ export default function TelaCadastroRegistro({ route }) {
     const navigation = useNavigation();
 
     const petId = route.params;
-    const idPet = petId.petId;
 
 
     return (
         <View style={styles.container}>
-            <Text>{idPet}</Text>
         </View>
     );
 }

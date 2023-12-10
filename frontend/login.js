@@ -5,7 +5,7 @@ import { useNavigation, CommonActions } from '@react-navigation/native';
 import { post } from './util/request.js';
 import NavigationKeys from './util/navigationKeys.js';
 import userData from './util/userData.js';
-import SnackBar from 'react-native-snackbar-component'
+import SnackBar from './util/snackBar';
 
 
 export default function TelaLogin({ route }) {
@@ -44,7 +44,7 @@ export default function TelaLogin({ route }) {
       setShowSnackBar(true)
       setTimeout(() => {
         setShowSnackBar(false);
-      }, 5000);
+      }, SnackBar.LENGTH_LONG);
     }
   },[]);
 

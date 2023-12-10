@@ -68,7 +68,7 @@ export default function App() {
           component={TelaCadastroPet}
           options={{
             headerLeft: () => null,
-            headerTitle: "   Cadastre seu primeiro pet",
+            headerTitle: "Cadastre seu primeiro pet",
           }}
         />
         <Stack.Screen
