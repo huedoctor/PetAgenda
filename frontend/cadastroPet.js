@@ -10,7 +10,10 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import BouncyCheckboxGroup from "react-native-bouncy-checkbox-group";
-import PetSelect from './components/PetSelect'
+import { post } from './util/request';
+import PetSelect from './components/PetSelect';
+import NavigationKeys from './util/navigationKeys';
+import SnackBar from 'react-native-snackbar-component';
 
 export default function TelaCadastroPet() {
 
@@ -22,6 +25,8 @@ export default function TelaCadastroPet() {
     const [isCastrado, setIsCastrado] = useState(null);
     const [sexoPet, setSexoPet] = useState(null);
     const [avisoData, setAvisoData] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [showSnackBar, setShowSnackBar] = useState(false);
 
     const inputDateMask = (value) => {
         return value
@@ -33,28 +38,46 @@ export default function TelaCadastroPet() {
 
     const navigation = useNavigation();
 
-    const handleRegisterPet = () => {
-        console.log(`EspeciePet: ${especiePet}\nNomePet: ${nomePet}\nRaçaPet: ${racaPet}\nPesoPet: ${pesoPet}\nNascimentoPet: ${dataNascimentoPet}\nCastrado?: ${isCastrado}\nSexo: ${sexoPet}`);
+    const handleRegisterPet = async () => {
+        setLoading(true);
+        const res = await post("pet", {
+            "especie": especiePet,
+            "nomePet": nomePet,
+            "pesoPet": pesoPet,
+            "racaPet": racaPet,
+            "dataNascPet" : dataNascimentoPet,
+            "castradoPet": isCastrado,
+            "sexoPet": sexoPet,
+        });
+        setLoading(false);
+        if (res.ok) {
+            navigation.navigate(NavigationKeys.TelaPets, { petCadastrado: true });
+        } else {
+            setShowSnackBar(true);
+            setTimeout(() => {
+                setShowSnackBar(false);
+            }, 5000);
+        }
     };
 
     const validateDate = (date) => {
         const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
         if (!dateRegex.test(date)) {
-          setDataNascimentoPet(null);
-          setAvisoData(true);
+            setDataNascimentoPet(null);
+            setAvisoData(true);
         } else {
-          const [day, month, year] = date.split('/').map(Number);
-          if (day < 1 || day > 31) {
-            setDataNascimentoPet(null);
-            setAvisoData(true);
-          } else if (month < 1 || month > 12) {
-            setDataNascimentoPet(null);
-            setAvisoData(true);
-          } else {
-            setAvisoData(false);
-          }
+            const [day, month, year] = date.split('/').map(Number);
+            if (day < 1 || day > 31) {
+                setDataNascimentoPet(null);
+                setAvisoData(true);
+            } else if (month < 1 || month > 12) {
+                setDataNascimentoPet(null);
+                setAvisoData(true);
+            } else {
+                setAvisoData(false);
+            }
         }
-      };      
+    };
 
     const opcoesIsCasatrado = [
         {
@@ -125,10 +148,10 @@ export default function TelaCadastroPet() {
                     value={pesoPet}
                 >
                 </TextInput>
-                {avisoData && 
-                <Text
-                style={styles.avisoData}
-                >Por favor, insira uma data válida no formato DD-MM-AAAA.</Text>
+                {avisoData &&
+                    <Text
+                        style={styles.avisoData}
+                    >Por favor, insira uma data válida no formato DD-MM-AAAA.</Text>
                 }
                 <TextInput
                     style={styles.input}
@@ -142,9 +165,9 @@ export default function TelaCadastroPet() {
                     value={dataNascimentoPet}
                 />
                 <Text
-                style={{opacity: 0.5, marginRight: 180}}
+                    style={{ opacity: 0.5, marginRight: 180 }}
                 >DD-MM-AAAA</Text>
-                <Text style={[styles.question, {marginTop: 20}]}>Seu pet é castrado?</Text>
+                <Text style={[styles.question, { marginTop: 20 }]}>Seu pet é castrado?</Text>
                 <View style={styles.isCastradoConteiner}>
                     <BouncyCheckboxGroup
                         data={opcoesIsCasatrado}
@@ -176,6 +199,7 @@ export default function TelaCadastroPet() {
                     <Text style={styles.petRegisterButtonText}>Cadastrar Pet</Text>
                 </TouchableOpacity>
             </View >
+            <SnackBar visible={showSnackBar} textMessage="Não foi possível cadastrar o pet."/>
         </ScrollView>
     );
 }
@@ -254,7 +278,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     avisoData: {
-        position:'absolute',
+        position: 'absolute',
         paddingTop: 75,
         fontSize: 12,
         color: 'red',

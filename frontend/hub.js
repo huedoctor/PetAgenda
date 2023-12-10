@@ -77,7 +77,7 @@ export default function TelaPets() {
                                             require('./assets/petCatIcon.jpg')}
                                     />
                                     <Text style={styles.petConteinerTxt}>
-                                        {pet.nome}
+                                        {pet.nomePet}
                                     </Text>
                                 </View>
                             </TouchableOpacity>

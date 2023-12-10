@@ -4,7 +4,6 @@ import { View, TextInput, Text, StyleSheet, TouchableOpacity, ActivityIndicator 
 import { useNavigation } from '@react-navigation/native';
 import { post } from './util/request';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import { Dimensions } from 'react-native';
 import NavigationKeys from './util/navigationKeys';
 import SnackBar from 'react-native-snackbar-component'
 

@@ -23,6 +23,7 @@ export default function App() {
 
   useEffect(() => {
     const verifyInitialRoute = async () => {
+      // await userData.removeUser();
       const loggedUser = await userData.getuser();
       if (loggedUser) {
         setInitialRouteName(NavigationKeys.TelaPets);

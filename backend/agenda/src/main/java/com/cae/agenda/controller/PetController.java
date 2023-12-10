@@ -34,7 +34,7 @@ public class PetController {
         return petService.chamaPet(idPet);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Pet> criarPet(
             @RequestHeader(value = "userId") String userId,
             @RequestBody Pet pet) {

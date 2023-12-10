@@ -16,7 +16,7 @@ export default function PetSelect({ onSelect }) {
                             onSelect(null);
                         } else {
                             setPetVisivel('cachorro');
-                            onSelect('cachorro');
+                            onSelect({idEspecie : 2, nomeEspecie: "cachorro"});
                         }
                     }}>
                         <Image
@@ -37,7 +37,7 @@ export default function PetSelect({ onSelect }) {
                             onSelect(null);
                         } else {
                             setPetVisivel('gato');
-                            onSelect('gato');
+                            onSelect({idEspecie : 1, nomeEspecie: "gato"});
                         }
                     }}>
                         <Image
