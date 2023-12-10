@@ -57,12 +57,12 @@ export default function TelaPets() {
                             <View style={styles.petConteiner}>
                                 <Image
                                     style={styles.petConteinerImg}
-                                    source={pet.especie === 'cachorro' ?
+                                    source={pet.especie.nomeEspecie.toLowerCase() === 'cachorro' ?
                                         require('./assets/petDogIcon.jpg') :
                                         require('./assets/petCatIcon.jpg')}
                                 />
                                 <Text style={styles.petConteinerTxt}>
-                                    {pet.nome}
+                                    {pet.nomePet}
                                 </Text>
                             </View>
                         </TouchableOpacity>

@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
     ScrollView,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import BouncyCheckboxGroup from "react-native-bouncy-checkbox-group";
 import { post } from './util/request';
 import PetSelect from './components/PetSelect';
@@ -66,6 +66,14 @@ export default function TelaCadastroPet() {
         setLoading(false);
         if (res.ok) {
             navigation.navigate(NavigationKeys.TelaPets, { petCadastrado: true });
+            navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [
+                    { name: NavigationKeys.TelaPets },
+                  ],
+                })
+              );
         } else {
             setShowSnackBar(true);
             setTimeout(() => {
