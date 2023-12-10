@@ -59,32 +59,42 @@ export default function TelaPets() {
         setUserHasPets(userPets.length > 0)
     }, [userPets])
 
+    let content;
+
+    if (loading) {
+        content = <ActivityIndicator justifyContent="center" alignSelf="center" />
+    } else if (userHasPets) {
+        content =
+            <ScrollView>
+                <View style={styles.containerRow}>
+                    {userPets.map((pet, index) => (
+                        <TouchableOpacity key={index} onPress={() => navigation.navigate(NavigationKeys.TelaPet, { id: pet.id, })}>
+                            <View style={styles.petConteiner}>
+                                <Image
+                                    style={styles.petConteinerImg}
+                                    source={pet.especie === 'cachorro' ?
+                                        require('./assets/petDogIcon.jpg') :
+                                        require('./assets/petCatIcon.jpg')}
+                                />
+                                <Text style={styles.petConteinerTxt}>
+                                    {pet.nome}
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            </ScrollView>
+    } else {
+        content =
+            <Image
+                source={require('./assets/empty.svg')}
+                style={styles.emptyImage}
+            />
+    }
 
     return (
         <View style={styles.container}>
-            {loading ?
-                <ActivityIndicator justifyContent="center" alignSelf="center"/>
-                :
-                <ScrollView>
-                    <View style={styles.containerRow}>
-                        {userPets.map((pet, index) => (
-                            <TouchableOpacity key={index} onPress={() => navigation.navigate(NavigationKeys.TelaPet, { id: pet.id, })}>
-                                <View style={styles.petConteiner}>
-                                    <Image
-                                        style={styles.petConteinerImg}
-                                        source={pet.especie === 'cachorro' ?
-                                            require('./assets/petDogIcon.jpg') :
-                                            require('./assets/petCatIcon.jpg')}
-                                    />
-                                    <Text style={styles.petConteinerTxt}>
-                                        {pet.nome}
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                </ScrollView>
-            }
+            {content}
         </View>
     );
 }

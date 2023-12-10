@@ -1,6 +1,6 @@
 import userData from "./userData";
 
-const baseurl = "http://192.168.32.163:8080/"
+const baseurl = "http://192.168.0.102:8080/"
 const defaultHeaders = {
     "Accept": "application/json",
     "Access-Control-Allow-Origin": "*",
@@ -28,11 +28,10 @@ export async function post(url,body) {
     });
 }
 
-export async function get(url, body) {
+export async function get(url) {
   const headers = await headersWithUser();
     return fetch(`${baseurl}${url}`,{
         method: "GET",
         headers: headers,
-        body: JSON.stringify(body)
       });
 }

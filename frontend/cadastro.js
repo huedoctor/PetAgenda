@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import 'react-native-gesture-handler';
-import { View, TextInput, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, TextInput, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { post } from './util/request';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import { Dimensions } from 'react-native';
 import NavigationKeys from './util/navigationKeys';
 import SnackBar from 'react-native-snackbar-component'
 
