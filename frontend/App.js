@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import React, { useEffect, useState } from 'react';
 import { Text } from 'react-native';
 import NavigationKeys from './util/navigationKeys.js';
 import HomeScreen from './telaInicial.js';
@@ -12,14 +13,29 @@ import TelaPets from './hub.js';
 import TelaPet from './telaPet.js';
 import TelaRegistros from './registros.js';
 import TelaCadastroRegistro from './cadastroRegistro.js';
+import userData from './util/userData.js';
 
 const Stack = createStackNavigator();
 
 export default function App() {
 
+  const [initialRouteName, setInitialRouteName] = useState(null);
+
+  useEffect(() => {
+    const verifyInitialRoute = async () => {
+      const loggedUser = await userData.getuser();
+      if (loggedUser) {
+        setInitialRouteName(NavigationKeys.TelaPets);
+      }
+      setInitialRouteName(NavigationKeys.Inicio);
+    }
+    verifyInitialRoute();
+  }, []);
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Início"
+    initialRouteName && <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName={initialRouteName}
         screenOptions={{
           headerTintColor: '#4A1E91',
         }}

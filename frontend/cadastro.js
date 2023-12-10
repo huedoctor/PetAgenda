@@ -10,6 +10,7 @@ import SnackBar from 'react-native-snackbar-component'
 export default function TelaCadastro() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordError, setPasswordError] = useState(false);
@@ -24,6 +25,10 @@ export default function TelaCadastro() {
       return;
     }
     if (email.length == 0) {
+      setSubmitEnabled(false);
+      return;
+    }
+    if (emailError) {
       setSubmitEnabled(false);
       return;
     }
@@ -46,7 +51,11 @@ export default function TelaCadastro() {
     setSubmitEnabled(true);
 
 
-  }, [name, email, password, confirmPassword, passwordError, toggleCheckBox]);
+  }, [name, email, emailError, password, confirmPassword, passwordError, toggleCheckBox]);
+
+  useEffect(() => {
+    checkEmail();
+  }, [email]);
 
   useEffect(() => {
     checkPasswords();
@@ -77,6 +86,16 @@ export default function TelaCadastro() {
     sendData();
   };
 
+  const checkEmail = () => {
+    const regexEmailBasica = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if(email.length > 0 && !regexEmailBasica.test(email) ) {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+    }
+  };
+
   const checkPasswords = () => {
     if (confirmPassword.length > 0 && password !== confirmPassword) {
       setPasswordError(true);
@@ -105,12 +124,16 @@ export default function TelaCadastro() {
           onChangeText={(text) => setName(text)}
           value={name}
         />
+        <View style={styles.spacing}/>
         <TextInput
           style={styles.input}
           placeholder="E-mail"
           onChangeText={(text) => setEmail(text)}
           value={email}
         />
+        {emailError
+          ? <Text style={styles.validationError}>Email inválido.</Text>
+          : <View style={styles.spacing}/>}
         <TextInput
           style={styles.input}
           placeholder="Senha"
@@ -118,7 +141,9 @@ export default function TelaCadastro() {
           onChangeText={(text) => setPassword(text)}
           value={password}
         />
-        {passwordError && <Text style={styles.passwordError}>As senhas precisam ser iguais</Text>}
+        {passwordError
+          ? <Text style={styles.validationError}>As senhas precisam ser iguais.</Text>
+          : <View style={styles.spacing}/>}
         <TextInput
           style={styles.input}
           placeholder="Confirme sua senha"
@@ -126,6 +151,7 @@ export default function TelaCadastro() {
           onChangeText={(text) => setConfirmPassword(text)}
           value={confirmPassword}
         />
+        <View style={styles.spacing}/>
         <View style={styles.submitContainer}>
           {loading
             ? <ActivityIndicator size="large" />
@@ -176,9 +202,9 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   registerBox: {
-    alignItems: 'center',
-    gap: 30,
+    alignItems: 'stretch',
     marginTop: 30,
+    paddingHorizontal: '10%',
   },
   input: {
     width: 300,
@@ -186,6 +212,9 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     paddingLeft: 15,
     backgroundColor: '#CAC1D6',
+  },
+  spacing: {
+    height: 30,
   },
   registerButton: {
     width: 300,
@@ -199,13 +228,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   checkBox: {
-    width: 320,
+    paddingTop: 10,
   },
   loginButton: {
     alignSelf: 'center',
     flexDirection: 'row',
-    position: 'absolute',
-    marginTop: Dimensions.get('window').height * 0.82,
   },
   loginButtonText: {
     fontSize: 17,
@@ -215,8 +242,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#4A1E91',
   },
-  passwordError: {
-    color: 'red', position: 'absolute', marginTop: 220, paddingRight: 70,
+  validationError: {
+    color: 'red',
+    paddingRight: 70,
+    marginTop: 6,
+    marginBottom: 8,
+    height: 16,
   },
   submitContainer: {
     alignItems: 'center',

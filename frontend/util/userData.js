@@ -18,12 +18,28 @@ export default UserData = {
     getuser: async () => {
         return new Promise(async (resolve, reject) => {
             try {
-                const userName = await AsyncStorage.getItem("userName");
                 const userId = await AsyncStorage.getItem("userId");
+                if (userId == null) {
+                    resolve(null);
+                }
+
+                const userName = await AsyncStorage.getItem("userName");
                 resolve({
                     userName: userName,
                     userId: userId,
                 });
+            } catch (error) {
+                reject(error);
+            }
+        });
+    },
+
+    removeUser: async () => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await AsyncStorage.removeItem("userName");
+                await AsyncStorage.removeItem("userId");
+                resolve();
             } catch (error) {
                 reject(error);
             }
