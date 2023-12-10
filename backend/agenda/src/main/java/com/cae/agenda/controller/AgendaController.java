@@ -2,7 +2,6 @@ package com.cae.agenda.controller;
 
 import java.util.List;
 
-import com.cae.agenda.entities.Pet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;

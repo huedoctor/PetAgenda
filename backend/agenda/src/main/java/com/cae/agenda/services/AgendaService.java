@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.cae.agenda.entities.Pet;
 import com.cae.agenda.repositories.RepositorioPet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
@@ -42,7 +41,7 @@ public class AgendaService {
     public ResponseEntity<Agenda> criarAgenda(Agenda agenda) {
         agenda.setPet(repositorioPet.findByIdPet(agenda.getPet().getIdPet()));
         Agenda novaAgenda = repositorioAgenda.save(agenda);
-        repositorioAgenda.save(agenda);
+        repositorioAgenda.save(novaAgenda);//estava salvando a agenda, nao nova agenda
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
