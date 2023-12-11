@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.cae.agenda.entities.Atividades;
 import com.cae.agenda.services.AtividadesService;
-import org.springframework.web.context.annotation.RequestScope;
 
 @RestController
 @RequestMapping("/atividades")
