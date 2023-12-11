@@ -1,8 +1,8 @@
 package com.cae.agenda.controller;
 
 import java.util.List;
+import java.util.Map;
 
-import com.cae.agenda.entities.Pet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +19,15 @@ public class AgendaController {
     private AgendaService agendaService;
 
 
+//    @ResponseBody
+//    @GetMapping("")
+//    public List<Agenda> listarAgendasPet(@RequestParam("pet") int idPet) {
+//        return agendaService.listarAgendasPet(idPet);
+//    }
+
     @ResponseBody
     @GetMapping("")
-    public List<Agenda> listarAgendasPet(@RequestParam("pet") int idPet) {
+    public ResponseEntity<List<Map<String,Object>>> listarAgendasPet(@RequestParam("pet") int idPet) {
         return agendaService.listarAgendasPet(idPet);
     }
 

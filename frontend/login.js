@@ -53,7 +53,9 @@ export default function TelaLogin({ route }) {
       <View style={styles.loginContainer}>
         <TextInput
           style={styles.input}
+          inputMode='email'
           placeholder="E-mail"
+          autoCapitalize='none'
           onChangeText={(text) => setEmail(text)}
           value={email}
         />

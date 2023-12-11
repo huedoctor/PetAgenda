@@ -7,6 +7,7 @@ import {
     Image,
     Dimensions,
     ActivityIndicator,
+    Pressable,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import NavigationKeys from './util/navigationKeys.js';
@@ -51,6 +52,15 @@ export default function TelaPets() {
     } else if (userHasPets) {
         content =
             <ScrollView>
+                <View style={styles.configRow}>
+                    <Pressable
+                        style={styles.configButton}
+                        onPress={() => navigation.navigate(NavigationKeys.Infos)}>
+                            <Image
+                            style={styles.configImage}
+                            source={require('./assets/gearshape.png')}/>
+                    </Pressable>
+                </View>
                 <View style={styles.containerRow}>
                     {userPets.map((pet, index) => (
                         <TouchableOpacity key={index} onPress={() => navigation.navigate(NavigationKeys.TelaPet, { id: pet.idPet, })}>
@@ -99,8 +109,25 @@ const styles = StyleSheet.create({
     containerRow: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'flex-start',
-
+    },
+    configRow: {
+        flex: 1,
+        alignSelf: 'stretch',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-end'
+    },
+    configButton: {
+        height: 24,
+        width: 24,
+        margin: 2,
+        alignSelf: 'stretch',
+        marginTop: 6,
+        marginRight: 10,
+    },
+    configImage: {
+        width: 24,
+        height: 24,
     },
     petConteiner: {
         alignItems: 'center',
