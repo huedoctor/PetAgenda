@@ -11,16 +11,34 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import navigationKeys from './util/navigationKeys';
+import LoadingIndicator from './components/LoadingIndicator';
+import { get } from './util/request.js'
 
 export default function TelaPet({ route }) {
 
     const [novoPeso, setNovoPeso] = useState(null);
     const [novoNome, setNovoNome] = useState(null);
     const [isCastrado, setIsCastrado] = useState(false);
+    const [pet, setPet] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const navigation = useNavigation();
 
     const { id } = route.params;
+
+    useEffect(() => {
+        const loadData = async () => {
+            setLoading(true);
+            const res = await get(`pet/${id}`);
+            if (res.ok) {
+                const petJSON = await res.json();
+                console.log(petJSON);
+                setPet(petJSON);
+            }
+            setLoading(false);
+        }
+        loadData();
+    }, [])
 
     const handleEditaPet = () => {
         console.log(`Novo nome do pet: ${novoNome}\nNovo peso do pet: ${novoPeso}\nFoi castrado? ${isCastrado}`);
@@ -31,7 +49,7 @@ export default function TelaPet({ route }) {
     }
 
     const handleVerificaCastrado = () => {
-        if (castradoPet == true) {
+        if (pet.castradoPet) {
             return (
                 <Text>Sim</Text>
             );
@@ -60,70 +78,79 @@ export default function TelaPet({ route }) {
     }
 
     useEffect(() => {
-        navigation.setOptions({ title: nome })
-    });
+        navigation.setOptions({ title: pet.nomePet })
+    }, [pet]);
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.petProfileContainer}>
-                <View style={styles.petProfileContainerContent}>
-                    <View style={{ flexDirection: 'row' }}>
-                        <Image
-                            source={especie == 'gato' ? require('./assets/petCatIcon.jpg') : especie == 'cachorro' ? require('./assets/petDogIcon.jpg') : null}
-                            style={styles.petProfileImage}
-                        />
-                        <View style={{ flexDirection: 'column' }}>
-                            <Text>Nome:</Text>
-                            <TextInput
-                                placeholder={nome}
-                                onChangeText={(text) => setNovoNome(text)}
-                                value={novoNome}
-                                style={styles.input}
+    let content;
+
+    if (loading) {
+        content = <LoadingIndicator />
+    } else if (Object.keys(pet).length > 0) {
+        content =
+            <View style={styles.container}>
+                <View style={styles.petProfileContainer}>
+                    <View style={styles.petProfileContainerContent}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Image
+                                source={pet.especie.nomeEspecie.toLowerCase() == 'gato' ? require('./assets/petCatIcon.jpg') : pet.especie.nomeEspecie.toLowerCase() == 'cachorro' ? require('./assets/petDogIcon.jpg') : null}
+                                style={styles.petProfileImage}
                             />
-                            <Text style={styles.petProfileContainerText}>Espécie:</Text>
-                            <Text>{especie}</Text>
-                            <Text style={styles.petProfileContainerText}>Raça:</Text>
-                            <Text>{raca}</Text>
-                            <Text style={styles.petProfileContainerText}>Data de nascimento:</Text>
-                            <Text>{dataNasc}</Text>
-                            <Text style={styles.petProfileContainerText}>Peso:</Text>
-                            <TextInput
-                                placeholder={peso.toString() + 'kg'}
-                                keyboardType='decimal-pad'
-                                onChangeText={(text) => setNovoPeso(text)}
-                                value={novoPeso}
-                                style={styles.input}
-                            />
-                            <Text style={styles.petProfileContainerText}>Sexo:</Text>
-                            <Text>{sexo}</Text>
-                            <Text style={styles.petProfileContainerText}>É castrado?</Text>
-                            {handleVerificaCastrado()}
+                            <View style={{ flexDirection: 'column' }}>
+                                <Text>Nome:</Text>
+                                <TextInput
+                                    placeholder={pet.nomePet}
+                                    onChangeText={(text) => setNovoNome(text)}
+                                    value={novoNome}
+                                    style={styles.input}
+                                />
+                                <Text style={styles.petProfileContainerText}>Espécie:</Text>
+                                <Text>{pet.especie.nomeEspecie}</Text>
+                                <Text style={styles.petProfileContainerText}>Raça:</Text>
+                                <Text>{pet.racaPet}</Text>
+                                <Text style={styles.petProfileContainerText}>Data de nascimento:</Text>
+                                <Text>{pet.dataNascPet}</Text>
+                                <Text style={styles.petProfileContainerText}>Peso:</Text>
+                                <TextInput
+                                    placeholder={pet.pesoPet.toString() + 'kg'}
+                                    keyboardType='decimal-pad'
+                                    onChangeText={(text) => setNovoPeso(text)}
+                                    value={novoPeso}
+                                    style={styles.input}
+                                />
+                                <Text style={styles.petProfileContainerText}>Sexo:</Text>
+                                <Text>{pet.sexoPet}</Text>
+                                <Text style={styles.petProfileContainerText}>É castrado?</Text>
+                                {handleVerificaCastrado()}
+                            </View>
                         </View>
                     </View>
-                </View>
-                <View style={styles.petProfileContainerButtons}>
-                    <TouchableOpacity style={styles.petProfileButtons} onPress={handleEditaPet}>
-                        <Text style={{ color: '#ECC683' }}>Editar</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.petProfileButtons} onPress={handleDeletePet}>
-                        <Text style={{ color: '#ECC683' }}>Excluir</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-            <View style={styles.buttonsContainer}>
-                <TouchableOpacity onPress={() => navigation.navigate(navigationKeys.Registro, {petId: id})}>
-                    <View style={styles.buttonContainer}>
-                        <Image
-                            source={require('./assets/calendar.png')}
-                            style={styles.buttonContainerIcon}
-                        />
-                        <Text style={styles.buttonContainerText}>
-                            Agenda
-                        </Text>
+                    <View style={styles.petProfileContainerButtons}>
+                        <TouchableOpacity style={styles.petProfileButtons} onPress={handleEditaPet}>
+                            <Text style={{ color: '#ECC683' }}>Editar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.petProfileButtons} onPress={handleDeletePet}>
+                            <Text style={{ color: '#ECC683' }}>Excluir</Text>
+                        </TouchableOpacity>
                     </View>
-                </TouchableOpacity>
+                </View>
+                <View style={styles.buttonsContainer}>
+                    <TouchableOpacity onPress={() => navigation.navigate(navigationKeys.Registro, { petId: id })}>
+                        <View style={styles.buttonContainer}>
+                            <Image
+                                source={require('./assets/calendar.png')}
+                                style={styles.buttonContainerIcon}
+                            />
+                            <Text style={styles.buttonContainerText}>
+                                Agenda
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
+    }
+
+    return (
+        content
     );
 }
 
