@@ -6,7 +6,6 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-    Pressable,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
@@ -32,7 +31,6 @@ export default function TelaPet({ route }) {
             const res = await get(`pet/${id}`);
             if (res.ok) {
                 const petJSON = await res.json();
-                console.log(petJSON);
                 setPet(petJSON);
             }
             setLoading(false);
@@ -134,7 +132,7 @@ export default function TelaPet({ route }) {
                     </View>
                 </View>
                 <View style={styles.buttonsContainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate(navigationKeys.Registro, { petId: id })}>
+                    <TouchableOpacity onPress={() => navigation.navigate(navigationKeys.Registro, { id: pet.idPet })}>
                         <View style={styles.buttonContainer}>
                             <Image
                                 source={require('./assets/calendar.png')}

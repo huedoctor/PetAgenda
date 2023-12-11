@@ -13,23 +13,22 @@ import navigationKeys from './util/navigationKeys';
 export default function TelaRegistros({ route }) {
 
     const navigation = useNavigation();
-    const id = route.params;
+    const {id} = route.params;
     
     //Precisa do metodo pra puxar a lista de tratamentos pelo id do pet. O número do id do pet está guardado em "petId".
     //Depois disso faz um map pra ir renderizando os botões dos trotamentos na view container.
     //Nessa tela só precisa puxar o id do tratamento, o nome, frequência, horário e tipo (permanente ou temporário).
     
     useEffect(() => {
-        console.log(id)
         navigation.setOptions({
           headerRight: () => (
             <TouchableOpacity
-              onPress={() => navigation.navigate(navigationKeys.CadastroRegistro, {id: id.petId})}
+              onPress={() => navigation.navigate(navigationKeys.SelecaoRegistro, {id})}
               style={{ paddingRight: 15 }}
             >
               {/* <Text style={{ fontSize: 30, color: '#4A1E91' }}>+</Text> */}
               <Image
-              source={require('./assets/plusButton.png')}
+              source={require('./assets/plusButtonPurple.png')}
               style={{width: 35, height: 35}}
               />
             </TouchableOpacity>

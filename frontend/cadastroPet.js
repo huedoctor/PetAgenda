@@ -233,7 +233,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         backgroundColor: 'white',
-        alignItems: 'stretch',
         paddingHorizontal: '10%',
         paddingBottom: 30,
     },
