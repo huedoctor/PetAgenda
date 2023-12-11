@@ -9,5 +9,6 @@ export default NavigationKeys = {
     Tratamentos: "Tratamentos",
     TelaPet: "Tela Pet",
     CadastroRegistro: "Cadastrar Registro",
-    Registro: "Registros"
+    Registro: "Registros",
+    Infos: "Infos"
 }

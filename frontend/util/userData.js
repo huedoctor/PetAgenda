@@ -39,7 +39,7 @@ export default UserData = {
             try {
                 await AsyncStorage.removeItem("userName");
                 await AsyncStorage.removeItem("userId");
-                resolve();
+                resolve(true);
             } catch (error) {
                 reject(error);
             }
