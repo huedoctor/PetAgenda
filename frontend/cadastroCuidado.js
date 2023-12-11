@@ -7,10 +7,12 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-    ScrollView
+    ScrollView,
+    LogBox,
 } from 'react-native';
 import BouncyCheckboxGroup from "react-native-bouncy-checkbox-group";
 import DropDownPicker from 'react-native-dropdown-picker';
+LogBox.ignoreLogs(['VirtualizedLists']); 
 
 export default function CadastroCuidado({ route }) {
 
@@ -35,6 +37,7 @@ export default function CadastroCuidado({ route }) {
         { label: 'Mensalmente', value: '3' },
         { label: 'Anualmente', value: '4' },
     ]);
+    LogBox.ignoreLogs(['VirtualizedLists']); 
 
     const handleRegistraCuidado = async () => {
         //Método pra cadastrar o cuidado

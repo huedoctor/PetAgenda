@@ -7,10 +7,12 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-    ScrollView
+    ScrollView,
+    LogBox
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+LogBox.ignoreLogs(['VirtualizedLists']); 
 
 export default function CadastroAtividade({ route }) {
 

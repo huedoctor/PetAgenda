@@ -185,7 +185,7 @@ export default function TelaCadastro() {
         <Text style={styles.loginButtonText}>
           Já possui uma conta?
         </Text>
-        <TouchableOpacity onPress={() => navigation.navigate(navigationKeys.Login)}>
+        <TouchableOpacity onPress={() => navigation.navigate(NavigationKeys.Login)}>
           <Text style={[styles.loginButtonText, styles.loginButtonText2]}>
             Entrar
           </Text>
@@ -233,6 +233,8 @@ const styles = StyleSheet.create({
   loginButton: {
     alignSelf: 'center',
     flexDirection: 'row',
+    marginTop: Dimensions.get('window').height * 0.82,
+    position: 'absolute',
   },
   loginButtonText: {
     fontSize: 17,

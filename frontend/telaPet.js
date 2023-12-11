@@ -20,6 +20,7 @@ export default function TelaPet({ route }) {
     const [isCastrado, setIsCastrado] = useState(false);
     const [pet, setPet] = useState({});
     const [loading, setLoading] = useState(false);
+    const [sexoPet, setSexoPet] = useState(null);
 
     const navigation = useNavigation();
 
@@ -76,6 +77,14 @@ export default function TelaPet({ route }) {
     }
 
     useEffect(() => {
+        if (pet.sexoPet == 'macho') {
+            setSexoPet('Macho');
+        } else if (pet.sexoPet == 'femea'){
+            setSexoPet('Fêmea');
+        }
+    },[])
+
+    useEffect(() => {
         navigation.setOptions({ title: pet.nomePet })
     }, [pet]);
 
@@ -116,8 +125,8 @@ export default function TelaPet({ route }) {
                                     style={styles.input}
                                 />
                                 <Text style={styles.petProfileContainerText}>Sexo:</Text>
-                                <Text>{pet.sexoPet}</Text>
-                                <Text style={styles.petProfileContainerText}>É castrado?</Text>
+                                <Text>{sexoPet}</Text>
+                                <Text style={styles.petProfileContainerText}>É castrado(a)?</Text>
                                 {handleVerificaCastrado()}
                             </View>
                         </View>

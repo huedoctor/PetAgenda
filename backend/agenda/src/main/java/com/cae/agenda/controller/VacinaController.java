@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping ("/vacina")
+@RequestMapping("/vacina")
 public class VacinaController {
     @Autowired
     private VacinaService vacinaService;
 
     @ResponseBody
-    @GetMapping("/s/{idPet}")
-    public ResponseEntity<List<Vacina>> ListarVacinasEspecie(@RequestParam("idPet") int idPet){
-        List<Vacina> vacina = vacinaService.listarVacinasEspecie(idPet);
-        if(vacina.isEmpty()){
-           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @GetMapping("/pet/{idPet}")
+    public ResponseEntity<List<Vacina>> ListarVacinasEspecie(@PathVariable("idPet") int idPet) {
+        List<Vacina> vacinas = vacinaService.listarVacinasEspecie(idPet);
+        if (vacinas.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity<>(vacina,HttpStatus.OK);
+            return new ResponseEntity<>(vacinas, HttpStatus.OK);
         }
     }
 }
