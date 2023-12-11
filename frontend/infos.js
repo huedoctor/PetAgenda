@@ -1,29 +1,33 @@
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
+import { Image } from 'react-native';
 import { View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 
 import Direitos from './infos/direitos';
 import Politica from './infos/politica';
 import Sobre from './infos/sobre';
 import Termos from './infos/termos';
+import navigationKeys from './util/navigationKeys';
+import userData from './util/userData';
 
 export default function Infos() {
     const [conteudo, setConteudo] = useState(false);
 
     const handleInfos = (value) => {
         switch (value) {
-            case "sobre" :
-                setConteudo(<Sobre/>);
+            case "sobre":
+                setConteudo(<Sobre />);
                 break;
-            case "direitos" : 
-                setConteudo(<Direitos/>);
+            case "direitos":
+                setConteudo(<Direitos />);
                 break;
-            case "politica" :
-                setConteudo(<Politica/>);
+            case "politica":
+                setConteudo(<Politica />);
                 break;
-            case "termos" : 
-                setConteudo(<Termos/>);
+            case "termos":
+                setConteudo(<Termos />);
                 break;
-            default : 
+            default:
                 setConteudo(false);
         }
     };
@@ -31,47 +35,72 @@ export default function Infos() {
     const limpaConteudo = () => {
         setConteudo(false);
     }
-    console.log(conteudo)
+
+    const logout = async () => {
+        await userData.removeUser();
+
+        navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [{ name: navigationKeys.Inicio }]
+            })
+        );
+    }
+
+    const navigation = useNavigation();
+
     return (
-        !conteudo ? 
-        <View>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => handleInfos("sobre")}>
-                <Text style={styles.buttonText}>Sobre</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => handleInfos("direitos")}>
-                <Text style={styles.buttonText}>Direitos Autorais</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => handleInfos("politica")}>
-                <Text style={styles.buttonText}>Política de Privacidade</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => handleInfos("termos")}>
-                <Text style={styles.buttonText}>Termos de Uso</Text>
-            </TouchableOpacity>
-        </View>
-        :
-        <View>
-            <Pressable
-                style={styles.backButton}
-                onPress={limpaConteudo}>
-                <Text style={styles.backButtonText}>&lt; Voltar</Text>
-            </Pressable>
-            {conteudo}
-        </View>
+        !conteudo ?
+            <View style={styles.container}>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => handleInfos("sobre")}>
+                    <Text style={styles.buttonText}>Sobre</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => handleInfos("direitos")}>
+                    <Text style={styles.buttonText}>Direitos Autorais</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => handleInfos("politica")}>
+                    <Text style={styles.buttonText}>Política de Privacidade</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => handleInfos("termos")}>
+                    <Text style={styles.buttonText}>Termos de Uso</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.logoutButton}
+                    onPress={logout}>
+                    <Text style={styles.buttonText}>Logout</Text>
+                    <Image
+                        source={require('./assets/rectangle.portrait.and.arrow.forward.png')}
+                        style={styles.logoutImage}
+                    />
+                </TouchableOpacity>
+            </View>
+            :
+            <View>
+                <Pressable
+                    style={styles.backButton}
+                    onPress={limpaConteudo}>
+                    <Text style={styles.backButtonText}>&lt; Voltar</Text>
+                </Pressable>
+                {conteudo}
+            </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        alignSelf: 'stretch',
+        alignItems: 'center',
         backgroundColor: 'white',
+        paddingTop: 20,
     },
     button: {
         backgroundColor: '#FFCD57',
@@ -96,5 +125,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#4A1E91',
         fontWeight: 'bold',
+    },
+    logoutButton: {
+        flexDirection: 'row',
+        textDecorationStyle: 'dashed',
+        marginTop: 20
+    },
+    logoutImage: {
+        width: 24,
+        height: 24,
+        marginLeft: 12
     }
 });

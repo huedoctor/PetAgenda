@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function Sobre(){
-    
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Sobre</Text>
