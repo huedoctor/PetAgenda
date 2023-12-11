@@ -1,6 +1,5 @@
 package com.cae.agenda.controller;
 
-import com.cae.agenda.entities.Remedio;
 import com.cae.agenda.entities.Vacina;
 import com.cae.agenda.services.VacinaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping ("vacina")
+@RequestMapping ("/vacina")
 public class VacinaController {
     @Autowired
     private VacinaService vacinaService;
