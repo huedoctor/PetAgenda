@@ -1,9 +1,8 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 export default function Termos(){
     
     return (
-        <ScrollView>
             <View style={styles.container}>
                 <Text style={styles.title}>Termos de Uso</Text>
                 <Text style={styles.description}>
@@ -98,18 +97,16 @@ export default function Termos(){
                     Além do presente Termo, o usuário deverá consentir com as disposições contidas na respectiva Política de Privacidade a ser apresentada a todos os interessados dentro da interface da plataforma.
                 </Text>
             </View>
-        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         backgroundColor: 'white',
         paddingHorizontal: '8%',
         paddingBottom: 30,
-        marginBottom: 100,
+        marginBottom: 20,
         minHeight: '100%',
     },
     title: {

@@ -1,6 +1,6 @@
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { Image } from 'react-native';
+import { Image, ScrollView } from 'react-native';
 import { View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 
 import Direitos from './infos/direitos';
@@ -83,14 +83,9 @@ export default function Infos() {
                 </TouchableOpacity>
             </View>
             :
-            <View>
-                <Pressable
-                    style={styles.backButton}
-                    onPress={limpaConteudo}>
-                    <Text style={styles.backButtonText}>&lt; Voltar</Text>
-                </Pressable>
+            <ScrollView>
                 {conteudo}
-            </View>
+            </ScrollView>
     );
 }
 

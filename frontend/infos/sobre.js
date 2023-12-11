@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 export default function Sobre(){
 
@@ -22,7 +21,6 @@ export default function Sobre(){
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         backgroundColor: 'white',
         paddingHorizontal: '8%',
         paddingBottom: 30,
