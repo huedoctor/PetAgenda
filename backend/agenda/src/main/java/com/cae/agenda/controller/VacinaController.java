@@ -16,13 +16,13 @@ public class VacinaController {
     private VacinaService vacinaService;
 
     @ResponseBody
-    @GetMapping("/s/{idPet}")
-    public ResponseEntity<List<Vacina>> ListarVacinasEspecie(@RequestParam("idPet") int idPet){
-        List<Vacina> vacina = vacinaService.listarVacinasEspecie(idPet);
-        if(vacina.isEmpty()){
+    @GetMapping("/pet/{idPet}")
+    public ResponseEntity<List<Vacina>> ListarVacinasEspecie(@PathVariable("idPet") int idPet){
+        List<Vacina> vacinas = vacinaService.listarVacinasEspecie(idPet);
+        if(vacinas.isEmpty()){
            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity<>(vacina,HttpStatus.OK);
+            return new ResponseEntity<>(vacinas,HttpStatus.OK);
         }
     }
 }

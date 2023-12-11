@@ -43,15 +43,23 @@ public class AgendaService {
                     Remedio primeiroRemedio = remedios.get(0);
                     map.put("nomeRegistro", primeiroRemedio.getNomeRemedio());
                     map.put("descricaoRegistro", primeiroRemedio.getDescricaoRemedio());
-                    map.put("reeeee", primeiroRemedio.isTipoCuidado());
+                    String tipo;
+                    if(primeiroRemedio.isTipoCuidado()){
+                        tipo = "Tratamento";
+                    }else{
+                        tipo = "Rotina";
+                    }
+                    map.put("classificacao",tipo);
                 } else if (!atividades.isEmpty()) {
                     Atividades primeiraAtividade = atividades.get(0);
                     map.put("nomeRegistro", primeiraAtividade.getNomeAtividade());
                     map.put("descricaoRegistro", primeiraAtividade.getDescricaoAtividade());
+                    map.put("classificacao","Atividade");
                 } else if (!petVacinas.isEmpty()) {
                     PetVacina primeiraPetVacina = petVacinas.get(0);
                     map.put("nomeRegistro", primeiraPetVacina.getVacina().getNomeVacina());
                     map.put("descricaoRegistro", primeiraPetVacina.getVacina().getDescricaoVacina());
+                    map.put("classificacao","Vacina");
                 }
                 map.put("dataInicio", agenda.getDataInicioEvento());
                 map.put("dataFinal", agenda.getDataFinalEvento());

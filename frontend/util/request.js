@@ -34,4 +34,12 @@ export async function get(url) {
         method: "GET",
         headers: headers,
       });
-}
+    }
+
+  export async function del(url) {
+    const headers = await headersWithUser();
+    return fetch(`${baseurl}${url}`,{
+      method: "DELETE",
+      headers: headers
+    });
+  }
