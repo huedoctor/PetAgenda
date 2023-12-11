@@ -7,15 +7,19 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-    ScrollView
+    ScrollView,
+    LogBox
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { get } from './util/request.js';
+LogBox.ignoreLogs(['VirtualizedLists']); 
+
 
 export default function CadastroVacina({ route }) {
 
     const classificacao = "vacina";
-    const [descricao, setDescricao] = useState();
+    const [nomeVacina, setNomeVacina] = useState(null);
     const [dataInicio, setDataInicio] = useState(null);
     const [dataFinal, setDataFinal] = useState(null);
     const [horario, setHorario] = useState(null);
@@ -26,6 +30,7 @@ export default function CadastroVacina({ route }) {
     const [dataFinalErro, setDataFinalErro] = useState(false);
     const [horarioErro, setHorarioErro] = useState(false);
     const [open, setOpen] = useState(false);
+    const [open2, setOpen2] = useState(false);
     const [botaoHabilitado, setBotaoHabilitado] = useState(false);
     const [items, setItems] = useState([
         { label: 'Diáriamente', value: '1' },
@@ -33,12 +38,30 @@ export default function CadastroVacina({ route }) {
         { label: 'Mensalmente', value: '3' },
         { label: 'Anualmente', value: '4' },
     ]);
+    const [vacinas, setVacinas] = useState([]);
+
+    const { id } = route.params; //id do pet pra cadastrar a vacina
 
     const handleRegistraVacina = async () => {
         //Comando para cadastrar a Vacina
     };
 
-    const { id } = route.params; //id do pet pra cadastrar a vacina
+    useEffect(() => {
+        const loadData = async () => {
+            const res = await get(`vacina/pet/${id}`);
+            if (res.ok) {
+                const vacinasJSON = await res.json();
+                const jsonFormatado = vacinasJSON.map((e) => {
+                    return {
+                        label: e.nomeVacina,
+                        value: e.idVacina,
+                    }
+                })
+                setVacinas(jsonFormatado);
+            }
+        }
+        loadData();
+    }, [])
 
     const inputDateMask = (value) => {
         return value
@@ -130,17 +153,22 @@ export default function CadastroVacina({ route }) {
         if (inputFinal) {
             setDataFinal(null)
         }
-    },[inputFinal])
+    }, [inputFinal])
 
     return (
         <ScrollView>
             <View style={styles.container}>
-                <Text style={styles.question}>Descrição</Text>
-                <TextInput
-                    style={[styles.input]}
-                    placeholder="Descrição da atividade"
-                    onChangeText={(text) => setDescricao(text)}
-                    value={descricao}
+                <TouchableOpacity onPress={() => console.log(vacinas)}><Text>aaaaaaaa</Text></TouchableOpacity>
+                <DropDownPicker
+                    open={open2}
+                    value={frequencia}
+                    items={vacinas}
+                    setOpen={setOpen2}
+                    setValue={setNomeVacina}
+                    setItems={setVacinas}
+                    nestedScrollEnabled={false}
+                    placeholder='Selecione a vacina'
+                    style={{ marginTop: 20 }}
                 />
                 <Text style={styles.question}>Data de início*</Text>
                 {dataInicioErro &&
@@ -150,7 +178,7 @@ export default function CadastroVacina({ route }) {
                     style={[styles.input, dataInicioErro ? { marginTop: 0 } : { marginTop: 20 }]}
                     keyboardType='numeric'
                     maxLength={10}
-                    placeholder="Data inicial da atividade"
+                    placeholder="Data inicial da vacina"
                     onChangeText={(text) => {
                         setDataInicio(inputDateMask(text))
                     }}
@@ -163,7 +191,7 @@ export default function CadastroVacina({ route }) {
                 <BouncyCheckbox
                     size={20}
                     fillColor="#4A1E91"
-                    text={"É uma atividade permanente?"}
+                    text={"É uma vacina permanente?"}
                     textStyle={{
                         textDecorationLine: 'none',
                     }}
@@ -186,7 +214,7 @@ export default function CadastroVacina({ route }) {
                             ]}
                             keyboardType='numeric'
                             maxLength={10}
-                            placeholder="Data final da atividade"
+                            placeholder="Data final da vacina"
                             onChangeText={(text) => {
                                 setDataFinal(inputDateMask(text))
                             }}
@@ -202,7 +230,7 @@ export default function CadastroVacina({ route }) {
                 }
                 <TextInput
                     style={[styles.input, horarioErro ? { marginTop: 0 } : { marginTop: 20 }]}
-                    placeholder="Horário do dia para a atividade"
+                    placeholder="Horário do dia para a vacina"
                     keyboardType='numeric'
                     maxLength={5}
                     onChangeText={(text) => {

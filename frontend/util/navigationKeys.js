@@ -8,6 +8,7 @@ export default NavigationKeys = {
     CadastroPrimeiroPet: "Cadastro Primeiro Pet",
     Tratamentos: "Tratamentos",
     TelaPet: "Tela Pet",
+    Infos: "Infos",
     SelecaoRegistro: "Seleção de registro",
     Registro: "Registros",
     CadastroCuidado: "Cadastrar Cuidado",
