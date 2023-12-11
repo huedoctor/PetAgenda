@@ -72,7 +72,7 @@ export default function TelaCadastro() {
     });
     setLoading(false);
     if (res.ok) {
-      navigation.navigate(NavigationKeys.Login, {isCadastrado: true});
+      navigation.navigate(NavigationKeys.Login, { isCadastrado: true });
     } else {
       setShowSnackBar(true);
       setTimeout(() => {
@@ -89,7 +89,7 @@ export default function TelaCadastro() {
   const checkEmail = () => {
     const regexEmailBasica = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if(email.length > 0 && !regexEmailBasica.test(email) ) {
+    if (email.length > 0 && !regexEmailBasica.test(email)) {
       setEmailError(true);
     } else {
       setEmailError(false);
@@ -124,7 +124,7 @@ export default function TelaCadastro() {
           onChangeText={(text) => setName(text)}
           value={name}
         />
-        <View style={styles.spacing}/>
+        <View style={styles.spacing} />
         <TextInput
           style={styles.input}
           placeholder="E-mail"
@@ -133,7 +133,7 @@ export default function TelaCadastro() {
         />
         {emailError
           ? <Text style={styles.validationError}>Email inválido.</Text>
-          : <View style={styles.spacing}/>}
+          : <View style={styles.spacing} />}
         <TextInput
           style={styles.input}
           placeholder="Senha"
@@ -143,7 +143,7 @@ export default function TelaCadastro() {
         />
         {passwordError
           ? <Text style={styles.validationError}>As senhas precisam ser iguais.</Text>
-          : <View style={styles.spacing}/>}
+          : <View style={styles.spacing} />}
         <TextInput
           style={styles.input}
           placeholder="Confirme sua senha"
@@ -151,7 +151,7 @@ export default function TelaCadastro() {
           onChangeText={(text) => setConfirmPassword(text)}
           value={confirmPassword}
         />
-        <View style={styles.spacing}/>
+        <View style={styles.spacing} />
         <View style={styles.submitContainer}>
           {loading
             ? <ActivityIndicator size="large" />
@@ -180,6 +180,12 @@ export default function TelaCadastro() {
             }}
           />
         </View>
+        <TouchableOpacity
+          style={styles.acessarTermos}
+          onPress={() => navigation.navigate(NavigationKeys.Infos)}>
+          <Text
+            style={styles.acessarTermosTexto}>Acessar termos de uso</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.loginButton}>
         <Text style={styles.loginButtonText}>
@@ -191,7 +197,7 @@ export default function TelaCadastro() {
           </Text>
         </TouchableOpacity>
       </View>
-      <SnackBar visible={showSnackBar} textMessage="Não foi possível cadastrar a conta"/>
+      <SnackBar visible={showSnackBar} textMessage="Não foi possível cadastrar a conta" />
     </View>
   );
 }
@@ -229,6 +235,19 @@ const styles = StyleSheet.create({
   },
   checkBox: {
     paddingTop: 10,
+  },
+  acessarTermos: {
+    alignItems: 'center',
+    marginTop: 2,
+    padding: 4,
+    borderRadius: 40,
+    borderWidth: 2,
+    borderColor: '#FFB400'
+  },
+  acessarTermosTexto: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#4A1E91'
   },
   loginButton: {
     alignSelf: 'center',

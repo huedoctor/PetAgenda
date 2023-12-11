@@ -1,5 +1,5 @@
 import { CommonActions, useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, ScrollView } from 'react-native';
 import { View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 
@@ -12,6 +12,13 @@ import userData from './util/userData';
 
 export default function Infos() {
     const [conteudo, setConteudo] = useState(false);
+    const [isLogged, setIsLogged] = useState(false);
+
+    useEffect(() => {
+        userData.isLogged().then((result) => {
+            setIsLogged(result);
+        });
+    }, []);
 
     const handleInfos = (value) => {
         switch (value) {
@@ -31,10 +38,6 @@ export default function Infos() {
                 setConteudo(false);
         }
     };
-
-    const limpaConteudo = () => {
-        setConteudo(false);
-    }
 
     const logout = async () => {
         await userData.removeUser();
@@ -72,15 +75,17 @@ export default function Infos() {
                     onPress={() => handleInfos("termos")}>
                     <Text style={styles.buttonText}>Termos de Uso</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.logoutButton}
-                    onPress={logout}>
-                    <Text style={styles.buttonText}>Logout</Text>
-                    <Image
-                        source={require('./assets/rectangle.portrait.and.arrow.forward.png')}
-                        style={styles.logoutImage}
-                    />
-                </TouchableOpacity>
+                {isLogged &&
+                    <TouchableOpacity
+                        style={styles.logoutButton}
+                        onPress={logout}>
+                        <Text style={styles.buttonText}>Logout</Text>
+                        <Image
+                            source={require('./assets/rectangle.portrait.and.arrow.forward.png')}
+                            style={styles.logoutImage}
+                        />
+                    </TouchableOpacity>
+                }
             </View>
             :
             <ScrollView>

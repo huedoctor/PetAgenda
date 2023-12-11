@@ -9,7 +9,7 @@ const defaultHeaders = {
   };
 
 const headersWithUser = async () => {
-  const user = await userData.getuser();
+  const user = await userData.getUser();
   if (user) {
     return {
       ...defaultHeaders,
@@ -42,4 +42,13 @@ export async function get(url) {
       method: "DELETE",
       headers: headers
     });
+  }
+
+  export async function put(url,body) {
+    const headers = await headersWithUser();
+      return fetch(`${baseurl}${url}`,{
+        method: "PUT",
+        headers: headers,
+        body: JSON.stringify(body)
+      });
   }

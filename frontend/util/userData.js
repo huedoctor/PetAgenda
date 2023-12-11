@@ -15,7 +15,7 @@ export default UserData = {
         });
     },
 
-    getuser: async () => {
+    getUser: async () => {
         return new Promise(async (resolve, reject) => {
             try {
                 const userId = await AsyncStorage.getItem("userId");
@@ -44,5 +44,10 @@ export default UserData = {
                 reject(error);
             }
         });
+    },
+
+    isLogged: async () => {
+        const user = await UserData.getUser();
+        return !!user;
     }
 }

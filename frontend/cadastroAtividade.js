@@ -39,6 +39,33 @@ export default function CadastroAtividade({ route }) {
 
     const handleRegistraAtividade = async () => {
         //Comando para cadastrar a atividade
+        setLoading(true);
+        const res = await post("pet", {
+            "especie": especiePet,
+            "nomePet": nomePet,
+            "pesoPet": pesoPet,
+            "racaPet": racaPet,
+            "dataNascPet" : dataNascimentoPet,
+            "castradoPet": isCastrado,
+            "sexoPet": sexoPet,
+        });
+        setLoading(false);
+        if (res.ok) {
+            navigation.navigate(NavigationKeys.Registros, { petCadastrado: true });
+            navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [
+                    { name: NavigationKeys.TelaPets },
+                  ],
+                })
+              );
+        } else {
+            setShowSnackBar(true);
+            setTimeout(() => {
+                setShowSnackBar(false);
+            }, SnackBar.LENGTH_LONG);
+        }
     };
 
     const { id } = route.params; //id do pet pra cadastrar a atividade
