@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
+
+import Direitos from './infos/direitos';
+import Politica from './infos/politica';
+import Sobre from './infos/sobre';
+import Termos from './infos/termos';
 
 export default function Infos() {
-    const [conteudo, setConteudo] = useState(null);
-    // const [sobre, setSobre] = useState(false);
-    // const [direitos, setDireitos] = useState(false);
-    // const [privacidade, setPrivacidade] = useState(false);
-    // const [termos, setTermos] = useState(false);
+    const [conteudo, setConteudo] = useState(false);
 
     const handleInfos = (value) => {
         switch (value) {
@@ -22,43 +23,45 @@ export default function Infos() {
             case "termos" : 
                 setConteudo(<Termos/>);
                 break;
+            default : 
+                setConteudo(false);
         }
     };
 
     const limpaConteudo = () => {
-        setConteudo(null);
+        setConteudo(false);
     }
-    
+    console.log(conteudo)
     return (
-        conteudo == null ? 
+        !conteudo ? 
         <View>
             <TouchableOpacity
                 style={styles.button}
-                onPress={handleInfos("sobre")}>
+                onPress={() => handleInfos("sobre")}>
                 <Text style={styles.buttonText}>Sobre</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.button}
-                onPress={handleInfos("direitos")}>
+                onPress={() => handleInfos("direitos")}>
                 <Text style={styles.buttonText}>Direitos Autorais</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.button}
-                onPress={handleInfos("politica")}>
+                onPress={() => handleInfos("politica")}>
                 <Text style={styles.buttonText}>Política de Privacidade</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.button}
-                onPress={handleInfos("termos")}>
+                onPress={() => handleInfos("termos")}>
                 <Text style={styles.buttonText}>Termos de Uso</Text>
             </TouchableOpacity>
         </View>
         :
         <View>
             <Pressable
-                style={styles.button}
+                style={styles.backButton}
                 onPress={limpaConteudo}>
-                <Text style={styles.text}>&lt; Voltar</Text>
+                <Text style={styles.backButtonText}>&lt; Voltar</Text>
             </Pressable>
             {conteudo}
         </View>
@@ -71,14 +74,27 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     button: {
-        width: 80,
-        padding: 15,
-        marginTop: 10,
-        alignItems: 'center',
-      },
-    buttonText: {
-    color: 'green',
-    fontWeight: 'bold',
-    fontSize: 16
+        backgroundColor: '#FFCD57',
+        width: 275,
+        height: 60,
+        marginBottom: 30,
+        justifyContent: 'center',
+        borderRadius: 40,
     },
+    buttonText: {
+        alignSelf: 'center',
+        fontSize: 18,
+        color: '#2F135D',
+    },
+    backButton: {
+        fontSize: 18,
+        color: '#4A1E91',
+        fontWeight: 'bold',
+        margin: 20,
+    },
+    backButtonText: {
+        fontSize: 18,
+        color: '#4A1E91',
+        fontWeight: 'bold',
+    }
 });

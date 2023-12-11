@@ -14,6 +14,7 @@ import TelaPet from './telaPet.js';
 import TelaRegistros from './registros.js';
 import TelaCadastroRegistro from './cadastroRegistro.js';
 import userData from './util/userData.js';
+import Infos from './infos.js';
 
 const Stack = createStackNavigator();
 
@@ -74,6 +75,10 @@ export default function App() {
         <Stack.Screen
           name={NavigationKeys.CadastroPet}
           component={TelaCadastroPet}
+        />
+        <Stack.Screen
+          name={NavigationKeys.Infos}
+          component={Infos}
         />
         <Stack.Screen
           name={NavigationKeys.TelaPets}
