@@ -3,6 +3,7 @@ package com.cae.agenda.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.cae.agenda.entities.Agenda;
 import com.cae.agenda.repositories.RepositorioAgenda;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

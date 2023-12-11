@@ -1,18 +1,14 @@
 package com.cae.agenda.services;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
-import com.cae.agenda.repositories.RepositorioPet;
+import com.cae.agenda.entities.*;
+import com.cae.agenda.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import com.cae.agenda.entities.Agenda;
-import com.cae.agenda.repositories.RepositorioAgenda;
 
 @Service
 public class AgendaService {
@@ -21,9 +17,54 @@ public class AgendaService {
     private RepositorioAgenda repositorioAgenda;
     @Autowired
     private RepositorioPet repositorioPet;
+    @Autowired
+    private RepositorioRemedio repositorioRemedio;
+    @Autowired
+    private RepositorioAtividades repositorioAtividades;
+    @Autowired
+    private RepositorioPetVacina repositorioPetVacina;
 
-    public List<Agenda> listarAgendasPet(int idPet) {
-        return repositorioAgenda.findByPetIdPet(idPet);
+//    public List<Agenda> listarAgendasPet(int idPet) {
+//        return repositorioAgenda.findByPetIdPet(idPet);
+//    }
+
+    public ResponseEntity<List<Map<String, Object>>> listarAgendasPet(int idPet) {
+        List<Agenda> agendas = repositorioAgenda.findByPetIdPet(idPet);
+        List<Map<String, Object>> agendaList = new ArrayList<>();
+
+        if (agendas != null && !agendas.isEmpty()) {
+            for (Agenda agenda : agendas) {
+                List<Remedio> remedios = repositorioRemedio.findByAgenda_IdAgenda(agenda.getIdAgenda());
+                List<Atividades> atividades = repositorioAtividades.findByAgenda_IdAgenda(agenda.getIdAgenda());
+                List<PetVacina> petVacinas = repositorioPetVacina.findByPetIdPet(idPet);
+                Map<String, Object> map = new HashMap<>();
+
+                if (!remedios.isEmpty()) {
+                    Remedio primeiroRemedio = remedios.get(0);
+                    map.put("nomeRegistro", primeiroRemedio.getNomeRemedio());
+                    map.put("descricaoRegistro", primeiroRemedio.getDescricaoRemedio());
+                    map.put("reeeee", primeiroRemedio.isTipoCuidado());
+                } else if (!atividades.isEmpty()) {
+                    Atividades primeiraAtividade = atividades.get(0);
+                    map.put("nomeRegistro", primeiraAtividade.getNomeAtividade());
+                    map.put("descricaoRegistro", primeiraAtividade.getDescricaoAtividade());
+                } else if (!petVacinas.isEmpty()) {
+                    PetVacina primeiraPetVacina = petVacinas.get(0);
+                    map.put("nomeRegistro", primeiraPetVacina.getVacina().getNomeVacina());
+                    map.put("descricaoRegistro", primeiraPetVacina.getVacina().getDescricaoVacina());
+                }
+                map.put("dataInicio", agenda.getDataInicioEvento());
+                map.put("dataFinal", agenda.getDataFinalEvento());
+                map.put("frequencia", agenda.getFrequenciaEvento());
+                map.put("horario", agenda.getHorarioEvento());
+
+
+                agendaList.add(map);
+            }
+            return new ResponseEntity<>(agendaList, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.UNAUTHORIZED);
+        }
     }
 
     public ResponseEntity<Agenda> chamaAgenda(int idAgenda){
