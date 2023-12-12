@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.cae.agenda.entities.*;
 import com.cae.agenda.repositories.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -24,19 +25,25 @@ public class AgendaService {
     @Autowired
     private RepositorioPetVacina repositorioPetVacina;
 
-//    public List<Agenda> listarAgendasPet(int idPet) {
-//        return repositorioAgenda.findByPetIdPet(idPet);
-//    }
+
 
     public ResponseEntity<List<Map<String, Object>>> listarAgendasPet(int idPet) {
-        List<Agenda> agendas = repositorioAgenda.findByPetIdPet(idPet);
+        Pet pet = new Pet();
+        try{
+            pet = repositorioPet.findById(idPet).get();
+        }catch (NoSuchElementException e){
+            pet = null;
+        }
+
+
+        List<Agenda> agendas = repositorioAgenda.findByPet(pet);
         List<Map<String, Object>> agendaList = new ArrayList<>();
 
         if (agendas != null && !agendas.isEmpty()) {
             for (Agenda agenda : agendas) {
                 List<Remedio> remedios = repositorioRemedio.findByAgenda_IdAgenda(agenda.getIdAgenda());
-                List<Atividades> atividades = repositorioAtividades.findByAgenda_IdAgenda(agenda.getIdAgenda());
-                List<PetVacina> petVacinas = repositorioPetVacina.findByPetIdPet(idPet);
+                List<Atividades> atividades = repositorioAtividades.findByAgenda(agenda);
+                List<PetVacina> petVacinas = repositorioPetVacina.findByAgenda(agenda);
                 Map<String, Object> map = new HashMap<>();
 
                 if (!remedios.isEmpty()) {
@@ -79,7 +86,9 @@ public class AgendaService {
         Optional<Agenda> agendaOptional = repositorioAgenda.findById(idAgenda);
 
         if (agendaOptional.isPresent()) {
+            Pet pet = agendaOptional.get().getPet();
             Agenda agenda = agendaOptional.get();
+            agenda.setPet(repositorioPet.findByIdPet(pet.getIdPet()));
             return new ResponseEntity<>(agenda, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -110,8 +119,12 @@ public class AgendaService {
         }
     }
 
+    @Transactional
     public ResponseEntity<Map<String, Object>> excluirAgenda(int idAgenda) {
         if (repositorioAgenda.existsById(idAgenda)) {
+
+            Agenda agenda = repositorioAgenda.findByIdAgenda(idAgenda);
+//            repositorioAtividades.deleteByAgenda(agenda);
             repositorioAgenda.deleteById(idAgenda);
             return new ResponseEntity<>(HttpStatus.OK);
         } else{

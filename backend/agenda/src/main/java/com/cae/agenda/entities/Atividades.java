@@ -1,18 +1,13 @@
 package com.cae.agenda.entities;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.cae.agenda.entities.Agenda;
 
-@Entity
+
+@Entity(name = "atividades")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,9 +18,9 @@ public class Atividades {
     @Column(nullable = false)
     private String nomeAtividade;
     @Column(nullable = false)
-    private Long descricaoAtividade;
-    @JoinColumn(name="idAgenda")
-    @ManyToOne(cascade = CascadeType.ALL)
+    private String descricaoAtividade;
+    @JoinColumn(name = "idAgenda")
+    @ManyToOne
     private Agenda agenda;
     
 }

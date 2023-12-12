@@ -1,15 +1,13 @@
 package com.cae.agenda.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+import java.util.List;
+
+@Entity(name = "usuario")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,5 +22,9 @@ public class Usuario {
     private String emailUsuario;
     @Column(nullable = false)
     private String senhaUsuario;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Pet> pet;
+
     
 }

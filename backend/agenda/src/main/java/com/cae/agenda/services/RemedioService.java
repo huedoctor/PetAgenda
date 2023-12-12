@@ -1,5 +1,7 @@
 package com.cae.agenda.services;
 
+import com.cae.agenda.entities.Agenda;
+import com.cae.agenda.entities.Atividades;
 import com.cae.agenda.entities.Remedio;
 import com.cae.agenda.repositories.RepositorioAgenda;
 import com.cae.agenda.repositories.RepositorioRemedio;
@@ -41,6 +43,13 @@ public class RemedioService {
 
         return new ResponseEntity<>(novoRemedio,HttpStatus.CREATED);
     }
+
+//    public ResponseEntity<Atividades> salvarAtividades(Atividades atividades) {
+//        Agenda agenda = repositorioAgenda.save(atividades.getAgenda());
+//        atividades.setAgenda(repositorioAgenda.findByIdAgenda(agenda.getIdAgenda()));
+//        Atividades novaAtividade = repositorioAtividades.save(atividades);
+//        return new ResponseEntity<>(novaAtividade,HttpStatus.CREATED);
+//    }
 
     public ResponseEntity<Remedio> editarRemedio(int idRemedio, Remedio remedio){
         try {

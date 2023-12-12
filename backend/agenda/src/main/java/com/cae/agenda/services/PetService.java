@@ -1,9 +1,12 @@
 package com.cae.agenda.services;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import com.cae.agenda.repositories.RepositorioAgenda;
 import com.cae.agenda.repositories.RepositorioEspecie;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,9 @@ public class PetService {
     @Autowired
     private RepositorioEspecie repositorioEspecie;
 
+    @Autowired
+    private RepositorioAgenda repositorioAgenda;
+
     public List<Pet> listarPetsUsuario(int idUsuario) {
         return repositorioPet.findByUsuarioIdUsuario(idUsuario);
     }
@@ -45,14 +51,17 @@ public class PetService {
         pet.setEspecie(repositorioEspecie.findByIdEspecie(pet.getEspecie().getIdEspecie()));
         return repositorioPet.save(pet);
     }
-
+    @Transactional
     public ResponseEntity<Void> deletarPet(int idPet) {
-        if (repositorioPet.existsById(idPet)) {
+        try {
+            Pet pet = repositorioPet.findById(idPet).get();
+            repositorioAgenda.deleteByPet(pet);
             repositorioPet.deleteById(idPet);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
+        }catch (NoSuchElementException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
     }
 
     public ResponseEntity<Pet> editarPet(int idPet, Pet pet) {

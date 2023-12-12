@@ -19,15 +19,9 @@ public class AgendaController {
     private AgendaService agendaService;
 
 
-//    @ResponseBody
-//    @GetMapping("")
-//    public List<Agenda> listarAgendasPet(@RequestParam("pet") int idPet) {
-//        return agendaService.listarAgendasPet(idPet);
-//    }
-
     @ResponseBody
-    @GetMapping("")
-    public ResponseEntity<List<Map<String,Object>>> listarAgendasPet(@RequestParam("pet") int idPet) {
+    @GetMapping("/s/{idPet}")
+    public ResponseEntity<List<Map<String,Object>>> listarAgendasPet(@PathVariable int idPet) {
         return agendaService.listarAgendasPet(idPet);
     }
 
