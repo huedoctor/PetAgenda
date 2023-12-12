@@ -180,6 +180,7 @@ export default function CadastroAtividade({ route }) {
                     placeholder="Descrição da atividade"
                     onChangeText={(text) => setDescricao(text)}
                     value={descricao}
+                    maxLength={40}
                 />
                 <Text style={styles.question}>Data de início*</Text>
                 {dataInicioErro &&

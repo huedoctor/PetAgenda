@@ -13,5 +13,8 @@ export default NavigationKeys = {
     Registro: "Registros",
     CadastroCuidado: "Cadastrar Cuidado",
     CadastroVacina: "Cadastrar Vacina",
-    CadastroAtividade: "Cadastrar Atividade"
+    CadastroAtividade: "Cadastrar Atividade",
+    Atividade: "Atividade",
+    Cuidado: "Cuidado",
+    Vacina: "Vacina",
 }

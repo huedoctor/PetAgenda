@@ -16,6 +16,9 @@ import TelaSelecaoRegistro from './selecaoRegistro.js';
 import TelaCadastroCuidado from './cadastroCuidado.js';
 import TelaCadastroVacina from './cadastroVacina.js';
 import TelaCadastroAtividade from './cadastroAtividade.js';
+import TelaAtividade from './atividade.js';
+import TelaVacina from './vacina.js';
+import TelaCuidado from './cuidado.js';
 import userData from './util/userData.js';
 import Infos from './infos.js';
 
@@ -125,6 +128,18 @@ export default function App() {
         <Stack.Screen
           name={NavigationKeys.CadastroAtividade}
           component={TelaCadastroAtividade}
+        />
+        <Stack.Screen
+          name={NavigationKeys.Atividade}
+          component={TelaAtividade}
+        />
+        <Stack.Screen
+          name={NavigationKeys.Cuidado}
+          component={TelaCuidado}
+        />
+        <Stack.Screen
+          name={NavigationKeys.Vacina}
+          component={TelaVacina}
         />
       </Stack.Navigator>
     </NavigationContainer>

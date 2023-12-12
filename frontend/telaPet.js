@@ -9,9 +9,11 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import navigationKeys from './util/navigationKeys';
+import NavigationKeys from './util/navigationKeys';
 import LoadingIndicator from './components/LoadingIndicator';
-import { get } from './util/request.js'
+import { get, del, put } from './util/request.js'
+import SnackBar from './util/snackBar';
+
 
 export default function TelaPet({ route }) {
 
@@ -77,15 +79,12 @@ export default function TelaPet({ route }) {
     }
 
     useEffect(() => {
+        navigation.setOptions({ title: pet.nomePet })
         if (pet.sexoPet == 'macho') {
             setSexoPet('Macho');
-        } else if (pet.sexoPet == 'femea'){
+        } else if (pet.sexoPet == 'femea') {
             setSexoPet('Fêmea');
         }
-    },[])
-
-    useEffect(() => {
-        navigation.setOptions({ title: pet.nomePet })
     }, [pet]);
 
     let content;
@@ -141,7 +140,7 @@ export default function TelaPet({ route }) {
                     </View>
                 </View>
                 <View style={styles.buttonsContainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate(navigationKeys.Registro, { id: pet.idPet })}>
+                    <TouchableOpacity onPress={() => navigation.navigate(NavigationKeys.Registro, { id: pet.idPet })}>
                         <View style={styles.buttonContainer}>
                             <Image
                                 source={require('./assets/calendar.png')}

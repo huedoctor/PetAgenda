@@ -238,11 +238,11 @@ const styles = StyleSheet.create({
   },
   acessarTermos: {
     alignItems: 'center',
-    marginTop: 2,
+    marginTop: 5,
     padding: 4,
     borderRadius: 40,
     borderWidth: 2,
-    borderColor: '#FFB400'
+    borderColor: '#4A1E91'
   },
   acessarTermosTexto: {
     fontSize: 16,
