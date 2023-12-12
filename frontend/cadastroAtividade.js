@@ -32,6 +32,7 @@ export default function CadastroAtividade({ route }) {
     const [horarioErro, setHorarioErro] = useState(false);
     const [open, setOpen] = useState(false);
     const [botaoHabilitado, setBotaoHabilitado] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [items, setItems] = useState([
         { label: 'Diáriamente', value: '1' },
         { label: 'Semanalmente', value: '2' },
@@ -39,40 +40,38 @@ export default function CadastroAtividade({ route }) {
         { label: 'Anualmente', value: '4' },
     ]);
 
+    const { id } = route.params; //id do pet pra cadastrar a atividade
+
     const handleRegistraAtividade = async () => {
         //Comando para cadastrar a atividade
         setLoading(true);
-        const res = await post("atividades/", {
-            "nome": nome,
-            "descricao": descricao,
-            "tipoCuidado": cuidado,
+        const res = await post(`atividades/${id}`, {
+            "nomeAtividade": nome,
+            "descricaoAtividade": descricao,
             "agenda": {
-                "dataInicio": dataInicio,
-                "dataFinal": dataFinal,
-                "horario": horario,
-                "frequencia": frequencia
+                "dataInicioEvento": dataInicio,
+                "dataFinalEvento": dataFinal,
+                "horarioEvento": horario + ':00',
+                "frequenciaEvento": frequencia
             }
         });
         setLoading(false);
         if (res.ok) {
-            navigation.navigate(NavigationKeys.Registros, { petCadastrado: true });
             navigation.dispatch(
                 CommonActions.reset({
                     index: 0,
                     routes: [
-                        { name: NavigationKeys.TelaPets },
+                        {
+                            name: NavigationKeys.TelaPets,
+                            params: { atividadeCadastrada: true }
+                        }
                     ],
                 })
             );
-        } else {
-            setShowSnackBar(true);
-            setTimeout(() => {
-                setShowSnackBar(false);
-            }, SnackBar.LENGTH_LONG);
         }
     };
 
-    const { id } = route.params; //id do pet pra cadastrar a atividade
+   
 
     const inputDateMask = (value) => {
         return value
