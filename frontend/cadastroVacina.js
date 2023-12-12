@@ -158,7 +158,6 @@ export default function CadastroVacina({ route }) {
     return (
         <ScrollView>
             <View style={styles.container}>
-                <TouchableOpacity onPress={() => console.log(vacinas)}><Text>aaaaaaaa</Text></TouchableOpacity>
                 <DropDownPicker
                     open={open2}
                     value={frequencia}
