@@ -1,7 +1,6 @@
 package com.cae.agenda.controller;
 
 import com.cae.agenda.entities.AgendaVacina;
-import com.cae.agenda.entities.Remedio;
 import com.cae.agenda.entities.Vacina;
 import com.cae.agenda.services.VacinaService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.cae.agenda.entities.Agenda;
 
 
 @Entity(name = "atividades")
