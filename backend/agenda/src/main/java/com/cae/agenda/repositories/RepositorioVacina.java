@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface RepositorioVacina extends JpaRepository<Vacina,Integer>{
     List<Vacina> findByEspecieIdEspecie(int idEspecie);
+
+    Vacina findByIdVacina(int idVacina);
 }

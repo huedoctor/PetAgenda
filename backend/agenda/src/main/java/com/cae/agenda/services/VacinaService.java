@@ -1,8 +1,11 @@
 package com.cae.agenda.services;
 
 import com.cae.agenda.entities.Pet;
+import com.cae.agenda.entities.Remedio;
+import com.cae.agenda.entities.Agenda;
 import com.cae.agenda.entities.AgendaVacina;
 import com.cae.agenda.entities.Vacina;
+import com.cae.agenda.repositories.RepositorioAgenda;
 import com.cae.agenda.repositories.RepositorioAgendaVacina;
 import com.cae.agenda.repositories.RepositorioPet;
 import com.cae.agenda.repositories.RepositorioVacina;
@@ -26,6 +29,9 @@ public class VacinaService {
     private RepositorioPet repositorioPet;
 
     @Autowired
+    private RepositorioAgenda repositorioAgenda;
+
+    @Autowired
     private RepositorioAgendaVacina repositorioAgendaVacina;
 
     public List<Vacina> listarVacinasEspecie(int idPet) {
@@ -34,6 +40,22 @@ public class VacinaService {
 
         return repositorioVacina.findByEspecieIdEspecie(idEspecie);
     }
+
+    public ResponseEntity<AgendaVacina> salvarvacina(Agenda agenda,int idVacina,int idPet){
+        Pet pet = repositorioPet.findByIdPet(idPet);
+        agenda.setPet(pet);
+        Vacina vacina = repositorioVacina.findByIdVacina(idVacina);
+        Agenda novaAgenda = repositorioAgenda.save(agenda);
+        
+        AgendaVacina agendaVacina = new AgendaVacina();
+        agendaVacina.setAgenda(novaAgenda);
+        agendaVacina.setVacina(vacina);
+        AgendaVacina avsalva = repositorioAgendaVacina.save(agendaVacina);
+
+        return new ResponseEntity<>(avsalva, HttpStatus.OK);
+    }
+
+    
 
     public ResponseEntity<AgendaVacina> chamaPetVacina(int idAgendaVacina){
         Optional<AgendaVacina> pvOptional = repositorioAgendaVacina.findById(idAgendaVacina);
