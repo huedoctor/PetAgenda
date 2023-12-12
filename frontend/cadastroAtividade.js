@@ -12,11 +12,14 @@ import {
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { CommonActions } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
+import navigationKeys from './util/navigationKeys';
 import { post } from './util/request';
 LogBox.ignoreLogs(['VirtualizedLists']);
 
 export default function CadastroAtividade({ route }) {
+
+    const navigation = useNavigation();
 
     const classificacao = "atividade";
     const [nome, setNome] = useState(null);
@@ -62,7 +65,7 @@ export default function CadastroAtividade({ route }) {
                     index: 0,
                     routes: [
                         {
-                            name: NavigationKeys.TelaPets,
+                            name: navigationKeys.Registro,
                             params: { atividadeCadastrada: true }
                         }
                     ],

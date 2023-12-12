@@ -12,11 +12,14 @@ import {
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { useNavigation } from '@react-navigation/native';
 import { get } from './util/request.js';
 LogBox.ignoreLogs(['VirtualizedLists']); 
 
 
 export default function CadastroVacina({ route }) {
+
+    const navigation = useNavigation();
 
     const classificacao = "vacina";
     const [nomeVacina, setNomeVacina] = useState(null);

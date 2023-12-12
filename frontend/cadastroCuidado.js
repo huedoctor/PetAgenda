@@ -11,12 +11,15 @@ import {
     LogBox,
 } from 'react-native';
 import BouncyCheckboxGroup from "react-native-bouncy-checkbox-group";
+import { useNavigation } from '@react-navigation/native';
 import DropDownPicker from 'react-native-dropdown-picker';
+import navigationKeys from './util/navigationKeys';
 LogBox.ignoreLogs(['VirtualizedLists']);
 
 export default function CadastroCuidado({ route }) {
 
-    const classificacao = "cuidado";
+    const navigation = useNavigation();
+
     const [tipoCuidado, setTipoCuidado] = useState(null);
     const [nome, setNome] = useState(null);
     const [descricao, setDescricao] = useState();
@@ -31,6 +34,7 @@ export default function CadastroCuidado({ route }) {
     const [horarioErro, setHorarioErro] = useState(false);
     const [open, setOpen] = useState(false);
     const [botaoHabilitado, setBotaoHabilitado] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [items, setItems] = useState([
         { label: 'Diáriamente', value: '1' },
         { label: 'Semanalmente', value: '2' },
@@ -39,11 +43,37 @@ export default function CadastroCuidado({ route }) {
     ]);
     LogBox.ignoreLogs(['VirtualizedLists']);
 
+    const { id } = route.params; //id do pet pra cadastrar o cuidado
+
     const handleRegistraCuidado = async () => {
         //Método pra cadastrar o cuidado
+        setLoading(true);
+        const res = await post(`remedio/${id}`, {
+            "nomeRemedio": nome,
+            "descricaoRemedio": descricao,
+            "tipoCuidado": tipoCuidado,
+            "agenda": {
+                "dataInicioEvento": dataInicio,
+                "dataFinalEvento": dataFinal,
+                "horarioEvento": horario + ':00',
+                "frequenciaEvento": frequencia
+            }
+        });
+        setLoading(false);
+        if (res.ok) {
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [
+                        {
+                            name: navigationKeys.Registro,
+                            params: { cuidadoCadastrado: true }
+                        }
+                    ],
+                })
+            );
+        }
     };
-
-    const { id } = route.params; //id do pet pra cadastrar o cuidado
 
     const inputDateMask = (value) => {
         return value
@@ -158,17 +188,17 @@ export default function CadastroCuidado({ route }) {
     ];
 
     return (
-        <ScrollView style={{backgroundColor: 'white'}}>
+        <ScrollView style={{ backgroundColor: 'white' }}>
             <View style={styles.container}>
                 <Text style={[styles.question, { marginBottom: 20 }]}>Qual o tipo do cuidado?*</Text>
                 <BouncyCheckboxGroup
                     data={opcoesTipoTratamento}
                     onChange={(selectedItem) => {
                         if (selectedItem.id == "rotina") {
-                            setTipoCuidado("rotina");
+                            setTipoCuidado(false);
                             setInputFinal(true)
                         } else if (selectedItem.id == "tratamento") {
-                            setTipoCuidado("tratamento");
+                            setTipoCuidado(true);
                             setInputFinal(false)
                         }
                     }}

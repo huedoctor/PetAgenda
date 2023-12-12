@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     marginTop: '13%',
   },
   criarContaButton: {
-    backgroundColor: '#FFC847',
+    backgroundColor: '#F2D8AB',
     width: 275,
     height: 60,
     marginBottom: 30,
@@ -100,6 +100,6 @@ const styles = StyleSheet.create({
   },
   helpButtonText: {
     fontSize: 18,
-    color: '#FFB400',
+    color: '#F2D8AB',
   },
 });

@@ -10,7 +10,7 @@ import SnackBar from './util/snackBar';
 
 export default function TelaLogin({ route }) {
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showSnackBar, setShowSnackBar] = useState(false);
@@ -35,7 +35,7 @@ export default function TelaLogin({ route }) {
         })
       );
     } else {
-      setError("Usuário ou senha incorretos")
+      setError(true)
     }
   };
 
@@ -46,11 +46,12 @@ export default function TelaLogin({ route }) {
         setShowSnackBar(false);
       }, SnackBar.LENGTH_LONG);
     }
-  },[]);
+  }, []);
 
   return (
     <View style={styles.container}>
-      <View style={styles.loginContainer}>
+      {error && <Text style={styles.erro}>E-mail ou senha incorretos</Text>}
+      <View style={[styles.loginContainer, error ? { marginTop: 0 } : { marginTop: 30 }]}>
         <TextInput
           style={styles.input}
           inputMode='email'
@@ -69,7 +70,7 @@ export default function TelaLogin({ route }) {
           value={password}
         />
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate(NavigationKeys.Contato)}>
+      <TouchableOpacity onPress={() => [navigation.navigate(NavigationKeys.Contato), setError(false)]}>
         <Text style={styles.passwordButton}>Esqueceu sua senha?</Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -81,7 +82,7 @@ export default function TelaLogin({ route }) {
         <Text style={styles.registerButtonText}>
           Ainda não possui uma conta?
         </Text>
-        <TouchableOpacity onPress={() => navigation.navigate(NavigationKeys.CriarConta)}>
+        <TouchableOpacity onPress={() => [navigation.navigate(NavigationKeys.CriarConta), setError(false)]}>
           <Text style={[styles.registerButtonText, styles.registerButtonText2]}>
             Criar conta
           </Text>
@@ -146,5 +147,10 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontWeight: 'bold',
     color: '#4A1E91',
+  },
+  erro: {
+    color: 'red',
+    marginTop: 12,
+    marginRight: 100,
   },
 });

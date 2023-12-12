@@ -149,10 +149,10 @@ export default function TelaRegistros({ route }) {
 
     const getColor = (classificacao) => {
         switch (classificacao.toLowerCase()) {
-            case 'atividade': return 'red';
-            case 'vacina': return 'blue';
-            case 'tratamento': return 'green';
-            case 'rotina': return 'yellow';
+            case 'atividade': return '#9BB8CD';
+            case 'vacina': return '#F9E8D9';
+            case 'tratamento': return '#9bdb87';
+            case 'rotina': return '#b5a4ff';
         }
     }
 
@@ -211,23 +211,23 @@ export default function TelaRegistros({ route }) {
                             onPress={() => {
                                 switch (item.classificacao.toLowerCase()) {
                                     case "atividade":
-                                        navigation.navigate(NavigationKeys.Atividade, {id});
+                                        navigation.navigate(NavigationKeys.Atividade, { id });
                                         break;
 
                                     case "vacina":
-                                        navigation.navigate(NavigationKeys.Vacina, {id});
+                                        navigation.navigate(NavigationKeys.Vacina, { id });
                                         break;
 
                                     case "tratamento":
-                                        navigation.navigate(NavigationKeys.Cuidado, {id});
+                                        navigation.navigate(NavigationKeys.Cuidado, { id });
                                         break;
-                                    
+
                                     case "rotina":
-                                        navigation.navigate(NavigationKeys.Cuidado, {id});
+                                        navigation.navigate(NavigationKeys.Cuidado, { id });
                                 }
                             }
                             }>
-                            <View style={[styles.registroContainer, { backgroundColor: getColor(item.classificacao) }]}>
+                            <View style={styles.registroContainer}>
                                 <Text style={styles.nomeRegistro}>{item.nomeRegistro}</Text>
                                 <View style={styles.registroContainerRow}>
                                     <View style={styles.registroContainerStatus}>
@@ -242,8 +242,8 @@ export default function TelaRegistros({ route }) {
                                         />
                                         <Text>{item.horario}{'h'}</Text>
                                     </View>
-                                    <View style={styles.tipoRegistroConteiner}>
-                                        <Text style={{ color: '#ECC683' }}>
+                                    <View style={[styles.tipoRegistroConteiner, { backgroundColor: getColor(item.classificacao) }]}>
+                                        <Text>
                                             {item.classificacao}
                                         </Text>
                                     </View>
@@ -269,6 +269,7 @@ const styles = StyleSheet.create({
         height: 100,
         borderRadius: 20,
         marginTop: 25,
+        backgroundColor: '#FFC847'
     },
     nomeRegistro: {
         marginLeft: 25,
@@ -281,7 +282,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
     },
     tipoRegistroConteiner: {
-        backgroundColor: '#4A1E91',
         width: 90,
         height: 25,
         alignItems: 'center',

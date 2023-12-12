@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     selecaoConteiner: {
-        backgroundColor: '#ECC683',
+        backgroundColor: '#FFC847',
         marginHorizontal: '15%',
         borderRadius: 20,
     },

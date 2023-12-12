@@ -273,6 +273,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
     marginBottom: 8,
     height: 16,
+    marginLeft: 15,
   },
   submitContainer: {
     alignItems: 'center',

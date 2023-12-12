@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     petProfileContainer: {
         width: 300,
         height: 'auto',
-        backgroundColor: '#ECC683',
+        backgroundColor: '#FFC847',
         alignSelf: 'center',
         flexDirection: 'column',
         borderRadius: 20,
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection: 'row',
-        backgroundColor: '#ECC683',
+        backgroundColor: '#FFC847',
         width: 300,
         height: 100,
         justifyContent: 'start',

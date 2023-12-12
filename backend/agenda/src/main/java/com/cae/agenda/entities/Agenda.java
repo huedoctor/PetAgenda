@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,10 +42,13 @@ public class Agenda {
     @Column(nullable = false)
     private boolean concluidoRegistro;
     @OneToMany(mappedBy = "agenda",cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private List<Atividades> atividades;
     @OneToMany(mappedBy = "agenda",cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private List<Remedio> remedios;
     @OneToMany(mappedBy = "agenda",cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private List<AgendaVacina> agendaVacinas;
 
 }

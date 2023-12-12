@@ -157,6 +157,7 @@ export default function TelaCadastroPet() {
                             style={[styles.input, { marginTop: 35 }]}
                             placeholder="Nome*"
                             placeholderTextColor="#46464C"
+                            maxLength={20}
                             onChangeText={(text) => setNomePet(text)}
                             value={nomePet}
                         >
@@ -165,6 +166,7 @@ export default function TelaCadastroPet() {
                             style={[styles.input]}
                             placeholder="Raça*"
                             placeholderTextColor="#46464C"
+                            maxLength={20}
                             onChangeText={(text) => setRacaPet(text)}
                             value={racaPet}
                         >
