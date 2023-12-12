@@ -118,7 +118,7 @@ export default function TelaPets({ route }) {
                 <View>
 
                 </View>
-                <Text style={styles.messageTitle}>Nenhum pet avistado...</Text>
+                <Text style={styles.messageTitle}>Nenhum pet encontrado...</Text>
                 <Text style={styles.messageText}>{"\n"}Clique no botão no canto superior direito da tela para poder começar a cadastrar seus pets.</Text>
             </View>
 
