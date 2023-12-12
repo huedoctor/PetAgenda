@@ -8,7 +8,7 @@ import {
     Image,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import NavigationKeys from './util/navigationKeys';
+import navigationKeys from './util/navigationKeys';
 import { FlatList } from 'react-native-gesture-handler';
 import FilterChip from './components/FilterChip';
 
@@ -178,7 +178,6 @@ export default function TelaRegistros({ route }) {
                 </TouchableOpacity>
             ),
         });
-
         // Fazer a requisição GET aqui
         setOriginalData(dados);
         setFilteredData(dados);
@@ -212,19 +211,19 @@ export default function TelaRegistros({ route }) {
                             onPress={() => {
                                 switch (item.classificacao.toLowerCase()) {
                                     case "atividade":
-                                        navigation.navigate(NavigationKeys.Atividade);
+                                        navigation.navigate(NavigationKeys.Atividade, {id});
                                         break;
 
                                     case "vacina":
-                                        navigation.navigate(NavigationKeys.Vacina);
+                                        navigation.navigate(NavigationKeys.Vacina, {id});
                                         break;
 
                                     case "tratamento":
-                                        navigation.navigate(NavigationKeys.Cuidado);
+                                        navigation.navigate(NavigationKeys.Cuidado, {id});
                                         break;
                                     
                                     case "rotina":
-                                        navigation.navigate(NavigationKeys.Cuidado);
+                                        navigation.navigate(NavigationKeys.Cuidado, {id});
                                 }
                             }
                             }>

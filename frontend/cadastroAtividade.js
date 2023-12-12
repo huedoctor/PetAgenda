@@ -13,9 +13,7 @@ import {
 import DropDownPicker from 'react-native-dropdown-picker';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { post } from './util/request';
-
 LogBox.ignoreLogs(['VirtualizedLists']); 
-import { post } from './util/request';
 
 export default function CadastroAtividade({ route }) {
 
@@ -166,7 +164,7 @@ export default function CadastroAtividade({ route }) {
     },[inputFinal])
 
     return (
-        <ScrollView>
+        <ScrollView style={{backgroundColor: 'white'}}>
             <View style={styles.container}>
                 <TextInput
                     style={[styles.input]}
@@ -184,7 +182,7 @@ export default function CadastroAtividade({ route }) {
                 />
                 <Text style={styles.question}>Data de início*</Text>
                 {dataInicioErro &&
-                    <Text style={styles.aviso}>Insira uma data válida.</Text>
+                    <Text style={styles.aviso}>Insira uma data válida</Text>
                 }
                 <TextInput
                     style={[styles.input, dataInicioErro ? { marginTop: 0 } : { marginTop: 20 }]}
@@ -217,7 +215,7 @@ export default function CadastroAtividade({ route }) {
                     <>
                         <Text style={styles.question}>Data final</Text>
                         {dataFinalErro ? (
-                            <Text style={styles.aviso}>Insira uma data válida.</Text>
+                            <Text style={styles.aviso}>Insira uma data válida</Text>
                         ) : null}
                         <TextInput
                             style={[
@@ -238,7 +236,7 @@ export default function CadastroAtividade({ route }) {
                 )}
                 <Text style={styles.question}>Horário*</Text>
                 {horarioErro &&
-                    <Text style={styles.aviso}>Insira um horário válido.</Text>
+                    <Text style={styles.aviso}>Insira um horário válido</Text>
                 }
                 <TextInput
                     style={[styles.input, horarioErro ? { marginTop: 0 } : { marginTop: 20 }]}
