@@ -30,16 +30,28 @@ export default function TelaPets({ route }) {
     const [userHasPets, setUserHasPets] = useState(false);
     const [loading, setLoading] = useState(false);
     const [showSnackBar, setShowSnackBar] = useState(false);
-
-    let snackMessage;
+    const [snackMessage, setSnackMessage] = useState('');
 
     useEffect(() => {
-        snackMessage = 'Pet excluído com sucesso.';
-        setShowSnackBar(true);
-        setTimeout(() => {
-            setShowSnackBar(false);
-        }, SnackBar.LENGTH_LONG);
-    }, [route.params?.petDeletado])
+        const showFeedback = false;
+
+        if (route.params?.petCadastrado) {
+            setSnackMessage('Pet cadastrado com sucesso.');
+            showFeedback = true;
+        }
+
+        if (route.params?.petDeletado) {
+            setSnackMessage('Pet excluído com sucesso.');
+            showFeedback = true;
+        }
+
+        if (showFeedback) {
+            setShowSnackBar(true);
+            setTimeout(() => {
+                setShowSnackBar(false);
+            }, SnackBar.LENGTH_LONG);
+        }
+    }, [route.params])
 
     useEffect(() => {
         const loadData = async () => {
