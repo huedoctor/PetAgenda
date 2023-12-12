@@ -34,7 +34,7 @@ export default function TelaRegistros({ route }) {
             </TouchableOpacity>
           ),
         });
-      },[]);
+      },[]);    
 
     return (
         <View style={styles.container}>

@@ -12,7 +12,10 @@ import {
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { post } from './util/request';
+
 LogBox.ignoreLogs(['VirtualizedLists']); 
+import { post } from './util/request';
 
 export default function CadastroAtividade({ route }) {
 
@@ -40,7 +43,7 @@ export default function CadastroAtividade({ route }) {
     const handleRegistraAtividade = async () => {
         //Comando para cadastrar a atividade
         setLoading(true);
-        const res = await post("pet", {
+        const res = await post("atividades", {
             "especie": especiePet,
             "nomePet": nomePet,
             "pesoPet": pesoPet,

@@ -3,6 +3,7 @@ package com.cae.agenda.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.cae.agenda.entities.Agenda;
 import com.cae.agenda.repositories.RepositorioAgenda;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,11 +23,13 @@ public class AtividadesService {
     private RepositorioAgenda repositorioAgenda;
 
     public List<Atividades> listarAtividadesAgenda(int idAgenda) {
-        return repositorioAtividades.findByAgenda_IdAgenda(idAgenda);
+        Agenda agenda = repositorioAgenda.findByIdAgenda(idAgenda);
+        return repositorioAtividades.findByAgenda(agenda);
     }
 
     public ResponseEntity<Atividades> salvarAtividades(Atividades atividades) {
-        atividades.setAgenda(repositorioAgenda.findByIdAgenda(atividades.getAgenda().getIdAgenda()));
+        Agenda agenda = repositorioAgenda.save(atividades.getAgenda());
+        atividades.setAgenda(repositorioAgenda.findByIdAgenda(agenda.getIdAgenda()));
         Atividades novaAtividade = repositorioAtividades.save(atividades);
         return new ResponseEntity<>(novaAtividade,HttpStatus.CREATED);
     }
