@@ -2,15 +2,19 @@ package com.cae.agenda.services;
 
 import com.cae.agenda.entities.Agenda;
 import com.cae.agenda.entities.Atividades;
+import com.cae.agenda.entities.Pet;
 import com.cae.agenda.entities.Remedio;
 import com.cae.agenda.repositories.RepositorioAgenda;
 import com.cae.agenda.repositories.RepositorioRemedio;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -38,18 +42,11 @@ public class RemedioService {
     }
 
     public ResponseEntity<Remedio> criaRemedio(Remedio remedio){
-        remedio.setAgenda(repositorioAgenda.findByIdAgenda(remedio.getAgenda().getIdAgenda()));
+        Agenda agenda = repositorioAgenda.save(remedio.getAgenda());
+        remedio.setAgenda(repositorioAgenda.findByIdAgenda(agenda.getIdAgenda()));
         Remedio novoRemedio = repositorioRemedio.save(remedio);
-
         return new ResponseEntity<>(novoRemedio,HttpStatus.CREATED);
     }
-
-//    public ResponseEntity<Atividades> salvarAtividades(Atividades atividades) {
-//        Agenda agenda = repositorioAgenda.save(atividades.getAgenda());
-//        atividades.setAgenda(repositorioAgenda.findByIdAgenda(agenda.getIdAgenda()));
-//        Atividades novaAtividade = repositorioAtividades.save(atividades);
-//        return new ResponseEntity<>(novaAtividade,HttpStatus.CREATED);
-//    }
 
     public ResponseEntity<Remedio> editarRemedio(int idRemedio, Remedio remedio){
         try {
@@ -64,11 +61,13 @@ public class RemedioService {
         }
     }
 
+    @Transactional
     public ResponseEntity<Void> deletarRemedio(int idRemedio) {
-        if (repositorioRemedio.existsById(idRemedio)) {
-            repositorioRemedio.deleteById(idRemedio);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
+        try{
+            Remedio remedio =repositorioRemedio.findById(idRemedio).get();
+            repositorioRemedio.deleteById(remedio.getIdRemedio());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (NoSuchElementException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

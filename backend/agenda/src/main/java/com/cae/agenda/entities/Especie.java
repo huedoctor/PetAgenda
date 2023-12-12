@@ -1,10 +1,6 @@
 package com.cae.agenda.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +14,6 @@ public class Especie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idEspecie")
     private int idEspecie;
-    @Column(nullable = true)
+    @Column(unique = true)
     private String nomeEspecie;
 }

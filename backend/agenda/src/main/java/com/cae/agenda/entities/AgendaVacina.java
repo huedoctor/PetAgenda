@@ -5,14 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name ="PetVacina")
+@Entity(name ="AgendaVacina")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PetVacina {
+public class AgendaVacina {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @JoinColumn(name = "idAgenda")
     @ManyToOne()
