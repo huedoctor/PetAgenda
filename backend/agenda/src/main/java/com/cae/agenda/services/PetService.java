@@ -51,6 +51,7 @@ public class PetService {
         pet.setEspecie(repositorioEspecie.findByIdEspecie(pet.getEspecie().getIdEspecie()));
         return repositorioPet.save(pet);
     }
+
     @Transactional
     public ResponseEntity<Void> deletarPet(int idPet) {
         try {
@@ -61,7 +62,6 @@ public class PetService {
         }catch (NoSuchElementException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
     }
 
     public ResponseEntity<Pet> editarPet(int idPet, Pet pet) {

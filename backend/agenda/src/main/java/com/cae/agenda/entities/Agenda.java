@@ -42,6 +42,6 @@ public class Agenda {
     @OneToMany(mappedBy = "agenda",cascade = CascadeType.REMOVE)
     private List<Remedio> remedios;
     @OneToMany(mappedBy = "agenda",cascade = CascadeType.REMOVE)
-    private List<PetVacina> PetVacinas;
+    private List<AgendaVacina> agendaVacinas;
 
 }

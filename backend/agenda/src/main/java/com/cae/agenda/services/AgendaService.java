@@ -23,7 +23,7 @@ public class AgendaService {
     @Autowired
     private RepositorioAtividades repositorioAtividades;
     @Autowired
-    private RepositorioPetVacina repositorioPetVacina;
+    private RepositorioAgendaVacina repositorioAgendaVacina;
 
 
 
@@ -43,7 +43,7 @@ public class AgendaService {
             for (Agenda agenda : agendas) {
                 List<Remedio> remedios = repositorioRemedio.findByAgenda_IdAgenda(agenda.getIdAgenda());
                 List<Atividades> atividades = repositorioAtividades.findByAgenda(agenda);
-                List<PetVacina> petVacinas = repositorioPetVacina.findByAgenda(agenda);
+                List<AgendaVacina> agendaVacinas = repositorioAgendaVacina.findByAgenda(agenda);
                 Map<String, Object> map = new HashMap<>();
 
                 if (!remedios.isEmpty()) {
@@ -62,10 +62,10 @@ public class AgendaService {
                     map.put("nomeRegistro", primeiraAtividade.getNomeAtividade());
                     map.put("descricaoRegistro", primeiraAtividade.getDescricaoAtividade());
                     map.put("classificacao","Atividade");
-                } else if (!petVacinas.isEmpty()) {
-                    PetVacina primeiraPetVacina = petVacinas.get(0);
-                    map.put("nomeRegistro", primeiraPetVacina.getVacina().getNomeVacina());
-                    map.put("descricaoRegistro", primeiraPetVacina.getVacina().getDescricaoVacina());
+                } else if (!agendaVacinas.isEmpty()) {
+                    AgendaVacina primeiraAgendaVacina = agendaVacinas.get(0);
+                    map.put("nomeRegistro", primeiraAgendaVacina.getVacina().getNomeVacina());
+                    map.put("descricaoRegistro", primeiraAgendaVacina.getVacina().getDescricaoVacina());
                     map.put("classificacao","Vacina");
                 }
                 map.put("dataInicio", agenda.getDataInicioEvento());
@@ -122,9 +122,7 @@ public class AgendaService {
     @Transactional
     public ResponseEntity<Map<String, Object>> excluirAgenda(int idAgenda) {
         if (repositorioAgenda.existsById(idAgenda)) {
-
             Agenda agenda = repositorioAgenda.findByIdAgenda(idAgenda);
-//            repositorioAtividades.deleteByAgenda(agenda);
             repositorioAgenda.deleteById(idAgenda);
             return new ResponseEntity<>(HttpStatus.OK);
         } else{

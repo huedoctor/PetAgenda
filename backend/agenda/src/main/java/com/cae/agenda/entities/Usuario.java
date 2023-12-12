@@ -23,7 +23,7 @@ public class Usuario {
     @Column(nullable = false)
     private String senhaUsuario;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario",cascade = CascadeType.ALL)
     private List<Pet> pet;
 
     

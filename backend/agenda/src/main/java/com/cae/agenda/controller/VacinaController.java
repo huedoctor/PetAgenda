@@ -1,5 +1,7 @@
 package com.cae.agenda.controller;
 
+import com.cae.agenda.entities.AgendaVacina;
+import com.cae.agenda.entities.Remedio;
 import com.cae.agenda.entities.Vacina;
 import com.cae.agenda.services.VacinaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +26,16 @@ public class VacinaController {
         } else {
             return new ResponseEntity<>(vacinas, HttpStatus.OK);
         }
+    }
+
+    @ResponseBody
+    @GetMapping("/{idAgendaVacina}")
+    public ResponseEntity<AgendaVacina> chamaPetVacina(@PathVariable int idAgendaVacina){
+        return vacinaService.chamaPetVacina(idAgendaVacina);
+    }
+
+    @DeleteMapping("/{idAgendaVacina}")
+    public ResponseEntity<Void> deletarRemedio(@PathVariable int idAgendaVacina){
+        return vacinaService.deletarPetVacina(idAgendaVacina);
     }
 }

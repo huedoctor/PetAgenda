@@ -18,6 +18,7 @@ public class Vacina {
     private String nomeVacina;
     @Column(nullable = false)
     private String descricaoVacina;
+    @JoinColumn(name = "idEspecie",nullable = false)
     @OneToOne
     private Especie especie; 
 }

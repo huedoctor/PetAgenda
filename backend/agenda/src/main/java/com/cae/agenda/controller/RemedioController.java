@@ -17,7 +17,7 @@ public class RemedioController {
 
     @ResponseBody
     @GetMapping("/s/{idAgenda}")
-    public List<Remedio> ListarRemediosAgenda(@RequestParam("agenda") int idAgenda){
+    public List<Remedio> ListarRemediosAgenda(@PathVariable("agenda") int idAgenda){
         return remedioService.ListarRemediosAgenda(idAgenda);
     }
 
