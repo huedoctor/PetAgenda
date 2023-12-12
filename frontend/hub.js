@@ -33,7 +33,7 @@ export default function TelaPets({ route }) {
     const [snackMessage, setSnackMessage] = useState('');
 
     useEffect(() => {
-        const showFeedback = false;
+        let showFeedback = false;
 
         if (route.params?.petCadastrado) {
             setSnackMessage('Pet cadastrado com sucesso.');
