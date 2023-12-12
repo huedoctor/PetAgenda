@@ -28,9 +28,9 @@ public class AtividadesController {
         return atividadesService.chamaAtividade(idAtividades);
     }
 
-    @PostMapping("/")
-    public void salvarAtividades(@RequestBody Atividades atividades) {
-        atividadesService.salvarAtividades(atividades);
+    @PostMapping("/{idPet}")
+    public void salvarAtividades(@RequestBody Atividades atividades,@PathVariable int idPet) {
+        atividadesService.salvarAtividades(atividades,idPet);
     }
 
     @PutMapping("/")

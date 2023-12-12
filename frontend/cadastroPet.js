@@ -54,6 +54,7 @@ export default function TelaCadastroPet() {
 
     const handleRegisterPet = async () => {
         setLoading(true);
+        console.log(especiePet);
         const res = await post("pet", {
             "especie": especiePet,
             "nomePet": nomePet,

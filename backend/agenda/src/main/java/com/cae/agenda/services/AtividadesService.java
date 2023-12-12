@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.cae.agenda.entities.Atividades;
 import com.cae.agenda.repositories.RepositorioAtividades;
+import com.cae.agenda.repositories.RepositorioPet;
 
 @Service
 public class AtividadesService {
@@ -22,12 +23,16 @@ public class AtividadesService {
     @Autowired
     private RepositorioAgenda repositorioAgenda;
 
+    @Autowired
+    private RepositorioPet repositorioPet;
+
     public List<Atividades> listarAtividadesAgenda(int idAgenda) {
         Agenda agenda = repositorioAgenda.findByIdAgenda(idAgenda);
         return repositorioAtividades.findByAgenda(agenda);
     }
 
-    public ResponseEntity<Atividades> salvarAtividades(Atividades atividades) {
+    public ResponseEntity<Atividades> salvarAtividades(Atividades atividades, int idPet) {
+        atividades.getAgenda().setPet(repositorioPet.findByIdPet(idPet));
         Agenda agenda = repositorioAgenda.save(atividades.getAgenda());
         atividades.setAgenda(repositorioAgenda.findByIdAgenda(agenda.getIdAgenda()));
         Atividades novaAtividade = repositorioAtividades.save(atividades);
