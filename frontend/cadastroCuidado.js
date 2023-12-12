@@ -176,6 +176,7 @@ export default function CadastroCuidado({ route }) {
                 <TextInput
                     style={[styles.input]}
                     placeholder="Nome do cuidado*"
+                    placeholderTextColor="#46464C"
                     onChangeText={(text) => setNome(text)}
                     value={nome}
                 />
@@ -183,6 +184,7 @@ export default function CadastroCuidado({ route }) {
                 <TextInput
                     style={[styles.input]}
                     placeholder="Descrição do registro"
+                    placeholderTextColor="#46464C"
                     onChangeText={(text) => setDescricao(text)}
                     value={descricao}
                     maxLength={40}
@@ -196,6 +198,7 @@ export default function CadastroCuidado({ route }) {
                     keyboardType='numeric'
                     maxLength={10}
                     placeholder="Data inicial do cuidado"
+                    placeholderTextColor="#46464C"
                     onChangeText={(text) => {
                         setDataInicio(inputDateMask(text))
                     }}
@@ -219,6 +222,7 @@ export default function CadastroCuidado({ route }) {
                             keyboardType='numeric'
                             maxLength={10}
                             placeholder="Data final do cuidado"
+                            placeholderTextColor="#46464C"
                             onChangeText={(text) => {
                                 setDataFinal(inputDateMask(text))
                             }}
@@ -235,6 +239,7 @@ export default function CadastroCuidado({ route }) {
                 <TextInput
                     style={[styles.input, horarioErro ? { marginTop: 0 } : { marginTop: 20 }]}
                     placeholder="Horário do dia para o cuidado"
+                    placeholderTextColor="#46464C"
                     keyboardType='numeric'
                     maxLength={5}
                     onChangeText={(text) => {

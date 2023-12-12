@@ -6,7 +6,17 @@ export default function Direitos() {
         <View style={styles.container}>
             <Text style={styles.title}>Direitos Autorais</Text>
             <Text style={styles.description}>
-                &copy;2023PetAgenda. Todos os direitos reservados a Carioca & Amigos e seus criadores: Caroline Stelitano, Eddie Mauricio Silva dos Santos, Lucas da Silva Santos e Victor Hugo Enriquetto Marques da Cruz.
+                &copy;2023PetAgenda. Todos os direitos reservados a Carioca & Amigos e seus criadores: 
+                {'\n'}
+                Caroline Stelitano
+                {'\n'}
+                Eddie Mauricio Silva dos Santos 
+                {'\n'}
+                Lucas da Silva Santos
+                {'\n'}
+                Victor Hugo Enriquetto Marques da Cruz.
+                {'\n\n'}
+                Imagens dos ícones de licensa gratuita de autoria do site Flaticon.com. 
             </Text>
         </View>
     );

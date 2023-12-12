@@ -130,6 +130,7 @@ export default function Cuidado({ route }) {
                 <TextInput
                     style={styles.textLabel}
                     placeholder="{Nome do cuidado}"
+                    placeholderTextColor="#46464C"
                     onChangeText={(text) => {
                         setNovoNome(text)
                     }}
@@ -140,6 +141,7 @@ export default function Cuidado({ route }) {
                     <TextInput
                         style={styles.textLabelText}
                         placeholder='{Descrição do cuidado}'
+                        placeholderTextColor="#46464C"
                         maxLength={40}
                         onChangeText={(text) => {
                             setNovaDescricao(text)
@@ -157,6 +159,7 @@ export default function Cuidado({ route }) {
                     keyboardType='numeric'
                     maxLength={10}
                     placeholder="{Data inicial do cuidado}"
+                    placeholderTextColor="#46464C"
                     onChangeText={(text) => {
                         setNovaDataInicio(inputDateMask(text))
                     }}
@@ -177,6 +180,7 @@ export default function Cuidado({ route }) {
                             keyboardType='numeric'
                             maxLength={10}
                             placeholder="{Data final do cuidado}"
+                            placeholderTextColor="#46464C"
                             onChangeText={(text) => {
                                 setNovaDataFinal(inputDateMask(text))
                             }}
@@ -193,6 +197,7 @@ export default function Cuidado({ route }) {
                 <TextInput
                     style={[styles.textLabel, horarioErro ? { marginTop: 0 } : { marginTop: 20 }]}
                     placeholder="{Horário do dia para o cuidado}"
+                    placeholderTextColor="#46464C"
                     keyboardType='numeric'
                     maxLength={5}
                     onChangeText={(text) => {

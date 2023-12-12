@@ -121,6 +121,7 @@ export default function TelaCadastro() {
         <TextInput
           style={styles.input}
           placeholder="Nome"
+          placeholderTextColor="#46464C"
           onChangeText={(text) => setName(text)}
           value={name}
         />
@@ -128,6 +129,7 @@ export default function TelaCadastro() {
         <TextInput
           style={styles.input}
           placeholder="E-mail"
+          placeholderTextColor="#46464C"
           onChangeText={(text) => setEmail(text)}
           value={email}
         />
@@ -137,6 +139,7 @@ export default function TelaCadastro() {
         <TextInput
           style={styles.input}
           placeholder="Senha"
+          placeholderTextColor="#46464C"
           secureTextEntry
           onChangeText={(text) => setPassword(text)}
           value={password}
@@ -147,6 +150,7 @@ export default function TelaCadastro() {
         <TextInput
           style={styles.input}
           placeholder="Confirme sua senha"
+          placeholderTextColor="#46464C"
           secureTextEntry
           onChangeText={(text) => setConfirmPassword(text)}
           value={confirmPassword}

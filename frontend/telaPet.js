@@ -105,6 +105,7 @@ export default function TelaPet({ route }) {
                                 <Text>Nome:</Text>
                                 <TextInput
                                     placeholder={pet.nomePet}
+                                    placeholderTextColor="#46464C"
                                     onChangeText={(text) => setNovoNome(text)}
                                     value={novoNome}
                                     style={styles.input}
@@ -118,6 +119,7 @@ export default function TelaPet({ route }) {
                                 <Text style={styles.petProfileContainerText}>Peso:</Text>
                                 <TextInput
                                     placeholder={pet.pesoPet.toString() + 'kg'}
+                                    placeholderTextColor="#46464C"
                                     keyboardType='decimal-pad'
                                     onChangeText={(text) => setNovoPeso(text)}
                                     value={novoPeso}

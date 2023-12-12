@@ -153,6 +153,7 @@ export default function TelaCadastroPet() {
                         <TextInput
                             style={[styles.input, { marginTop: 35 }]}
                             placeholder="Nome*"
+                            placeholderTextColor="#46464C"
                             onChangeText={(text) => setNomePet(text)}
                             value={nomePet}
                         >
@@ -160,6 +161,7 @@ export default function TelaCadastroPet() {
                         <TextInput
                             style={[styles.input]}
                             placeholder="Raça*"
+                            placeholderTextColor="#46464C"
                             onChangeText={(text) => setRacaPet(text)}
                             value={racaPet}
                         >
@@ -168,6 +170,7 @@ export default function TelaCadastroPet() {
                             style={styles.input}
                             keyboardType='decimal-pad'
                             placeholder="Peso (Kg)"
+                            placeholderTextColor="#46464C"
                             onChangeText={(text) => setPesoPet(text)}
                             value={pesoPet}
                         >
@@ -178,6 +181,7 @@ export default function TelaCadastroPet() {
                         <TextInput
                             style={[styles.input, avisoData ? { marginTop: 0 } : { marginTop: 20 }]}
                             placeholder='Data de nascimento'
+                            placeholderTextColor="#46464C"
                             keyboardType='numeric'
                             maxLength={10}
                             onChangeText={(text) => {

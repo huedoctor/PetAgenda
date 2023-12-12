@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     marginTop: '13%',
   },
   criarContaButton: {
-    backgroundColor: '#FFB400',
+    backgroundColor: '#FFC847',
     width: 275,
     height: 60,
     marginBottom: 30,
@@ -81,19 +81,19 @@ const styles = StyleSheet.create({
     height: 60,
     marginBottom: Dimensions.get('window').height * 0.045,
     borderWidth: 5,
-    borderColor: '#FFB400',
+    borderColor: '#F2D8AB',
     justifyContent: 'center',
     borderRadius: 40,
   },
   buttonTextCadastro: {
     alignSelf: 'center',
     fontSize: 24,
-    color: '#4A1E91',
+    color: '#36166A',
   },
   buttonTextEntrar: {
     alignSelf: 'center',
     fontSize: 24,
-    color: '#FFB400',
+    color: '#F2D8AB',
   },
   helpButton: {
     alignSelf: 'center',

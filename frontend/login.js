@@ -55,6 +55,7 @@ export default function TelaLogin({ route }) {
           style={styles.input}
           inputMode='email'
           placeholder="E-mail"
+          placeholderTextColor="#46464C"
           autoCapitalize='none'
           onChangeText={(text) => setEmail(text)}
           value={email}
@@ -62,6 +63,7 @@ export default function TelaLogin({ route }) {
         <TextInput
           style={[styles.input, { marginTop: 30 }]}
           placeholder="Senha"
+          placeholderTextColor="#46464C"
           secureTextEntry
           onChangeText={(text) => setPassword(text)}
           value={password}
