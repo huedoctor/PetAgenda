@@ -3,6 +3,7 @@ package com.cae.agenda.services;
 import com.cae.agenda.entities.Agenda;
 import com.cae.agenda.entities.Remedio;
 import com.cae.agenda.repositories.RepositorioAgenda;
+import com.cae.agenda.repositories.RepositorioPet;
 import com.cae.agenda.repositories.RepositorioRemedio;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class RemedioService {
     @Autowired
     private RepositorioAgenda repositorioAgenda;
 
+    @Autowired 
+    private RepositorioPet repositorioPet;
+
     public List<Remedio> ListarRemediosAgenda(int idAgenda){
         return repositorioRemedio.findByAgenda_IdAgenda(idAgenda);
     }
@@ -38,12 +42,14 @@ public class RemedioService {
         }
     }
 
-    public ResponseEntity<Remedio> criaRemedio(Remedio remedio){
+    public ResponseEntity<Remedio> criaRemedio(Remedio remedio,int idPet){
+        remedio.getAgenda().setPet(repositorioPet.findByIdPet(idPet));
         Agenda agenda = repositorioAgenda.save(remedio.getAgenda());
         remedio.setAgenda(repositorioAgenda.findByIdAgenda(agenda.getIdAgenda()));
         Remedio novoRemedio = repositorioRemedio.save(remedio);
         return new ResponseEntity<>(novoRemedio,HttpStatus.CREATED);
     }
+
 
     public ResponseEntity<Remedio> editarRemedio(int idRemedio, Remedio remedio){
         try {

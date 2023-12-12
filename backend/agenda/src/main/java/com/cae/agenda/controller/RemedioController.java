@@ -27,9 +27,9 @@ public class RemedioController {
         return remedioService.chamaRemedio(idRemedio);
     }
 
-    @PostMapping("/")
-    public ResponseEntity<Remedio> criaRemedio(@RequestBody Remedio remedio){
-        return remedioService.criaRemedio(remedio);
+    @PostMapping("/{idPet}")
+    public ResponseEntity<Remedio> criaRemedio(@RequestBody Remedio remedio, @PathVariable int idPet){
+        return remedioService.criaRemedio(remedio,idPet);
     }
 
     @DeleteMapping("/{idRemedio}")

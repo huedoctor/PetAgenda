@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.cae.agenda.entities.Pet;
 import com.cae.agenda.entities.Usuario;
 import com.cae.agenda.repositories.RepositorioUsuario;
 
