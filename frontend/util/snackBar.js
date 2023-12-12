@@ -4,7 +4,7 @@ function SnackBar(props) {
 
     return (
         props.visible && <View style={styles.snackBarContainer}>
-            <Text>props.textMessage</Text>
+            <Text style={styles.snackBarText}>{props.textMessage}</Text>
         </View>
     );
 };
@@ -16,15 +16,21 @@ export default SnackBar;
 
 const snackBarHeight = 40;
 const snackBarPadding = 10;
+const snackBarMargin = 12;
 const windowDimensions = Dimensions.get('window');
 const styles = StyleSheet.create({
     snackBarContainer: {
         position: 'absolute',
         zIndex: 999,
         minHeight: snackBarHeight,
-        top: windowDimensions.height - snackBarHeight,
+        left: 0,
+        top: windowDimensions.height - 104 - (snackBarMargin * 2),
         padding: snackBarPadding,
-        width: windowDimensions.width,
+        width: windowDimensions.width - (snackBarMargin * 2),
+        margin: snackBarMargin,
         backgroundColor: '#BBB'
+    },
+    snackBarText: {
+        fontWeight: '500'
     }
 });
