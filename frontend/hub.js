@@ -34,7 +34,11 @@ export default function TelaPets({ route }) {
 
     useEffect(() => {
         const showFeedback = false;
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> 88a7b768cf927b24066cf498979a37f75030fd27
         if (route.params?.petCadastrado) {
             setSnackMessage('Pet cadastrado com sucesso.');
             showFeedback = true;
@@ -58,6 +62,7 @@ export default function TelaPets({ route }) {
             setLoading(true);
             const res = await get('pet');
             if (res.ok) {
+                console.log(res.body);
                 const pets = await res.json();
                 setUserPets(pets);
             }

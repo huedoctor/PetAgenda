@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,7 +32,8 @@ public class Agenda {
     @Column(nullable = false)
     private Date dataFinalEvento;
     @JoinColumn(name = "idPet")
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
+    @JsonBackReference//pode dar merda la na frente sem listar algo
     private Pet pet;
     @Column(nullable = false)
     private boolean notificacao;

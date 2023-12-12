@@ -78,7 +78,7 @@ public class AgendaService {
             }
             return new ResponseEntity<>(agendaList, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 
@@ -119,7 +119,7 @@ public class AgendaService {
         }
     }
 
-    @Transactional
+
     public ResponseEntity<Map<String, Object>> excluirAgenda(int idAgenda) {
         if (repositorioAgenda.existsById(idAgenda)) {
             Agenda agenda = repositorioAgenda.findByIdAgenda(idAgenda);

@@ -1,5 +1,8 @@
 package com.cae.agenda.entities;
 
+
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,4 +24,6 @@ public class Vacina {
     @JoinColumn(name = "idEspecie",nullable = false)
     @OneToOne
     private Especie especie; 
+    @OneToMany(mappedBy = "vacina",cascade = CascadeType.REMOVE)
+    private List<AgendaVacina> agendavacinas;
 }

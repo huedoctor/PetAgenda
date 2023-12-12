@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity(name = "usuario")
 @Data
 @AllArgsConstructor
@@ -23,8 +25,7 @@ public class Usuario {
     @Column(nullable = false)
     private String senhaUsuario;
 
-    @OneToMany(mappedBy = "usuario",cascade = CascadeType.ALL)
-    private List<Pet> pet;
-
-    
+    @OneToMany(mappedBy = "usuario",cascade = CascadeType.REMOVE)
+    @JsonManagedReference
+    private List<Pet> pets;
 }

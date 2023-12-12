@@ -14,7 +14,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { CommonActions } from '@react-navigation/native';
 import { post } from './util/request';
-LogBox.ignoreLogs(['VirtualizedLists']); 
+LogBox.ignoreLogs(['VirtualizedLists']);
 
 export default function CadastroAtividade({ route }) {
 
@@ -42,26 +42,28 @@ export default function CadastroAtividade({ route }) {
     const handleRegistraAtividade = async () => {
         //Comando para cadastrar a atividade
         setLoading(true);
-        const res = await post("atividades", {
-            "especie": especiePet,
-            "nomePet": nomePet,
-            "pesoPet": pesoPet,
-            "racaPet": racaPet,
-            "dataNascPet" : dataNascimentoPet,
-            "castradoPet": isCastrado,
-            "sexoPet": sexoPet,
+        const res = await post("atividades/", {
+            "nome": nome,
+            "descricao": descricao,
+            "tipoCuidado": cuidado,
+            "agenda": {
+                "dataInicio": dataInicio,
+                "dataFinal": dataFinal,
+                "horario": horario,
+                "frequencia": frequencia
+            }
         });
         setLoading(false);
         if (res.ok) {
             navigation.navigate(NavigationKeys.Registros, { petCadastrado: true });
             navigation.dispatch(
                 CommonActions.reset({
-                  index: 0,
-                  routes: [
-                    { name: NavigationKeys.TelaPets },
-                  ],
+                    index: 0,
+                    routes: [
+                        { name: NavigationKeys.TelaPets },
+                    ],
                 })
-              );
+            );
         } else {
             setShowSnackBar(true);
             setTimeout(() => {
@@ -162,10 +164,10 @@ export default function CadastroAtividade({ route }) {
         if (inputFinal) {
             setDataFinal(null)
         }
-    },[inputFinal])
+    }, [inputFinal])
 
     return (
-        <ScrollView style={{backgroundColor: 'white'}}>
+        <ScrollView style={{ backgroundColor: 'white' }}>
             <View style={styles.container}>
                 <Text style={styles.question}>Nome da atividade </Text>
                 <TextInput

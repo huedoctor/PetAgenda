@@ -8,6 +8,7 @@ import com.cae.agenda.entities.AgendaVacina;
 import java.util.List;
 
 public interface RepositorioAgendaVacina extends JpaRepository<AgendaVacina, Integer>{
+    
     List<AgendaVacina> findByAgenda(Agenda agenda);
 
 }
