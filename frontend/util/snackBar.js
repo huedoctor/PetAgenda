@@ -20,9 +20,9 @@ const windowDimensions = Dimensions.get('window');
 const styles = StyleSheet.create({
     snackBarContainer: {
         position: 'absolute',
-        zIndex: '999',
+        zIndex: 999,
         minHeight: snackBarHeight,
-        bottom: 0,
+        top: windowDimensions.height - snackBarHeight,
         padding: snackBarPadding,
         width: windowDimensions.width,
         backgroundColor: '#BBB'

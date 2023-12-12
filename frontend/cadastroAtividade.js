@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { CommonActions } from '@react-navigation/native';
 import { post } from './util/request';
 LogBox.ignoreLogs(['VirtualizedLists']); 
 

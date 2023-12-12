@@ -59,21 +59,23 @@ export default function TelaCadastroPet() {
             "nomePet": nomePet,
             "pesoPet": pesoPet,
             "racaPet": racaPet,
-            "dataNascPet" : dataNascimentoPet,
+            "dataNascPet": dataNascimentoPet,
             "castradoPet": isCastrado,
             "sexoPet": sexoPet,
         });
         setLoading(false);
         if (res.ok) {
-            navigation.navigate(NavigationKeys.TelaPets, { petCadastrado: true });
             navigation.dispatch(
                 CommonActions.reset({
-                  index: 0,
-                  routes: [
-                    { name: NavigationKeys.TelaPets },
-                  ],
+                    index: 0,
+                    routes: [
+                        {
+                            name: NavigationKeys.TelaPets,
+                            params: { petCadastrado: true }
+                        }
+                    ],
                 })
-              );
+            );
         } else {
             setShowSnackBar(true);
             setTimeout(() => {
@@ -224,7 +226,7 @@ export default function TelaCadastroPet() {
                     </View>
                 }
             </View >
-            <SnackBar visible={showSnackBar} textMessage="Não foi possível cadastrar o pet."/>
+            <SnackBar visible={showSnackBar} textMessage="Não foi possível cadastrar o pet." />
         </ScrollView>
     );
 }

@@ -8,25 +8,38 @@ import {
     Dimensions,
     ActivityIndicator,
     Pressable,
+    SafeAreaView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import NavigationKeys from './util/navigationKeys.js';
 import { useEffect, useState } from 'react';
 import { get } from './util/request.js';
 import { LoadingIndicator } from './components/LoadingIndicator.jsx';
+import SnackBar from './util/snackBar.js';
 
 
 // A lista de pets deve trazer um JSON aqui para que possamos começar a usar a partir dessa tela.
 // Nessa tela a gente ta pegando o nome e a espécie para pode fazer os botões.
 // Clicando nelas vai mandar pra tela do pet e vai enviar junto os dados do pet clicado pelo ID.
 
-export default function TelaPets() {
+export default function TelaPets({ route }) {
 
     const navigation = useNavigation();
 
     const [userPets, setUserPets] = useState([]);
     const [userHasPets, setUserHasPets] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [showSnackBar, setShowSnackBar] = useState(false);
+
+    let snackMessage;
+
+    useEffect(() => {
+        snackMessage = 'Pet excluído com sucesso.';
+        setShowSnackBar(true);
+        setTimeout(() => {
+            setShowSnackBar(false);
+        }, SnackBar.LENGTH_LONG);
+    }, [route.params?.petDeletado])
 
     useEffect(() => {
         const loadData = async () => {
@@ -51,34 +64,37 @@ export default function TelaPets() {
         content = <ActivityIndicator justifyContent="center" alignSelf="center" />
     } else if (userHasPets) {
         content =
-            <ScrollView>
-                <View style={styles.configRow}>
-                    <Pressable
-                        style={styles.configButton}
-                        onPress={() => navigation.navigate(NavigationKeys.Infos)}>
+            <SafeAreaView style={{flex: 1}}>
+                <ScrollView>
+                    <View style={styles.configRow}>
+                        <Pressable
+                            style={styles.configButton}
+                            onPress={() => navigation.navigate(NavigationKeys.Infos)}>
                             <Image
-                            style={styles.configImage}
-                            source={require('./assets/gearshape.png')}/>
-                    </Pressable>
-                </View>
-                <View style={styles.containerRow}>
-                    {userPets.map((pet, index) => (
-                        <TouchableOpacity key={index} onPress={() => navigation.navigate(NavigationKeys.TelaPet, { id: pet.idPet, })}>
-                            <View style={styles.petConteiner}>
-                                <Image
-                                    style={styles.petConteinerImg}
-                                    source={pet.especie.nomeEspecie.toLowerCase() === 'cachorro' ?
-                                        require('./assets/petDogIcon.jpg') :
-                                        require('./assets/petCatIcon.jpg')}
-                                />
-                                <Text style={styles.petConteinerTxt}>
-                                    {pet.nomePet}
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-                    ))}
-                </View>
-            </ScrollView>
+                                style={styles.configImage}
+                                source={require('./assets/gearshape.png')} />
+                        </Pressable>
+                    </View>
+                    <View style={styles.containerRow}>
+                        {userPets.map((pet, index) => (
+                            <TouchableOpacity key={index} onPress={() => navigation.navigate(NavigationKeys.TelaPet, { id: pet.idPet, })}>
+                                <View style={styles.petConteiner}>
+                                    <Image
+                                        style={styles.petConteinerImg}
+                                        source={pet.especie.nomeEspecie.toLowerCase() === 'cachorro' ?
+                                            require('./assets/petDogIcon.jpg') :
+                                            require('./assets/petCatIcon.jpg')}
+                                    />
+                                    <Text style={styles.petConteinerTxt}>
+                                        {pet.nomePet}
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                    <SnackBar textMessage={snackMessage} visible={showSnackBar} />
+                </ScrollView>
+            </SafeAreaView>
     } else {
         content =
             <View style={styles.emptyImageConteiner}>
