@@ -1,16 +1,6 @@
-import React, { useState } from 'react';
 import 'react-native-gesture-handler';
-import {
-  View,
-  TextInput,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 
 export default function TelaContato() {
 
@@ -20,14 +10,12 @@ export default function TelaContato() {
     <View style={styles.container}>
       <View style={styles.contatoBox}>
         <Text style={styles.contatoText}>
-          Em caso de desejo de contato ou problemas referentes ao nosso
-          aplicativo, por favor, contate-nos! Será um prazer lhe atender da
-          melhor forma que pudermos.
+          Para esclarecer quaisquer dúvidas ou problemas referentes ao aplicativo e exclusão de conta entre em contato através do email: 
           {'\n'}
-          {'\n'}
-          Email para contato:
-          {'\n'}
-          <Text style={{ fontWeight: "bold" }}>agendapet@gmail.com</Text>
+          <Text style={{ fontWeight: "bold" }}>pet.agenda@gmail.com</Text>
+          {'\n\n'}
+          <Text style={styles.contatoText}>Será um prazer lhe atender da melhor forma!
+          </Text>
         </Text>
       </View>
     </View>
@@ -37,8 +25,11 @@ export default function TelaContato() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     backgroundColor: 'white',
+    paddingHorizontal: '8%',
+    paddingVertical: '10%',
+    paddingBottom: 30,
+    minHeight: '100%',
   },
   contatoBox: {
     backgroundColor: '#ECC683',

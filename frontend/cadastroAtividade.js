@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { CommonActions } from '@react-navigation/native';
 import { post } from './util/request';
 LogBox.ignoreLogs(['VirtualizedLists']);
 
@@ -168,9 +169,11 @@ export default function CadastroAtividade({ route }) {
     return (
         <ScrollView style={{ backgroundColor: 'white' }}>
             <View style={styles.container}>
+                <Text style={styles.question}>Nome da atividade </Text>
                 <TextInput
                     style={[styles.input]}
                     placeholder="Nome da atividade*"
+                    placeholderTextColor="#46464C"
                     onChangeText={(text) => setNome(text)}
                     value={nome}
                 />
@@ -178,6 +181,7 @@ export default function CadastroAtividade({ route }) {
                 <TextInput
                     style={[styles.input]}
                     placeholder="Descrição da atividade"
+                    placeholderTextColor="#46464C"
                     onChangeText={(text) => setDescricao(text)}
                     value={descricao}
                     maxLength={40}
@@ -191,6 +195,7 @@ export default function CadastroAtividade({ route }) {
                     keyboardType='numeric'
                     maxLength={10}
                     placeholder="Data inicial da atividade"
+                    placeholderTextColor="#46464C"
                     onChangeText={(text) => {
                         setDataInicio(inputDateMask(text))
                     }}
@@ -227,6 +232,7 @@ export default function CadastroAtividade({ route }) {
                             keyboardType='numeric'
                             maxLength={10}
                             placeholder="Data final da atividade"
+                            placeholderTextColor="#46464C"
                             onChangeText={(text) => {
                                 setDataFinal(inputDateMask(text))
                             }}
@@ -243,6 +249,7 @@ export default function CadastroAtividade({ route }) {
                 <TextInput
                     style={[styles.input, horarioErro ? { marginTop: 0 } : { marginTop: 20 }]}
                     placeholder="Horário do dia para a atividade"
+                    placeholderTextColor="#46464C"
                     keyboardType='numeric'
                     maxLength={5}
                     onChangeText={(text) => {

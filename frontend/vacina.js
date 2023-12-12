@@ -143,6 +143,7 @@ export default function Vacina({ route }) {
                     keyboardType='numeric'
                     maxLength={10}
                     placeholder="{Data inicial da vacina}"
+                    placeholderTextColor="#46464C"
                     onChangeText={(text) => {
                         setNovaDataInicio(inputDateMask(text))
                     }}
@@ -163,6 +164,7 @@ export default function Vacina({ route }) {
                             keyboardType='numeric'
                             maxLength={10}
                             placeholder="{Data final da vacina}"
+                            placeholderTextColor="#46464C"
                             onChangeText={(text) => {
                                 setNovaDataFinal(inputDateMask(text))
                             }}
@@ -179,6 +181,7 @@ export default function Vacina({ route }) {
                 <TextInput
                     style={[styles.textLabel, horarioErro ? { marginTop: 0 } : { marginTop: 20 }]}
                     placeholder="{Horário do dia para o cuidado}"
+                    placeholderTextColor="#46464C"
                     keyboardType='numeric'
                     maxLength={5}
                     onChangeText={(text) => {

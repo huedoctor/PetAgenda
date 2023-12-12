@@ -59,21 +59,23 @@ export default function TelaCadastroPet() {
             "nomePet": nomePet,
             "pesoPet": pesoPet,
             "racaPet": racaPet,
-            "dataNascPet" : dataNascimentoPet,
+            "dataNascPet": dataNascimentoPet,
             "castradoPet": isCastrado,
             "sexoPet": sexoPet,
         });
         setLoading(false);
         if (res.ok) {
-            navigation.navigate(NavigationKeys.TelaPets, { petCadastrado: true });
             navigation.dispatch(
                 CommonActions.reset({
-                  index: 0,
-                  routes: [
-                    { name: NavigationKeys.TelaPets },
-                  ],
+                    index: 0,
+                    routes: [
+                        {
+                            name: NavigationKeys.TelaPets,
+                            params: { petCadastrado: true }
+                        }
+                    ],
                 })
-              );
+            );
         } else {
             setShowSnackBar(true);
             setTimeout(() => {
@@ -153,6 +155,7 @@ export default function TelaCadastroPet() {
                         <TextInput
                             style={[styles.input, { marginTop: 35 }]}
                             placeholder="Nome*"
+                            placeholderTextColor="#46464C"
                             onChangeText={(text) => setNomePet(text)}
                             value={nomePet}
                         >
@@ -160,6 +163,7 @@ export default function TelaCadastroPet() {
                         <TextInput
                             style={[styles.input]}
                             placeholder="Raça*"
+                            placeholderTextColor="#46464C"
                             onChangeText={(text) => setRacaPet(text)}
                             value={racaPet}
                         >
@@ -168,6 +172,7 @@ export default function TelaCadastroPet() {
                             style={styles.input}
                             keyboardType='decimal-pad'
                             placeholder="Peso (Kg)"
+                            placeholderTextColor="#46464C"
                             onChangeText={(text) => setPesoPet(text)}
                             value={pesoPet}
                         >
@@ -178,6 +183,7 @@ export default function TelaCadastroPet() {
                         <TextInput
                             style={[styles.input, avisoData ? { marginTop: 0 } : { marginTop: 20 }]}
                             placeholder='Data de nascimento'
+                            placeholderTextColor="#46464C"
                             keyboardType='numeric'
                             maxLength={10}
                             onChangeText={(text) => {
@@ -224,7 +230,7 @@ export default function TelaCadastroPet() {
                     </View>
                 }
             </View >
-            <SnackBar visible={showSnackBar} textMessage="Não foi possível cadastrar o pet."/>
+            <SnackBar visible={showSnackBar} textMessage="Não foi possível cadastrar o pet." />
         </ScrollView>
     );
 }

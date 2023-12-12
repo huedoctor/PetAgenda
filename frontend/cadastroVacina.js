@@ -178,6 +178,7 @@ export default function CadastroVacina({ route }) {
                     keyboardType='numeric'
                     maxLength={10}
                     placeholder="Data inicial da vacina"
+                    placeholderTextColor="#46464C"
                     onChangeText={(text) => {
                         setDataInicio(inputDateMask(text))
                     }}
@@ -214,6 +215,7 @@ export default function CadastroVacina({ route }) {
                             keyboardType='numeric'
                             maxLength={10}
                             placeholder="Data final da vacina"
+                            placeholderTextColor="#46464C"
                             onChangeText={(text) => {
                                 setDataFinal(inputDateMask(text))
                             }}
@@ -230,6 +232,7 @@ export default function CadastroVacina({ route }) {
                 <TextInput
                     style={[styles.input, horarioErro ? { marginTop: 0 } : { marginTop: 20 }]}
                     placeholder="Horário do dia para a vacina"
+                    placeholderTextColor="#46464C"
                     keyboardType='numeric'
                     maxLength={5}
                     onChangeText={(text) => {

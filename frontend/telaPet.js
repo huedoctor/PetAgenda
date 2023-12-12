@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     Image,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import NavigationKeys from './util/navigationKeys';
 import LoadingIndicator from './components/LoadingIndicator';
@@ -23,6 +23,7 @@ export default function TelaPet({ route }) {
     const [pet, setPet] = useState({});
     const [loading, setLoading] = useState(false);
     const [sexoPet, setSexoPet] = useState(null);
+    const [showSnackBar, setShowSnackBar] = useState(false);
 
     const navigation = useNavigation();
 
@@ -46,7 +47,30 @@ export default function TelaPet({ route }) {
     };
 
     const handleDeletePet = () => {
-        console.log(`Deletar pet com id de ${id}`)
+        const loadData = async () => {
+            setLoading(true);
+            const res = await del(`pet/${id}`);
+            if (res.ok) {
+                navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        routes: [
+                            {
+                                name: NavigationKeys.TelaPets,
+                                params: { petDeletado: true }
+                            }
+                        ],
+                    })
+                );
+            } else {
+                setShowSnackBar(true);
+                setTimeout(() => {
+                    setShowSnackBar(false);
+                }, SnackBar.LENGTH_LONG);
+            }
+            setLoading(false);
+        }
+        loadData();
     }
 
     const handleVerificaCastrado = () => {
@@ -105,6 +129,7 @@ export default function TelaPet({ route }) {
                                 <Text>Nome:</Text>
                                 <TextInput
                                     placeholder={pet.nomePet}
+                                    placeholderTextColor="#46464C"
                                     onChangeText={(text) => setNovoNome(text)}
                                     value={novoNome}
                                     style={styles.input}
@@ -117,7 +142,8 @@ export default function TelaPet({ route }) {
                                 <Text>{pet.dataNascPet}</Text>
                                 <Text style={styles.petProfileContainerText}>Peso:</Text>
                                 <TextInput
-                                    placeholder={pet.pesoPet.toString() + 'kg'}
+                                    placeholder={pet.pesoPet?.toString() + 'kg'}
+                                    placeholderTextColor="#46464C"
                                     keyboardType='decimal-pad'
                                     onChangeText={(text) => setNovoPeso(text)}
                                     value={novoPeso}
@@ -152,6 +178,7 @@ export default function TelaPet({ route }) {
                         </View>
                     </TouchableOpacity>
                 </View>
+                <SnackBar visible={showSnackBar} textMessage="Não foi possível excluir o pet." />
             </View>
     }
 

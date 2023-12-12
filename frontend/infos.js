@@ -1,12 +1,13 @@
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Image, ScrollView } from 'react-native';
-import { View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import Direitos from './infos/direitos';
 import Politica from './infos/politica';
 import Sobre from './infos/sobre';
 import Termos from './infos/termos';
+import Contato from './contato.js';
 import navigationKeys from './util/navigationKeys';
 import userData from './util/userData';
 
@@ -33,6 +34,9 @@ export default function Infos() {
                 break;
             case "termos":
                 setConteudo(<Termos />);
+                break;
+            case "contato":
+                setConteudo(<Contato />);
                 break;
             default:
                 setConteudo(false);
@@ -74,6 +78,11 @@ export default function Infos() {
                     style={styles.button}
                     onPress={() => handleInfos("termos")}>
                     <Text style={styles.buttonText}>Termos de Uso</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => handleInfos("contato")}>
+                    <Text style={styles.buttonText}>Contato</Text>
                 </TouchableOpacity>
                 {isLogged &&
                     <TouchableOpacity
