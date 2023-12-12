@@ -1,8 +1,6 @@
 package com.cae.agenda.services;
 
 import com.cae.agenda.entities.Agenda;
-import com.cae.agenda.entities.Atividades;
-import com.cae.agenda.entities.Pet;
 import com.cae.agenda.entities.Remedio;
 import com.cae.agenda.repositories.RepositorioAgenda;
 import com.cae.agenda.repositories.RepositorioRemedio;
@@ -13,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 

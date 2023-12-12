@@ -28,8 +28,8 @@ export default function App() {
 
   const [initialRouteName, setInitialRouteName] = useState(null);
 
-  useEffect(async () => {
-    await userData.removeUser();
+  useEffect( () => {
+    //userData.removeUser();
     const verifyInitialRoute = async () => {
       const loggedUser = await userData.getUser();
       if (loggedUser) {

@@ -15,10 +15,10 @@ public class AgendaVacina {
     private int id;
 
     @JoinColumn(name = "idAgenda")
-    @ManyToOne()
+    @ManyToOne
     private Agenda agenda;
 
-    @ManyToOne
     @JoinColumn(name = "idVacina")
+    @ManyToOne
     private Vacina vacina;
 }

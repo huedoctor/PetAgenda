@@ -31,4 +31,11 @@ public class UsuarioController {
     public List<Usuario> listarUsuario() {
         return usuarioService.listarUsuario();
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<Usuario> listarUsuario(@RequestHeader(value = "userId") String userId) {
+
+        return usuarioService.chamaUsuario(Integer.parseInt(userId));
+    }
+
 }
