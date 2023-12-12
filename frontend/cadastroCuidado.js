@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import BouncyCheckboxGroup from "react-native-bouncy-checkbox-group";
 import DropDownPicker from 'react-native-dropdown-picker';
-LogBox.ignoreLogs(['VirtualizedLists']); 
+LogBox.ignoreLogs(['VirtualizedLists']);
 
 export default function CadastroCuidado({ route }) {
 
@@ -37,7 +37,7 @@ export default function CadastroCuidado({ route }) {
         { label: 'Mensalmente', value: '3' },
         { label: 'Anualmente', value: '4' },
     ]);
-    LogBox.ignoreLogs(['VirtualizedLists']); 
+    LogBox.ignoreLogs(['VirtualizedLists']);
 
     const handleRegistraCuidado = async () => {
         //Método pra cadastrar o cuidado
@@ -158,7 +158,7 @@ export default function CadastroCuidado({ route }) {
     ];
 
     return (
-        <ScrollView>
+        <ScrollView style={{backgroundColor: 'white'}}>
             <View style={styles.container}>
                 <Text style={[styles.question, { marginBottom: 20 }]}>Qual o tipo do cuidado?*</Text>
                 <BouncyCheckboxGroup
@@ -185,10 +185,11 @@ export default function CadastroCuidado({ route }) {
                     placeholder="Descrição do registro"
                     onChangeText={(text) => setDescricao(text)}
                     value={descricao}
+                    maxLength={40}
                 />
                 <Text style={styles.question}>Data de início*</Text>
                 {dataInicioErro &&
-                    <Text style={styles.aviso}>Insira uma data válida.</Text>
+                    <Text style={styles.aviso}>Insira uma data válida</Text>
                 }
                 <TextInput
                     style={[styles.input, dataInicioErro ? { marginTop: 0 } : { marginTop: 20 }]}
@@ -208,7 +209,7 @@ export default function CadastroCuidado({ route }) {
                     <>
                         <Text style={styles.question}>Data final</Text>
                         {dataFinalErro ? (
-                            <Text style={styles.aviso}>Insira uma data válida.</Text>
+                            <Text style={styles.aviso}>Insira uma data válida</Text>
                         ) : null}
                         <TextInput
                             style={[
@@ -227,10 +228,9 @@ export default function CadastroCuidado({ route }) {
                         <Text style={{ opacity: 0.5, marginLeft: 15 }}>DD/MM/AAAA</Text>
                     </>
                 )}
-
                 <Text style={styles.question}>Horário*</Text>
                 {horarioErro &&
-                    <Text style={styles.aviso}>Insira um horário válido.</Text>
+                    <Text style={styles.aviso}>Insira um horário válido</Text>
                 }
                 <TextInput
                     style={[styles.input, horarioErro ? { marginTop: 0 } : { marginTop: 20 }]}
