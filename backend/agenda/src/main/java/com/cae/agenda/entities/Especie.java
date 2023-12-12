@@ -14,6 +14,6 @@ public class Especie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idEspecie")
     private int idEspecie;
-    @Column(unique = true)
+    @Column(name = "nomeEspecie")
     private String nomeEspecie;
 }

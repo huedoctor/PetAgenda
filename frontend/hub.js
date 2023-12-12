@@ -46,6 +46,7 @@ export default function TelaPets({ route }) {
             setLoading(true);
             const res = await get('pet');
             if (res.ok) {
+                console.log(res.body);
                 const pets = await res.json();
                 setUserPets(pets);
             }
