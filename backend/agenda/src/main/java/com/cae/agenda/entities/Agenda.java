@@ -29,7 +29,7 @@ public class Agenda {
     @Column(nullable = false)
     private Date dataInicioEvento;
     @JsonFormat(pattern = "dd/MM/yyyy")
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Date dataFinalEvento;
     @JoinColumn(name = "idPet")
     @ManyToOne
