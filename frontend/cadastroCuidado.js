@@ -71,7 +71,7 @@ export default function CadastroCuidado({ route }) {
                         },
                         {
                             name: navigationKeys.Registro,
-                            params: { cuidadoCadastrado: true }
+                            params: { id: id }
                         }
                     ],
                 })

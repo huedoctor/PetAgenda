@@ -65,8 +65,11 @@ export default function CadastroAtividade({ route }) {
                     index: 0,
                     routes: [
                         {
+                            name: navigationKeys.TelaPets,
+                        },
+                        {
                             name: navigationKeys.Registro,
-                            params: { atividadeCadastrada: true }
+                            params: { id: id }
                         }
                     ],
                 })

@@ -37,8 +37,8 @@ public class RemedioController {
         return remedioService.deletarRemedio(idRemedio);
     }
 
-    @PutMapping("/{idRemedio}")
-    public ResponseEntity<Remedio> editarRemedio(@PathVariable int idRemedio, @RequestBody Remedio remedio){
-        return remedioService.editarRemedio(idRemedio,remedio);
+    @PutMapping("/{idAgenda}")
+    public ResponseEntity<Remedio> editarRemedio(@PathVariable int idAgenda, @RequestBody Remedio remedio){
+        return remedioService.editarRemedio(idAgenda,remedio);
     }
 }

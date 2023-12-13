@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,8 @@ public class Agenda {
     @Column(name = "idAgenda")
     private int idAgenda;
     @Column(nullable = false)
-    @JsonFormat(pattern="HH:mm:ss")
+    @JsonSerialize(as=Time.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private Time horarioEvento;
     @Column(nullable = false)
     private int frequenciaEvento;

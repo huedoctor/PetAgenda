@@ -7,11 +7,15 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-    ScrollView
+    ScrollView,
+    LogBox
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { get } from './util/request.js';
+import { useNavigation, CommonActions } from '@react-navigation/native';
+import { get, del, put } from './util/request.js';
+import navigationKeys from './util/navigationKeys.js';
 import LoadindIndicator from './components/LoadingIndicator.jsx';
+import DropDownPicker from 'react-native-dropdown-picker';
+LogBox.ignoreLogs(['VirtualizedLists']);
 
 export default function Cuidado({ route }) {
 
@@ -20,13 +24,22 @@ export default function Cuidado({ route }) {
     const [novaDataInicio, setNovaDataInicio] = useState(null);
     const [novaDataFinal, setNovaDataFinal] = useState(null);
     const [novoHorario, setNovoHorario] = useState(null);
+    const [novaFrequencia, setNovaFrequencia] = useState(null);
     const [dataInicioErro, setDataInicioErro] = useState(false);
     const [dataFinalErro, setDataFinalErro] = useState(false);
     const [inputFinal, setInputFinal] = useState(false);
     const [horarioErro, setHorarioErro] = useState(false);
     const [cuidadoObject, setCuidadoObject] = useState({});
     const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false);
     const [opcoesTipoTratamento, setOpcoesTipoTratamento] = useState("");
+    const [items, setItems] = useState([
+        { label: 'Diáriamente', value: '1' },
+        { label: 'Semanalmente', value: '2' },
+        { label: 'Mensalmente', value: '3' },
+        { label: 'Anualmente', value: '4' },
+    ]);
+
 
     const navigation = useNavigation();
 
@@ -39,6 +52,7 @@ export default function Cuidado({ route }) {
             if (res.ok) {
                 const cuidadoJSON = await res.json();
                 setCuidadoObject(cuidadoJSON);
+                navigation.setOptions({ title: cuidadoJSON.nomeRemedio })
             }
             setLoading(false);
         }
@@ -55,16 +69,59 @@ export default function Cuidado({ route }) {
     }, [cuidadoObject])
 
     const handleSubmitEdit = () => {
-        console.log('editar')   // metodo para editar
+        const loadData = async () => {
+            const res = await put(`remedio/${cuidadoObject.agenda.idAgenda}`, {
+                "nomeRemedio": novoNome || cuidadoObject.nomeRemedio,
+                "descricaoRemedio": novaDescricao || cuidadoObject.descricaoRemedio,
+                "agenda": {
+                    "dataInicioEvento": novaDataInicio || cuidadoObject.agenda.dataInicioEvento,
+                    "dataFinalEvento": novaDataFinal || cuidadoObject.agenda.dataFinalEvento,
+                    // "horarioEvento": novoHorario + ':00' || cuidadoObject.agenda.horarioEvento,
+                    "frequenciaEvento": novaFrequencia || cuidadoObject.agenda.frequenciaEvento
+                }
+            });
+            if (res.ok) {
+                navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        routes: [
+                            {
+                                name: navigationKeys.TelaPets,
+                            },
+                            {
+                                name: navigationKeys.Registro,
+                                params: { id: idPet }
+                            }
+                        ],
+                    })
+                );
+            }
+        }
+        loadData();
     }
 
     const handleSubmitDelet = () => {
-        console.log('deletar') // metodo para deletar
+        const loadData = async () => {
+            const res = await del(`agenda/${cuidadoObject.agenda.idAgenda}`);
+            if (res.ok) {
+                navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        routes: [
+                            {
+                                name: navigationKeys.TelaPets,
+                            },
+                            {
+                                name: navigationKeys.Registro,
+                                params: { id: idPet }
+                            }
+                        ],
+                    })
+                );
+            }
+        }
+        loadData();
     }
-
-    useEffect(() => {
-        navigation.setOptions({ title: cuidadoObject.nomeRemedio })
-    }, [])
 
     const inputDateMask = (value) => {
         return value
@@ -210,7 +267,7 @@ export default function Cuidado({ route }) {
                             style={[styles.textLabel, dataFinalErro ? { marginTop: 0 } : { marginTop: 20 }]}
                             keyboardType='numeric'
                             maxLength={10}
-                            placeholder={cuidadoObject.agenda?.dataFinalEvento}
+                            placeholder={cuidadoObject.agenda?.dataFinalEvento ?? "Data final do cuidado"}
                             placeholderTextColor="#46464C"
                             onChangeText={(text) => {
                                 setNovaDataFinal(inputDateMask(text))
@@ -241,11 +298,17 @@ export default function Cuidado({ route }) {
                     style={{ opacity: 0.5, marginLeft: 15 }}
                 >HH:MM</Text>
                 <Text style={styles.title}>Frequência</Text>
-                <View style={styles.textLabel}>
-                    <Text style={styles.textLabelText}>
-                        {frequencias[cuidadoObject.agenda?.frequenciaEvento - 1]}
-                    </Text>
-                </View>
+                <DropDownPicker
+                    open={open}
+                    value={novaFrequencia}
+                    items={items}
+                    setOpen={setOpen}
+                    setValue={setNovaFrequencia}
+                    setItems={setItems}
+                    nestedScrollEnabled={false}
+                    placeholder={frequencias[cuidadoObject.agenda?.frequenciaEvento - 1]}
+                    style={{ marginTop: 20 }}
+                />
                 <View style={{ alignItems: 'center' }}>
                     <View style={styles.buttonsConteiner}>
                         <TouchableOpacity style={styles.button} onPress={handleSubmitEdit}>

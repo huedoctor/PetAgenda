@@ -7,9 +7,12 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-    ScrollView
+    ScrollView,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
+import { get, put, del } from './util/request.js';
+import DropDownPicker from 'react-native-dropdown-picker';
+import navigationKeys from './util/navigationKeys.js';
 
 export default function Atividade({ route }) {
 
@@ -18,26 +21,62 @@ export default function Atividade({ route }) {
     const [novaDataInicio, setNovaDataInicio] = useState(null);
     const [novaDataFinal, setNovaDataFinal] = useState(null);
     const [novoHorario, setNovoHorario] = useState(null);
+    const [novaFrequencia, setNovaFrequencia] = useState(null);
     const [dataInicioErro, setDataInicioErro] = useState(false);
     const [dataFinalErro, setDataFinalErro] = useState(false);
     const [inputFinal, setInputFinal] = useState(false);
     const [horarioErro, setHorarioErro] = useState(false);
+    const [atividadeObject, setAtividadeObject] = useState({});
+    const [items, setItems] = useState([
+        { label: 'Diáriamente', value: '1' },
+        { label: 'Semanalmente', value: '2' },
+        { label: 'Mensalmente', value: '3' },
+        { label: 'Anualmente', value: '4' },
+    ]);
+    const [open, setOpen] = useState(false);
 
     const navigation = useNavigation();
 
-    const { id } = route.params;
+    const { idPet, idRegistro } = route.params;
+
+    useEffect(() => {
+        const loadData = async () => {
+            const res = await get(`atividades/${idRegistro}`);
+            if (res.ok) {
+                const atividadeJSON = await res.json();
+                setAtividadeObject(atividadeJSON);
+                navigation.setOptions({ title: atividadeJSON.nomeAtividade })
+            }
+        }
+        loadData();
+    }, [])
 
     const handleSubmitEdit = () => {
         console.log('editar')   // metodo para editar
     }
-
+    
     const handleSubmitDelet = () => {
-        console.log('deletar') // metodo para deletar
+        const loadData = async () => {
+            const res = await del(`agenda/${atividadeObject.agenda.idAgenda}`);
+            if (res.ok) {
+                navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        routes: [
+                            {
+                                name: navigationKeys.TelaPets,
+                            },
+                            {
+                                name: navigationKeys.Registro,
+                                params: { id: idPet }
+                            }
+                        ],
+                    })
+                );
+            }
+        }
+        loadData();
     }
-
-    useEffect(() => {
-        navigation.setOptions({ title: "{Nome da atividade}" })
-    }, [])
 
     const inputDateMask = (value) => {
         return value
@@ -53,6 +92,10 @@ export default function Atividade({ route }) {
             .replace(/(\d{2})(\d)/, '$1:$2')
             .replace(/(\d{2})(\d)/, '$1:$2');
     };
+
+    const frequencias = [
+        "Diariamente", "Semanalmente", "Mensalmente", "Anualmente"
+    ];
 
     const validateDateInicio = (date) => {
         if (!date) {
@@ -120,10 +163,10 @@ export default function Atividade({ route }) {
     return (
         <ScrollView>
             <View style={styles.container}>
-                <Text style={styles.title}>Nome do cuidado</Text>
+                <Text style={styles.title}>Nome da atividade</Text>
                 <TextInput
                     style={styles.textLabel}
-                    placeholder="{Nome da atividade}"
+                    placeholder={atividadeObject.nomeAtividade}
                     placeholderTextColor="#46464C"
                     onChangeText={(text) => {
                         setNovoNome(text)
@@ -134,7 +177,7 @@ export default function Atividade({ route }) {
                 <View style={styles.textLabel}>
                     <TextInput
                         style={styles.textLabelText}
-                        placeholder='{Descrição da atividade}'
+                        placeholder={atividadeObject.descricaoAtividade}
                         placeholderTextColor="#46464C"
                         maxLength={40}
                         onChangeText={(text) => {
@@ -152,7 +195,7 @@ export default function Atividade({ route }) {
                     style={[styles.textLabel, dataInicioErro ? { marginTop: 0 } : { marginTop: 20 }]}
                     keyboardType='numeric'
                     maxLength={10}
-                    placeholder="{Data inicial da atividade}"
+                    placeholder={atividadeObject.agenda?.dataInicioEvento}
                     placeholderTextColor="#46464C"
                     onChangeText={(text) => {
                         setNovaDataInicio(inputDateMask(text))
@@ -173,7 +216,7 @@ export default function Atividade({ route }) {
                             style={[styles.textLabel, dataFinalErro ? { marginTop: 0 } : { marginTop: 20 }]}
                             keyboardType='numeric'
                             maxLength={10}
-                            placeholder="{Data final da atividade}"
+                            placeholder={atividadeObject.agenda?.dataFinalEvento ?? 'Data final da atividade'}
                             placeholderTextColor="#46464C"
                             onChangeText={(text) => {
                                 setNovaDataFinal(inputDateMask(text))
@@ -190,7 +233,7 @@ export default function Atividade({ route }) {
                 }
                 <TextInput
                     style={[styles.textLabel, horarioErro ? { marginTop: 0 } : { marginTop: 20 }]}
-                    placeholder="{Horário do dia para a atividade}"
+                    placeholder={atividadeObject.agenda?.horarioEvento}
                     placeholderTextColor="#46464C"
                     keyboardType='numeric'
                     maxLength={5}
@@ -204,11 +247,17 @@ export default function Atividade({ route }) {
                     style={{ opacity: 0.5, marginLeft: 15 }}
                 >HH:MM</Text>
                 <Text style={styles.title}>Frequência</Text>
-                <View style={styles.textLabel}>
-                    <Text style={styles.textLabelText}>
-                        {"{Frequência}"}
-                    </Text>
-                </View>
+                <DropDownPicker
+                    open={open}
+                    value={novaFrequencia}
+                    items={items}
+                    setOpen={setOpen}
+                    setValue={setNovaFrequencia}
+                    setItems={setItems}
+                    nestedScrollEnabled={false}
+                    placeholder={frequencias[atividadeObject.agenda?.frequenciaEvento - 1]}
+                    style={{ marginTop: 20 }}
+                />
                 <View style={{ alignItems: 'center' }}>
                     <View style={styles.buttonsConteiner}>
                         <TouchableOpacity style={styles.button} onPress={handleSubmitEdit}>
