@@ -12,17 +12,20 @@ import {
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { useNavigation } from '@react-navigation/native';
-import { get } from './util/request.js';
-LogBox.ignoreLogs(['VirtualizedLists']); 
+import navigationKeys from './util/navigationKeys';
+import { useNavigation, CommonActions } from '@react-navigation/native';
+import { get, post } from './util/request.js';
+LogBox.ignoreLogs(['VirtualizedLists']);
 
 
 export default function CadastroVacina({ route }) {
 
     const navigation = useNavigation();
 
+
+
     const classificacao = "vacina";
-    const [nomeVacina, setNomeVacina] = useState(null);
+    const [idVacina, setIdVacina] = useState(null);
     const [dataInicio, setDataInicio] = useState(null);
     const [dataFinal, setDataFinal] = useState(null);
     const [horario, setHorario] = useState(null);
@@ -47,6 +50,25 @@ export default function CadastroVacina({ route }) {
 
     const handleRegistraVacina = async () => {
         //Comando para cadastrar a Vacina
+        const res = await post(`vacina?idVacina=${idVacina}&idPet=${id}`, {
+            "dataInicioEvento": dataInicio,
+            "dataFinalEvento": dataFinal,
+            "horarioEvento": horario + ':00',
+            "frequenciaEvento": frequencia
+        });
+        if (res.ok) {
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [
+                        {
+                            name: navigationKeys.Registro,
+                            params: { vacinaCadastrada: true }
+                        }
+                    ],
+                })
+            );
+        }
     };
 
     useEffect(() => {
@@ -159,14 +181,14 @@ export default function CadastroVacina({ route }) {
     }, [inputFinal])
 
     return (
-        <ScrollView style={{backgroundColor: 'white'}}>
+        <ScrollView style={{ backgroundColor: 'white' }}>
             <View style={styles.container}>
                 <DropDownPicker
                     open={open2}
-                    value={frequencia}
+                    value={idVacina}
                     items={vacinas}
                     setOpen={setOpen2}
-                    setValue={setNomeVacina}
+                    setValue={setIdVacina}
                     setItems={setVacinas}
                     nestedScrollEnabled={false}
                     placeholder='Selecione a vacina'
@@ -288,7 +310,7 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 40,
         paddingLeft: 15,
-        backgroundColor: '#CAC1D6',
+        backgroundColor: '#E4DBF0',
         marginTop: 20,
     },
     checkBoxOptionLeft: {

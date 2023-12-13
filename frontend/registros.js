@@ -11,110 +11,11 @@ import { useNavigation } from '@react-navigation/native';
 import navigationKeys from './util/navigationKeys';
 import { FlatList } from 'react-native-gesture-handler';
 import FilterChip from './components/FilterChip';
-
-//  MASSA DE DADOS
-const dados = [{
-    nomeRegistro: "Corrida Matinal",
-    descricaoRegistro: "Corrida leve no parque",
-    classificacao: "Atividade",
-    dataInicio: "2023-12-15",
-    dataFinal: "2023-12-15",
-    frequencia: "Diária",
-    horario: "07:00"
-}, {
-    nomeRegistro: "Vacina contra Raiva",
-    descricaoRegistro: "Vacina anual obrigatória",
-    classificacao: "Vacina",
-    dataInicio: "2023-12-20",
-    dataFinal: "2023-12-20",
-    frequencia: "Anual",
-    horario: "10:30"
-}, {
-    nomeRegistro: "Antibiótico para Gripe",
-    descricaoRegistro: "Tratamento para combater a gripe",
-    classificacao: "Tratamento",
-    dataInicio: "2023-12-10",
-    dataFinal: "2023-12-15",
-    frequencia: "Semanal",
-    horario: "09:00"
-}, {
-    nomeRegistro: "Remédio para FIV",
-    descricaoRegistro: "A tal da AIDS de gato",
-    classificacao: "Rotina",
-    dataInicio: "2023-12-10",
-    dataFinal: "2023-12-15",
-    frequencia: "Semanal",
-    horario: "09:00"
-}, {
-    nomeRegistro: "Corrida Matinal 2",
-    descricaoRegistro: "Corrida leve no parque",
-    classificacao: "Atividade",
-    dataInicio: "2023-12-15",
-    dataFinal: "2023-12-15",
-    frequencia: "Diária",
-    horario: "07:00"
-}, {
-    nomeRegistro: "Vacina contra Raiva 2",
-    descricaoRegistro: "Vacina anual obrigatória",
-    classificacao: "Vacina",
-    dataInicio: "2023-12-20",
-    dataFinal: "2023-12-20",
-    frequencia: "Anual",
-    horario: "10:30"
-}, {
-    nomeRegistro: "Antibiótico para Gripe 2",
-    descricaoRegistro: "Tratamento para combater a gripe",
-    classificacao: "Tratamento",
-    dataInicio: "2023-12-10",
-    dataFinal: "2023-12-15",
-    frequencia: "Semanal",
-    horario: "09:00"
-}, {
-    nomeRegistro: "Remédio para FIV 2",
-    descricaoRegistro: "A tal da AIDS de gato",
-    classificacao: "Rotina",
-    dataInicio: "2023-12-10",
-    dataFinal: "2023-12-15",
-    frequencia: "Semanal",
-    horario: "09:00"
-}, {
-    nomeRegistro: "Corrida Matinal 3",
-    descricaoRegistro: "Corrida leve no parque",
-    classificacao: "Atividade",
-    dataInicio: "2023-12-15",
-    dataFinal: "2023-12-15",
-    frequencia: "Diária",
-    horario: "07:00"
-}, {
-    nomeRegistro: "Vacina contra Raiva 3",
-    descricaoRegistro: "Vacina anual obrigatória",
-    classificacao: "Vacina",
-    dataInicio: "2023-12-20",
-    dataFinal: "2023-12-20",
-    frequencia: "Anual",
-    horario: "10:30"
-}, {
-    nomeRegistro: "Antibiótico para Gripe 3",
-    descricaoRegistro: "Tratamento para combater a gripe",
-    classificacao: "Tratamento",
-    dataInicio: "2023-12-10",
-    dataFinal: "2023-12-15",
-    frequencia: "Semanal",
-    horario: "09:00"
-}, {
-    nomeRegistro: "Remédio para FIV 3",
-    descricaoRegistro: "A tal da AIDS de gato",
-    classificacao: "Rotina",
-    dataInicio: "2023-12-10",
-    dataFinal: "2023-12-15",
-    frequencia: "Semanal",
-    horario: "09:00"
-}]
-// FIM MASSA DE DADOS
+import { get } from './util/request.js'
 
 export default function TelaRegistros({ route }) {
 
-    const classificacoes = ['atividade', 'vacina', 'tratamento', 'rotina'];
+    const classificacoes = ['atividade', 'tratamento', 'rotina']; {/* 'vacina', */} 
 
     const [originalData, setOriginalData] = useState([]);
     //      \          /
@@ -127,8 +28,12 @@ export default function TelaRegistros({ route }) {
     //           || 
     const [filteredData, setFilteredData] = useState([]);
 
+    const frequencias = [
+        "Diariamente", "Semanalmente", "Mensalmente", "Anualmente"
+    ];
+
     useEffect(() => {
-        const novosDados = originalData.filter((e) => filters.includes(e.classificacao.toLowerCase()));
+        const novosDados = originalData.filter((e) => filters.includes(e.classificacao?.toLowerCase()));
         setFilteredData(novosDados);
     }, [filters]);
 
@@ -148,7 +53,7 @@ export default function TelaRegistros({ route }) {
     };
 
     const getColor = (classificacao) => {
-        switch (classificacao.toLowerCase()) {
+        switch (classificacao?.toLowerCase()) {
             case 'atividade': return '#9BB8CD';
             case 'vacina': return '#F9E8D9';
             case 'tratamento': return '#9bdb87';
@@ -158,10 +63,6 @@ export default function TelaRegistros({ route }) {
 
     const navigation = useNavigation();
     const { id } = route.params;
-
-    //Precisa do metodo pra puxar a lista de tratamentos pelo id do pet. O número do id do pet está guardado em "petId".
-    //Depois disso faz um map pra ir renderizando os botões dos trotamentos na view container.
-    //Nessa tela só precisa puxar o id do tratamento, o nome, frequência, horário e tipo (permanente ou temporário).
 
     useEffect(() => {
         navigation.setOptions({
@@ -178,9 +79,16 @@ export default function TelaRegistros({ route }) {
                 </TouchableOpacity>
             ),
         });
-        // Fazer a requisição GET aqui
-        setOriginalData(dados);
-        setFilteredData(dados);
+        const loadData = async () => {
+            const res = await get(`agenda/s/${id}`);
+            if (res.ok) {
+                console.log(res.body);
+                const dados = await res.json();
+                setOriginalData(dados);
+                setFilteredData(dados);
+            }
+        }
+        loadData();
     }, []);
 
     return (
@@ -209,21 +117,21 @@ export default function TelaRegistros({ route }) {
                     return (
                         <TouchableOpacity
                             onPress={() => {
-                                switch (item.classificacao.toLowerCase()) {
+                                switch (item?.classificacao?.toLowerCase()) {
                                     case "atividade":
-                                        navigation.navigate(NavigationKeys.Atividade, { id });
+                                        navigation.navigate(NavigationKeys.Atividade, { idPet: id, idRegistro: item.idRegistro });
                                         break;
 
                                     case "vacina":
-                                        navigation.navigate(NavigationKeys.Vacina, { id });
+                                        navigation.navigate(NavigationKeys.Vacina, { idPet: id, idRegistro: item.idRegistro });
                                         break;
 
                                     case "tratamento":
-                                        navigation.navigate(NavigationKeys.Cuidado, { id });
+                                        navigation.navigate(NavigationKeys.Cuidado, { idPet: id, idRegistro: item.idRegistro });
                                         break;
 
                                     case "rotina":
-                                        navigation.navigate(NavigationKeys.Cuidado, { id });
+                                        navigation.navigate(NavigationKeys.Cuidado, { idPet: id, idRegistro: item.idRegistro });
                                 }
                             }
                             }>
@@ -234,13 +142,13 @@ export default function TelaRegistros({ route }) {
                                         <Image style={styles.registroContainerIcons}
                                             source={require('./assets/calendar.png')}
                                         />
-                                        <Text>{item.frequencia}</Text>
+                                        <Text>{frequencias[item.frequencia - 1]}</Text>
                                     </View>
                                     <View style={styles.registroContainerStatus}>
                                         <Image style={styles.registroContainerIcons}
                                             source={require('./assets/clock.png')}
                                         />
-                                        <Text>{item.horario}{'h'}</Text>
+                                        <Text>{item.horario.substring(0, 5)}{'h'}</Text>
                                     </View>
                                     <View style={[styles.tipoRegistroConteiner, { backgroundColor: getColor(item.classificacao) }]}>
                                         <Text>

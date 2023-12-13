@@ -10,6 +10,8 @@ import {
     ScrollView
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { get } from './util/request.js';
+import LoadindIndicator from './components/LoadingIndicator.jsx';
 
 export default function Cuidado({ route }) {
 
@@ -22,10 +24,35 @@ export default function Cuidado({ route }) {
     const [dataFinalErro, setDataFinalErro] = useState(false);
     const [inputFinal, setInputFinal] = useState(false);
     const [horarioErro, setHorarioErro] = useState(false);
+    const [cuidadoObject, setCuidadoObject] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [opcoesTipoTratamento, setOpcoesTipoTratamento] = useState("");
 
     const navigation = useNavigation();
 
-    const { id } = route.params;
+    const { idPet, idRegistro } = route.params;
+
+    useEffect(() => {
+        const loadData = async () => {
+            setLoading(true);
+            const res = await get(`remedio/${idRegistro}`);
+            if (res.ok) {
+                const cuidadoJSON = await res.json();
+                setCuidadoObject(cuidadoJSON);
+            }
+            setLoading(false);
+        }
+        loadData();
+    }, [])
+
+    useEffect(() => {
+        if (!cuidadoObject.tipoCuidado) {
+            setOpcoesTipoTratamento("Rotina");
+            setInputFinal(true)
+        } else {
+            setOpcoesTipoTratamento("Tratamento");
+        }
+    }, [cuidadoObject])
 
     const handleSubmitEdit = () => {
         console.log('editar')   // metodo para editar
@@ -36,7 +63,7 @@ export default function Cuidado({ route }) {
     }
 
     useEffect(() => {
-        navigation.setOptions({ title: "{Nome do cuidado}" })
+        navigation.setOptions({ title: cuidadoObject.nomeRemedio })
     }, [])
 
     const inputDateMask = (value) => {
@@ -98,6 +125,10 @@ export default function Cuidado({ route }) {
         }
     };
 
+    const frequencias = [
+        "Diariamente", "Semanalmente", "Mensalmente", "Anualmente"
+    ];
+
     const validateHour = (time) => {
         const hourRegex = /^\d{2}:\d{2}$/;
         if (time.length > 0 && !hourRegex.test(time)) {
@@ -123,13 +154,13 @@ export default function Cuidado({ route }) {
                 <Text style={styles.title}>Tipo do cuidado</Text>
                 <View style={styles.textLabel}>
                     <Text style={styles.textLabelText}>
-                        {"{Tipo do cuidado}"}
+                        {opcoesTipoTratamento}
                     </Text>
                 </View>
                 <Text style={styles.title}>Nome do cuidado</Text>
                 <TextInput
                     style={styles.textLabel}
-                    placeholder="{Nome do cuidado}"
+                    placeholder={cuidadoObject.nomeRemedio}
                     placeholderTextColor="#46464C"
                     onChangeText={(text) => {
                         setNovoNome(text)
@@ -140,7 +171,7 @@ export default function Cuidado({ route }) {
                 <View style={styles.textLabel}>
                     <TextInput
                         style={styles.textLabelText}
-                        placeholder='{Descrição do cuidado}'
+                        placeholder={cuidadoObject.descricaoRemedio}
                         placeholderTextColor="#46464C"
                         maxLength={40}
                         onChangeText={(text) => {
@@ -158,7 +189,7 @@ export default function Cuidado({ route }) {
                     style={[styles.textLabel, dataInicioErro ? { marginTop: 0 } : { marginTop: 20 }]}
                     keyboardType='numeric'
                     maxLength={10}
-                    placeholder="{Data inicial do cuidado}"
+                    placeholder={cuidadoObject.agenda?.dataInicioEvento}
                     placeholderTextColor="#46464C"
                     onChangeText={(text) => {
                         setNovaDataInicio(inputDateMask(text))
@@ -179,7 +210,7 @@ export default function Cuidado({ route }) {
                             style={[styles.textLabel, dataFinalErro ? { marginTop: 0 } : { marginTop: 20 }]}
                             keyboardType='numeric'
                             maxLength={10}
-                            placeholder="{Data final do cuidado}"
+                            placeholder={cuidadoObject.agenda?.dataFinalEvento}
                             placeholderTextColor="#46464C"
                             onChangeText={(text) => {
                                 setNovaDataFinal(inputDateMask(text))
@@ -196,7 +227,7 @@ export default function Cuidado({ route }) {
                 }
                 <TextInput
                     style={[styles.textLabel, horarioErro ? { marginTop: 0 } : { marginTop: 20 }]}
-                    placeholder="{Horário do dia para o cuidado}"
+                    placeholder={cuidadoObject.agenda?.horarioEvento.substring(0, 5)}
                     placeholderTextColor="#46464C"
                     keyboardType='numeric'
                     maxLength={5}
@@ -212,7 +243,7 @@ export default function Cuidado({ route }) {
                 <Text style={styles.title}>Frequência</Text>
                 <View style={styles.textLabel}>
                     <Text style={styles.textLabelText}>
-                        {"{Frequência}"}
+                        {frequencias[cuidadoObject.agenda?.frequenciaEvento - 1]}
                     </Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
@@ -247,7 +278,7 @@ const styles = StyleSheet.create({
         minHeight: 50,
         borderRadius: 40,
         paddingLeft: 15,
-        backgroundColor: '#CAC1D6',
+        backgroundColor: '#E4DBF0',
         marginTop: 15,
         justifyContent: 'center',
     },

@@ -22,7 +22,7 @@ public class Vacina {
     @Column(nullable = false)
     private String descricaoVacina;
     @JoinColumn(name = "idEspecie",nullable = false)
-    @OneToOne
+    @ManyToOne
     private Especie especie; 
     @OneToMany(mappedBy = "vacina",cascade = CascadeType.REMOVE)
     private List<AgendaVacina> agendavacinas;

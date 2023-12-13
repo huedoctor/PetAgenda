@@ -74,8 +74,6 @@ export default function CadastroAtividade({ route }) {
         }
     };
 
-   
-
     const inputDateMask = (value) => {
         return value
             .replace(/\D/g, '')
@@ -188,7 +186,7 @@ export default function CadastroAtividade({ route }) {
                     value={descricao}
                     maxLength={40}
                 />
-                <Text style={styles.question}>Data de início*</Text>
+                <Text style={styles.question}>Data de início</Text>
                 {dataInicioErro &&
                     <Text style={styles.aviso}>Insira uma data válida</Text>
                 }
@@ -196,7 +194,7 @@ export default function CadastroAtividade({ route }) {
                     style={[styles.input, dataInicioErro ? { marginTop: 0 } : { marginTop: 20 }]}
                     keyboardType='numeric'
                     maxLength={10}
-                    placeholder="Data inicial da atividade"
+                    placeholder="Data inicial da atividade*"
                     placeholderTextColor="#46464C"
                     onChangeText={(text) => {
                         setDataInicio(inputDateMask(text))
@@ -244,13 +242,13 @@ export default function CadastroAtividade({ route }) {
                         <Text style={{ opacity: 0.5, marginLeft: 15 }}>DD/MM/AAAA</Text>
                     </>
                 )}
-                <Text style={styles.question}>Horário*</Text>
+                <Text style={styles.question}>Horário</Text>
                 {horarioErro &&
                     <Text style={styles.aviso}>Insira um horário válido</Text>
                 }
                 <TextInput
                     style={[styles.input, horarioErro ? { marginTop: 0 } : { marginTop: 20 }]}
-                    placeholder="Horário do dia para a atividade"
+                    placeholder="Horário do dia para a atividade*"
                     placeholderTextColor="#46464C"
                     keyboardType='numeric'
                     maxLength={5}
@@ -304,7 +302,7 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 40,
         paddingLeft: 15,
-        backgroundColor: '#CAC1D6',
+        backgroundColor: '#E4DBF0',
         marginTop: 20,
     },
     checkBoxOptionLeft: {

@@ -34,7 +34,7 @@ export default function TelaSelecaoRegistro({ route }) {
                             />
                         </View>
                     </TouchableOpacity>
-                    <View style={styles.line}></View>
+                    {/* <View style={styles.line}></View>
                     <TouchableOpacity onPress={() => navigation.navigate(NavigationKeys.CadastroVacina, {id})}>
                         <View style={styles.containerRow}>
                             <View style={styles.optionTitle}>
@@ -45,7 +45,7 @@ export default function TelaSelecaoRegistro({ route }) {
                                 style={styles.imageIcons}
                             />
                         </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <View style={styles.line}></View>
                     <TouchableOpacity onPress={() => navigation.navigate(NavigationKeys.CadastroAtividade, {id})}>
                         <View style={styles.containerRow}>

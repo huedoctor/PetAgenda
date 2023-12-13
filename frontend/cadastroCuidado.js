@@ -11,8 +11,9 @@ import {
     LogBox,
 } from 'react-native';
 import BouncyCheckboxGroup from "react-native-bouncy-checkbox-group";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { post } from './util/request';
 import navigationKeys from './util/navigationKeys';
 LogBox.ignoreLogs(['VirtualizedLists']);
 
@@ -65,6 +66,9 @@ export default function CadastroCuidado({ route }) {
                 CommonActions.reset({
                     index: 0,
                     routes: [
+                        {
+                            name: navigationKeys.TelaPets,
+                        },
                         {
                             name: navigationKeys.Registro,
                             params: { cuidadoCadastrado: true }
@@ -154,12 +158,12 @@ export default function CadastroCuidado({ route }) {
     };
 
     useEffect(() => {
-        if (tipoCuidado && nome && dataInicio && horario && frequencia) {
+        if (tipoCuidado != null && nome && dataInicio && horario && frequencia) {
             setBotaoHabilitado(true);
         } else {
             setBotaoHabilitado(false);
         }
-    }, [nome, dataInicio, horario, frequencia])
+    }, [tipoCuidado, nome, dataInicio, horario, frequencia])
 
     useEffect(() => {
         if (inputFinal) {
@@ -219,7 +223,7 @@ export default function CadastroCuidado({ route }) {
                     value={descricao}
                     maxLength={40}
                 />
-                <Text style={styles.question}>Data de início*</Text>
+                <Text style={styles.question}>Data de início</Text>
                 {dataInicioErro &&
                     <Text style={styles.aviso}>Insira uma data válida</Text>
                 }
@@ -227,7 +231,7 @@ export default function CadastroCuidado({ route }) {
                     style={[styles.input, dataInicioErro ? { marginTop: 0 } : { marginTop: 20 }]}
                     keyboardType='numeric'
                     maxLength={10}
-                    placeholder="Data inicial do cuidado"
+                    placeholder="Data inicial do cuidado*"
                     placeholderTextColor="#46464C"
                     onChangeText={(text) => {
                         setDataInicio(inputDateMask(text))
@@ -262,13 +266,13 @@ export default function CadastroCuidado({ route }) {
                         <Text style={{ opacity: 0.5, marginLeft: 15 }}>DD/MM/AAAA</Text>
                     </>
                 )}
-                <Text style={styles.question}>Horário*</Text>
+                <Text style={styles.question}>Horário</Text>
                 {horarioErro &&
                     <Text style={styles.aviso}>Insira um horário válido</Text>
                 }
                 <TextInput
                     style={[styles.input, horarioErro ? { marginTop: 0 } : { marginTop: 20 }]}
-                    placeholder="Horário do dia para o cuidado"
+                    placeholder="Horário do dia para o cuidado*"
                     placeholderTextColor="#46464C"
                     keyboardType='numeric'
                     maxLength={5}
@@ -281,7 +285,7 @@ export default function CadastroCuidado({ route }) {
                 <Text
                     style={{ opacity: 0.5, marginLeft: 15 }}
                 >HH:MM</Text>
-                <Text style={styles.question}>Qual a frequência?*</Text>
+                <Text style={styles.question}>Qual a frequência?</Text>
                 <DropDownPicker
                     open={open}
                     value={frequencia}
@@ -290,7 +294,7 @@ export default function CadastroCuidado({ route }) {
                     setValue={setFrequencia}
                     setItems={setItems}
                     nestedScrollEnabled={false}
-                    placeholder='Escolha uma frequência'
+                    placeholder='Escolha uma frequência*'
                     style={{ marginTop: 20 }}
                 />
                 <TouchableOpacity
@@ -322,7 +326,7 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 40,
         paddingLeft: 15,
-        backgroundColor: '#CAC1D6',
+        backgroundColor: '#E4DBF0',
         marginTop: 20,
     },
     checkBoxOptionLeft: {

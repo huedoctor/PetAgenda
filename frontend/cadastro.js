@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 40,
     paddingLeft: 15,
-    backgroundColor: '#CAC1D6',
+    backgroundColor: '#E4DBF0',
   },
   spacing: {
     height: 30,

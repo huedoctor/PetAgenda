@@ -35,7 +35,7 @@ public class Agenda {
     private Date dataFinalEvento;
     @JoinColumn(name = "idPet")
     @ManyToOne
-    @JsonBackReference//pode dar merda la na frente sem listar algo
+    @JsonBackReference
     private Pet pet;
     @Column(nullable = false)
     private boolean notificacao;

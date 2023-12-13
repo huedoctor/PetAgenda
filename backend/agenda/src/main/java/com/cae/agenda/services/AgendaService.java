@@ -47,6 +47,7 @@ public class AgendaService {
 
                 if (!remedios.isEmpty()) {
                     Remedio primeiroRemedio = remedios.get(0);
+                    map.put("idRegistro", primeiroRemedio.getIdRemedio());
                     map.put("nomeRegistro", primeiroRemedio.getNomeRemedio());
                     map.put("descricaoRegistro", primeiroRemedio.getDescricaoRemedio());
                     String tipo;
@@ -58,15 +59,18 @@ public class AgendaService {
                     map.put("classificacao",tipo);
                 } else if (!atividades.isEmpty()) {
                     Atividades primeiraAtividade = atividades.get(0);
+                    map.put("idRegistro", primeiraAtividade.getIdAtividade());
                     map.put("nomeRegistro", primeiraAtividade.getNomeAtividade());
                     map.put("descricaoRegistro", primeiraAtividade.getDescricaoAtividade());
                     map.put("classificacao","Atividade");
                 } else if (!agendaVacinas.isEmpty()) {
                     AgendaVacina primeiraAgendaVacina = agendaVacinas.get(0);
+                    map.put("idRegistro", primeiraAgendaVacina.getId());
                     map.put("nomeRegistro", primeiraAgendaVacina.getVacina().getNomeVacina());
                     map.put("descricaoRegistro", primeiraAgendaVacina.getVacina().getDescricaoVacina());
                     map.put("classificacao","Vacina");
                 }
+                map.put("idAgenda", agenda.getIdAgenda());
                 map.put("dataInicio", agenda.getDataInicioEvento());
                 map.put("dataFinal", agenda.getDataFinalEvento());
                 map.put("frequencia", agenda.getFrequenciaEvento());
@@ -97,7 +101,7 @@ public class AgendaService {
 
     public ResponseEntity<Agenda> criarAgenda(Agenda agenda) {
         agenda.setPet(repositorioPet.findByIdPet(agenda.getPet().getIdPet()));
-        Agenda novaAgenda = repositorioAgenda.save(agenda);
+        Agenda novaAgenda = repositorioAgenda.findByIdAgenda(agenda.getIdAgenda());
         repositorioAgenda.save(novaAgenda);//estava salvando a agenda, nao nova agenda
 
         return new ResponseEntity<>(HttpStatus.CREATED);

@@ -67,7 +67,7 @@ public class RemedioService {
     @Transactional
     public ResponseEntity<Void> deletarRemedio(int idRemedio) {
         try{
-            Remedio remedio =repositorioRemedio.findById(idRemedio).get();
+            Remedio remedio = repositorioRemedio.findById(idRemedio).get();
             repositorioRemedio.deleteById(remedio.getIdRemedio());
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (NoSuchElementException e){
