@@ -1,23 +1,52 @@
-# PetAgenda
+# 🐾 PetAgenda
 
-## **Regra de Negócio**
+Sistema de agendamento e gerenciamento de atividades para pets, como vacinas, remédios e eventos.
 
-### O sistema terá 4 branches:
-- 1 de Produção ![Main](https://img.shields.io/badge/Branch-Main-brightgreen)
-- 1 de Teste ![Master](https://img.shields.io/badge/Branch-Master-blue)
-- 2 de Prototipação
-  - Frontend (Victor e Lucas) ![Frontend](https://img.shields.io/badge/Branch-Frontend-orange)
-  - Backend (Carol e Eddie) ![Backend](https://img.shields.io/badge/Branch-Backend-red)
+---
 
-**Instruções:**
-- Evite fazer uploads diretamente na ![Main](https://img.shields.io/badge/Branch-Main-brightgreen) e na ![Master](https://img.shields.io/badge/Branch-Master-blue).
-- Faça uploads de atualizações nos ramos de prototipação.
-- Realize merge para a ![Master](https://img.shields.io/badge/Branch-Master-blue) após as alterações serem validadas.
-- Faça o clone para a ![Main](https://img.shields.io/badge/Branch-Main-brightgreen) antes de atualizações na produção.
+## 🛠️ Instalação do Backend
 
-### **Organização das Pastas no Frontend:**
-- assets
-  - components
-  - images
-- view
-- utils
+### Pré-requisitos
+
+- Java 17 ou superior
+- Maven 3.8+
+- IDE (IntelliJ, Eclipse, VSCode, etc.)
+
+### Passos
+
+```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/PetAgenda.git
+cd PetAgenda/backend/agenda
+
+# Compilar o projeto
+./mvnw clean install
+
+# Executar o projeto
+./mvnw spring-boot:run
+```
+
+A aplicação estará disponível em: [http://localhost:8080](http://localhost:8080)
+
+---
+
+## 🌐 Endpoints da API (exemplos)
+
+| Recurso       | Método | Endpoint                      | Descrição                         |
+|---------------|--------|-------------------------------|-----------------------------------|
+| Pets          | GET    | `/pets`                       | Lista todos os pets               |
+|               | POST   | `/pets`                       | Cadastra um novo pet              |
+| Usuários      | GET    | `/usuarios`                   | Lista os usuários                 |
+| Vacinas       | GET    | `/vacinas`                    | Lista vacinas disponíveis         |
+| Remédios      | GET    | `/remedios`                   | Lista os remédios                 |
+| Atividades    | GET    | `/atividades`                 | Lista atividades agendadas        |
+| Agenda        | GET    | `/agenda`                     | Consulta a agenda geral           |
+| AgendaVacina  | GET    | `/agenda-vacina`              | Lista de vacinas agendadas        |
+
+> ⚠️ Os endpoints podem exigir payloads JSON no corpo da requisição (`POST`, `PUT`). Consulte os DTOs para mais detalhes.
+
+---
+
+## 📄 Licença
+
+Este projeto é apenas para fins educacionais e acadêmicos. Licenciamento formal pode ser definido posteriormente.
